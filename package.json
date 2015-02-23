@@ -1,0 +1,29 @@
+{
+  "name": "ckanext-cdrc",
+  "version": "0.0.1",
+  "description": "A cdrc extension of CKAN.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/spacelis/ckanext-cdrc.git"
+  },
+  "keywords": [
+    "cdrc",
+    "ckan",
+    "plugin"
+  ],
+  "author": "Wen Li",
+  "license": "AGPL v3.0",
+  "bugs": {
+    "url": "https://github.com/spacelis/ckanext-cdrc/issues"
+  },
+  "homepage": "https://github.com/spacelis/ckanext-cdrc",
+  "devDependencies": {
+    "connect-livereload": "^0.5.3",
+    "express": "^4.12.0",
+    "tiny-lr": "^0.1.5"
+  }
+}
