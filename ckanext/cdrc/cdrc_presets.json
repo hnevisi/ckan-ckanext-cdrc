@@ -21,6 +21,13 @@
       }
     },
     {
+      "preset_name": "dataset_topics",
+      "values": {
+        "validators": "",
+        "form_snippet": "select.html"
+      }
+    },
+    {
       "preset_name": "tag_string_autocomplete",
       "values": {
         "validators": "ignore_missing tag_string_convert",

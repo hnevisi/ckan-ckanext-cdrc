@@ -17,9 +17,73 @@
       "form_placeholder": "eg. my-dataset"
     },
     {
-      "field_name": "topic",
+      "field_name": "topics",
       "label": "Topics",
-      "preset": "string",
+      "preset": "dataset_topics",
+      "choices": [
+        {
+          "label": "Art and Culture",           
+          "value": "art-and-culture"
+        },
+        {
+          "label": "Business and Economy",     
+          "value": "business-and-economy"
+        },
+        {
+          "label": "Championing London",       
+          "value": "championing-london"
+        },
+        {
+          "label": "Crime and Community Safety",
+          "value": "crime-and-community-safety"
+        },
+        {
+          "label": "Demographics",              
+          "value": "demographics"
+        },
+        {
+          "label": "Education",                 
+          "value": "education"
+        },
+        {
+          "label": "Employment and Skills",     
+          "value": "employment-and-skills"
+        },
+        {
+          "label": "Environment",               
+          "value": "environment"
+        },
+        {
+          "label": "Health",                    
+          "value": "health"
+        },
+        {
+          "label": "Housing",                   
+          "value": "housing"
+        },
+        {
+          "label": "London 2012",               
+          "value": "london-2012"
+        },
+        {
+          "label": "Planning",                  
+          "value": "planning"
+        },
+        {
+          "label": "Sport",                     
+          "value": "sport"},
+        {
+          "label": "Transparency",              
+          "value": "transparency"},
+        {
+          "label": "Transport",                 
+          "value": "transport"
+        },
+        {
+          "label": "Young People",              
+          "value": "young-people"
+        }
+      ],
       "form_placeholder": "eg. Transport"
     },
     {
