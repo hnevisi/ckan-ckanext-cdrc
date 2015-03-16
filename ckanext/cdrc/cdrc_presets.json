@@ -24,7 +24,14 @@
       "preset_name": "dataset_topics",
       "values": {
         "validators": "",
-        "form_snippet": "select.html"
+        "form_snippet": "multiple_select.html"
+      }
+    },
+    {
+      "preset_name": "text",
+      "values": {
+        "validators": "",
+        "form_snippet": "text.html"
       }
     },
     {
