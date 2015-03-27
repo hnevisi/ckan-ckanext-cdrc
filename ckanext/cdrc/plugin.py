@@ -12,7 +12,7 @@ class CdrcPlugin(plugins.SingletonPlugin):
         toolkit.add_template_directory(config_, 'templates')
         toolkit.add_public_directory(config_, 'public')
         toolkit.add_resource('fanstatic', 'cdrc')
-        config_['ckan.site_logo'] = '/images/CDRC_logo.png'
+        config_['ckan.site_logo'] = '/images/CDRC_logo_white.png'
         config_['ckan.site_description'] = dedent(
             ''' CDRC Data Cloud is a platform for data discovering, data analytics, data comprehension.
             ''')
