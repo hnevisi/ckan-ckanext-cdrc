@@ -1,10 +1,12 @@
 from textwrap import dedent
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
+from ckanext.cdrc.logic import auth
 
 
 class CdrcPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
+    plugins.implements(plugins.IAuthFunctions)
 
     # IConfigurer
 
@@ -28,3 +30,7 @@ class CdrcPlugin(plugins.SingletonPlugin):
             '''
         )
         config_['ckan.site_title'] = 'CDRC Data Cloud'
+
+
+    def get_auth_functions(self):
+        return {'resource_download': auth.resource_download}
