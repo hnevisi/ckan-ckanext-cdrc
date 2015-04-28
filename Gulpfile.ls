@@ -17,6 +17,7 @@ gulp.task \less ->
   gulp.src './ckanext/cdrc/public/less/main.less'
     .pipe less!
     .pipe gulp.dest './ckanext/cdrc/fanstatic/css'
+  notify-lr
 
 
 gulp.task \watch, [\livereload], !->
