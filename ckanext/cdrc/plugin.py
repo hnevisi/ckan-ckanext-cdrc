@@ -13,8 +13,9 @@ class CdrcPlugin(plugins.SingletonPlugin):
     def update_config(self, config_):
         toolkit.add_template_directory(config_, 'templates')
         toolkit.add_public_directory(config_, 'public')
+        toolkit.add_resource('fanstatic/css', 'css')
         toolkit.add_resource('fanstatic', 'cdrc')
-        config_['ckan.site_logo'] = '/images/CDRC_logo_white.png'
+        config_['ckan.site_logo'] = '/images/CDRC Col.jpg'
         config_['ckan.site_description'] = dedent(
             ''' CDRC Data Cloud is a platform for data discovering, data analytics, data comprehension.
             ''')
@@ -30,6 +31,7 @@ class CdrcPlugin(plugins.SingletonPlugin):
             '''
         )
         config_['ckan.site_title'] = 'CDRC Data Cloud'
+        config_['ckan.main_css'] = '/base/cdrc/css/main.css'
 
 
     def get_auth_functions(self):

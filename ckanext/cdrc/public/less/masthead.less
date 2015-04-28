@@ -2,9 +2,9 @@
 
 .account-masthead {
   .clearfix();
-  min-height: 30px;
+  height: 32px;
   color: @mastheadTextColor;
-  background: darken(@mastheadBackgroundColor, 10%) url("@{bgPath}");
+  background: lighten(@mastheadBackgroundColor, 10%) url("@{bgPath}");
   .account {
     float: right;
     ul {
@@ -12,7 +12,7 @@
       li {
         display: block;
         float: left;
-        border-left: 1px solid darken(@mastheadBackgroundColor, 15%);
+        border: 0;
         a {
           display: block;
           color: mix(@mastheadBackgroundColor, @mastheadLinkColor, 25%);
@@ -25,7 +25,7 @@
           }
           &:hover {
             color: mix(@mastheadBackgroundColor, @mastheadLinkColor, 15%);
-            background-color: darken(@mastheadBackgroundColor, 15%);
+            background-color: @mastheadBackgroundColor;
             text-decoration: none;
           }
           &.sub {
@@ -73,9 +73,8 @@
 
 .masthead {
   .clearfix();
-  min-height: 55px;
   color: @mastheadTextColor;
-  background: @mastheadBackgroundColor url("@{bgPath}");
+  background: lighten(@mastheadBackgroundColor, 10%) url("@{bgPath}");
 
   .container {
     position: relative;
@@ -139,7 +138,7 @@
   .nav > .active > a,
   .nav > .active > a:hover,
   .nav > .active > a:focus {
-    color: #fff;
+    color: #000;
     text-shadow: none;
   }
 
