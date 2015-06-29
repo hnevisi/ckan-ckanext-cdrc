@@ -7786,7 +7786,8 @@ textarea {
 .toolbar {
   *zoom: 1;
   position: relative;
-  margin-bottom: 10px;
+  margin-top: 12px;
+  margin-bottom: 5px;
   padding: 5px 0;
 }
 .toolbar:before,
@@ -8389,6 +8390,9 @@ h4 small {
   [role=main],
   .main {
     background: #e7e8ea url("/images/cdrc_background_blur.png");
+    -webkit-box-shadow: inset 0px 5px 5px 0px rgba(0, 0, 0, 0.35);
+    -moz-box-shadow: inset 0px 5px 5px 0px rgba(0, 0, 0, 0.35);
+    box-shadow: inset 0px 5px 5px 0px rgba(0, 0, 0, 0.35);
   }
 }
 [role=main] {
