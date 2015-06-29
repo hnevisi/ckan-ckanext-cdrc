@@ -3,10 +3,10 @@
 {% set lad = c.group_dict %}
 {% set group_controller = 'ckanext.cdrc.controllers.lad:LadController' %}
 
-{% block subtitle %}{{ c.group_dict.display_name }} - {{ _('Lads') }}{% endblock %}
+{% block subtitle %}{{ c.group_dict.display_name }} - {{ _('Local Authority Districts') }}{% endblock %}
 
 {% block breadcrumb_content %}
-  <li>{% link_for _('Lads'), controller=group_controller, action='index' %}</li>
+  <li>{% link_for _('LADs'), controller=group_controller, action='index' %}</li>
   {% block breadcrumb_content_inner %}
     <li>{% link_for lad.display_name|truncate(35), controller=group_controller, action='read', id=lad.name %}</li>
     <li class="active">{% link_for _('Manage'), controller=group_controller, action='edit', id=lad.name %}</li>

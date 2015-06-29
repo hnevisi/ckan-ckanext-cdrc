@@ -1,7 +1,7 @@
 {#
 Displays a sidebard module with information for given lad
 
-org    - The lad dict.
+lad    - The lad dict.
 
 Example:
 
@@ -15,7 +15,7 @@ Example:
     <h2 class="module-heading"><i class="icon-sitemap"></i> {{ _("Edit Lad") }}</h2>
     <ul class="unstyled nav nav-simple">
       <li class="nav-item{% if action == 'edit' %} active{% endif %}">
-        {% link_for _("Edit Lad"), controller=group_controller, action='edit', id=lad.name %}
+        {% link_for _("Edit"), controller=group_controller, action='edit', id=lad.name %}
       </li>
     </ul>
   </section>
