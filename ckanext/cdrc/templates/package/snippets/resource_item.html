@@ -20,7 +20,7 @@
   {% if not url_is_edit %}
   <div class="col-xs-12 text-right m-top">
       {% block resource_item_explore_links %}
-        <a class="btn btn-sm btn-info" href="{{ url }}">
+        <a class="btn btn-mini btn-info" href="{{ url }}">
           {% if res.has_views %}
             <i class="icon-bar-chart"></i>
             {{ _('Preview') }}
@@ -30,7 +30,7 @@
           {% endif %}
         </a>
       {% if res.url and h.is_url(res.url) %}
-        <a class="btn btn-sm btn-info" href="{{ res.url }}" class="resource-url-analytics" target="_blank">
+        <a class="btn btn-mini btn-info" href="{{ res.url }}" class="resource-url-analytics" target="_blank">
           {% if res.has_views %}
             <i class="icon-download"></i>
             {{ _('Download') }}
@@ -41,7 +41,7 @@
         </a>
       {% endif %}
       {% if can_edit %}
-        <a class="btn btn-sm btn-info" href="{{ h.url_for(controller='package', action='resource_edit', id=pkg.name, resource_id=res.id) }}">
+        <a class="btn btn-mini btn-info" href="{{ h.url_for(controller='package', action='resource_edit', id=pkg.name, resource_id=res.id) }}">
           <i class="icon-edit"></i>
           {{ _('Edit') }}
         </a>
