@@ -1,0 +1,21 @@
+{% set group_controller='ckanext.cdrc.controllers.product:ProductController'}
+<section class="group-list module module-narrow module-shallow">
+  <header class="module-heading">
+    {% set url=h.url_for(controller=group_controller, action='read', id=product.name) %}
+    {% set truncate=truncate or 0 %}
+    <a class="module-image" href="{{ url }}">
+      <img src="{{ product.image_display_url or h.url_for_static('/base/images/placeholder-group.png') }}" alt="{{ product.name }}" />
+    </a>
+    <h3 class="media-heading"><a href={{ url }}>{{ product.title or product.name }}</a></h3>
+    {% if product.description %}
+      {% if truncate == 0 %}
+        <p>{{ h.markdown_extract(product.description)|urlize }}</p>
+      {% else %}
+        <p>{{ h.markdown_extract(product.description, truncate)|urlize }}</p>
+      {% endif %}
+    {% endif %}
+  </header>
+  {% set list_class = "unstyled dataset-list" %}
+  {% set item_class = "dataset-item module-content" %}
+  {% snippet 'snippets/package_list.html', packages=product.packages, list_class=list_class, item_class=item_class, truncate=120 %}
+</section>

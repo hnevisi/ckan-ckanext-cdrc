@@ -1,0 +1,74 @@
+{#
+Embeds a topic within the sidebar of a page.
+
+topic    - The topic dict.
+truncate - A max length for the topic description. If not provided the description
+           will be full length.
+has_context_title - Boolean for whether to display a module-heading for when
+                    this snippet appears within a non-topic template
+                    (e.g. dataset page sidebar)
+
+Example:
+
+    {% snippet 'snippets/topic, topic=c.group_dict %}
+
+#}
+
+{% set truncate = truncate or 0 %}
+{% set group_controller='ckanext.cdrc.controllers.topic:TopicController' %}
+{% set url = h.url_for(controller=group_controller, action='read', id=topic.name) %}
+
+  {% block info %}
+  <div class="module module-narrow module-shallow context-info">
+    {% if has_context_title %}
+      <h2 class="module-heading"><i class="icon-building"></i> {{ _('Topic') }}</h2>
+    {% endif %}
+    <section class="module-content">
+      {% block inner %}
+      {% block image %}
+        <div class="image">
+          <a href="{{ url }}">
+            <img src="{{ topic.image_display_url or h.url_for_static('/base/images/placeholder-group.png') }}" width="200" alt="{{ topic.name }}" />
+          </a>
+        </div>
+      {% endblock %}
+      {% block heading %}
+      <h1 class="heading">{{ topic.title or topic.name }}
+        {% if topic.state == 'deleted' %}
+          [{{ _('Deleted') }}]
+        {% endif %}
+      </h1>
+      {% endblock %}
+      {% block description %}
+      {% if topic.description %}
+        <p>
+          {{ h.markdown_extract(topic.description, 180) }}
+          {% link_for _('read more'), controller=group_controller, action='about', id=topic.name %}
+        </p>
+      {% else %}
+        <p class="empty">{{ _('There is no description for this topic') }}</p>
+      {% endif %}
+      {% endblock %}
+      {% if show_nums %}
+        {% block nums %}
+        <div class="nums">
+          <dl>
+            <dt>{{ _('Followers') }}</dt>
+            <dd>{{ h.SI_number_span(topic.num_followers) }}</dd>
+          </dl>
+          <dl>
+            <dt>{{ _('Datasets') }}</dt>
+            <dd>{{ h.SI_number_span(topic.package_count) }}</dd>
+          </dl>
+        </div>
+        {% endblock %}
+        {% block follow %}
+        <div class="follow_button">
+          {{ h.follow_button('group', topic.id) }}
+        </div>
+        {% endblock %}
+      {% endif %}
+      {% endblock %}
+    </section>
+  </div>
+  {% endblock %}

@@ -1,0 +1,22 @@
+{#
+Displays a sidebard module with information for given product
+
+org    - The product dict.
+
+Example:
+
+  {% snippet "product/snippets/info.html", org=org %}
+
+#}
+{% set group_controller='ckanext.cdrc.controllers.product:ProductController' %}
+
+{% if product and h.check_access('product_update', {'id':product.id }) %}
+  <section class="module module-narrow package-info">
+    <h2 class="module-heading"><i class="icon-sitemap"></i> {{ _("Edit Product") }}</h2>
+    <ul class="unstyled nav nav-simple">
+      <li class="nav-item{% if action == 'edit' %} active{% endif %}">
+        {% link_for _("Edit Product"), controller=group_controller, action='edit', id=product.name %}
+      </li>
+    </ul>
+  </section>
+{% endif %}

@@ -1,0 +1,39 @@
+{% extends "page.html" %}
+
+{% set topic = c.group_dict %}
+{% set group_controller = 'ckanext.cdrc.controllers.topic:TopicController' %}
+
+{% block subtitle %}{{ c.group_dict.display_name }} - {{ _('Topics') }}{% endblock %}
+
+{% block breadcrumb_content %}
+  <li>{% link_for _('Topics'), controller=group_controller, action='index' %}</li>
+  {% block breadcrumb_content_inner %}
+    <li>{% link_for topic.display_name|truncate(35), controller=group_controller, action='read', id=topic.name %}</li>
+    <li class="active">{% link_for _('Manage'), controller=group_controller, action='edit', id=topic.name %}</li>
+  {% endblock %}
+{% endblock %}
+
+{% block content_action %}
+  {% if topic and h.check_access('topic_update', {'id': topic.id}) %}
+    {% link_for _('View'), controller=group_controller, action='read', id=topic.name, class_='btn', icon='eye-open' %}
+  {% endif %}
+{% endblock %}
+
+{% block content_primary_nav %}
+  {{ h.build_nav_icon('topic_edit', _('Edit'), id=c.group_dict.name) }}
+  {{ h.build_nav_icon('topic_bulk_process', _('Datasets'), id=c.group_dict.name) }}
+  {{ h.build_nav_icon('topic_members', _('Members'), id=c.group_dict.name) }}
+{% endblock %}
+
+{% block secondary_content %}
+  {% if topic %}
+    {% snippet 'snippets/topic.html', topic=topic %}
+  {% else %}
+    {{ super() }}
+  {% endif %}
+{% endblock %}
+
+{% block links %}
+  {{ super() }}
+  {% include "topic/snippets/feeds.html" %}
+{% endblock %}

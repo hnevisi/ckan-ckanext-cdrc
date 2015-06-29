@@ -1,0 +1,19 @@
+{#
+Display a grid of lad items.
+
+lads - A list of lads.
+
+Example:
+
+    {% snippet "lad/snippets/customized_group_list.html" %}
+
+#}
+{% block lad_list %}
+<ul class="media-grid" data-module="media-grid">
+  {% block lad_list_inner %}
+  {% for lad in lads %}
+    {% snippet "lad/snippets/customized_group_item.html", lad=lad, position=loop.index %}
+  {% endfor %}
+   {% endblock %}
+</ul>
+{% endblock %}

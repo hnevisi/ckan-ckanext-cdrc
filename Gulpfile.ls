@@ -24,6 +24,7 @@ gulp.task \watch, [\livereload], !->
   gulp.watch '**/*.less', [\less]
   gulp.watch '**/*.css', notify-lr
   gulp.watch '**/*.html', notify-lr
+  gulp.watch '**/*.py', notify-lr
 
 
 gulp.task \default, [\watch]

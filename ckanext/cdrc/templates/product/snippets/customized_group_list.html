@@ -1,0 +1,19 @@
+{#
+Display a grid of product items.
+
+products - A list of products.
+
+Example:
+
+    {% snippet "product/snippets/customized_group_list.html" %}
+
+#}
+{% block product_list %}
+<ul class="media-grid" data-module="media-grid">
+  {% block product_list_inner %}
+  {% for product in products %}
+    {% snippet "product/snippets/customized_group_item.html", product=product, position=loop.index %}
+  {% endfor %}
+   {% endblock %}
+</ul>
+{% endblock %}

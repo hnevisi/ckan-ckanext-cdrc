@@ -1,0 +1,22 @@
+{#
+Displays a sidebard module with information for given topic
+
+org    - The topic dict.
+
+Example:
+
+  {% snippet "topic/snippets/info.html", org=org %}
+
+#}
+{% set group_controller='ckanext.cdrc.controllers.topic:TopicController' %}
+
+{% if topic and h.check_access('topic_update', {'id':topic.id }) %}
+  <section class="module module-narrow package-info">
+    <h2 class="module-heading"><i class="icon-sitemap"></i> {{ _("Edit Topic") }}</h2>
+    <ul class="unstyled nav nav-simple">
+      <li class="nav-item{% if action == 'edit' %} active{% endif %}">
+        {% link_for _("Edit Topic"), controller=group_controller, action='edit', id=topic.name %}
+      </li>
+    </ul>
+  </section>
+{% endif %}

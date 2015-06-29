@@ -1,0 +1,46 @@
+{#
+Renders a media item for a topic. This should be used in a list.
+
+topic - A topic dict.
+
+Example:
+
+    <ul class="media-grid">
+      {% for topic in topics %}
+        {% snippet "topic/snippets/customized_group_item.html", topic=topic %}
+      {% endfor %}
+    </ul>
+#}
+{% set url = h.url_for(topic.type ~ '_read', action='read', id=topic.name) %}
+{% block item %}
+<li class="media-item">
+  {% block item_inner %}
+  {% block image %}
+    <img src="{{ topic.image_display_url or h.url_for_static('/base/images/placeholder-group.png') }}" alt="{{ topic.name }}" class="media-image">
+  {% endblock %}
+  {% block title %}
+    <h3 class="media-heading">{{ topic.display_name }}</h3>
+  {% endblock %}
+  {% block description %}
+    {% if topic.description %}
+      <p>{{ h.markdown_extract(topic.description, extract_length=80) }}</p>
+    {% endif %}
+  {% endblock %}
+  {% block datasets %}
+    {% if topic.package_count %}
+      <strong class="count">{{ ungettext('{num} Dataset', '{num} Datasets', topic.package_count).format(num=topic.package_count) }}</strong>
+    {% else %}
+      <span class="count">{{ _('0 Datasets') }}</span>
+    {% endif %}
+  {% endblock %}
+  {% block link %}
+  <a href="{{ url }}" title="{{ _('View {topic_name}').format(topic_name=topic.display_name) }}" class="media-view">
+    <span>{{ _('View {topic_name}').format(topic_name=topic.display_name) }}</span>
+  </a>
+  {% endblock %}
+  {% endblock %}
+</li>
+{% endblock %}
+{% if position is divisibleby 3 %}
+  <li class="clearfix js-hide"></li>
+{% endif %}

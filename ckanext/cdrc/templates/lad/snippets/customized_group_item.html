@@ -1,0 +1,46 @@
+{#
+Renders a media item for a lad. This should be used in a list.
+
+lad - A lad dict.
+
+Example:
+
+    <ul class="media-grid">
+      {% for lad in lads %}
+        {% snippet "lad/snippets/customized_group_item.html", lad=lad %}
+      {% endfor %}
+    </ul>
+#}
+{% set url = h.url_for(lad.type ~ '_read', action='read', id=lad.name) %}
+{% block item %}
+<li class="media-item">
+  {% block item_inner %}
+  {% block image %}
+    <img src="{{ lad.image_display_url or h.url_for_static('/base/images/placeholder-group.png') }}" alt="{{ lad.name }}" class="media-image">
+  {% endblock %}
+  {% block title %}
+    <h3 class="media-heading">{{ lad.display_name }}</h3>
+  {% endblock %}
+  {% block description %}
+    {% if lad.description %}
+      <p>{{ h.markdown_extract(lad.description, extract_length=80) }}</p>
+    {% endif %}
+  {% endblock %}
+  {% block datasets %}
+    {% if lad.package_count %}
+      <strong class="count">{{ ungettext('{num} Dataset', '{num} Datasets', lad.package_count).format(num=lad.package_count) }}</strong>
+    {% else %}
+      <span class="count">{{ _('0 Datasets') }}</span>
+    {% endif %}
+  {% endblock %}
+  {% block link %}
+  <a href="{{ url }}" title="{{ _('View {lad_name}').format(lad_name=lad.display_name) }}" class="media-view">
+    <span>{{ _('View {lad_name}').format(lad_name=lad.display_name) }}</span>
+  </a>
+  {% endblock %}
+  {% endblock %}
+</li>
+{% endblock %}
+{% if position is divisibleby 3 %}
+  <li class="clearfix js-hide"></li>
+{% endif %}

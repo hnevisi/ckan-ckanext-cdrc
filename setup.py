@@ -76,8 +76,13 @@ setup(
     # To provide executable scripts, use entry points in preference to the
     # "scripts" keyword. Entry points provide cross-platform support and allow
     # pip to create the appropriate form of executable for the target platform.
-    entry_points='''
-        [ckan.plugins]
-        cdrc=ckanext.cdrc.plugin:CdrcPlugin
-    ''',
+
+    entry_points={
+        'ckan.plugins': [
+            "cdrc=ckanext.cdrc.plugin:CdrcPlugin",
+            "cdrc_topic=ckanext.cdrc.plugin:CdrcTopicPlugin",
+            "cdrc_product=ckanext.cdrc.plugin:CdrcProductPlugin",
+            "cdrc_lad=ckanext.cdrc.plugin:CdrcLadPlugin",
+            ],
+    },
 )

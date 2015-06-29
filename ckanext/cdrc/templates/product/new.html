@@ -1,0 +1,19 @@
+{% extends "product/base_form_page.html" %}
+
+{% set group_controller='ckanext.cdrc.controllers.product:ProductController' %}
+
+{% block subtitle %}{{ _('Create an Product') }}{% endblock %}
+
+{% block breadcrumb_link %}{{ h.nav_link(_('Create an Product'), controller=group_controller, action='edit', id=c.product.name) }}{% endblock %}
+
+{% block page_heading %}{{ _('Create an Product') }}{% endblock %}
+
+{% block page_header %}{% endblock %}
+
+{% block breadcrumb_content_inner %}
+  <li class="active"><a href="#">{{ _('Create an Product') }}</a></li>
+{% endblock %}
+
+{% block secondary_content %}
+  {% snippet "product/snippets/helper.html" %}
+{% endblock %}

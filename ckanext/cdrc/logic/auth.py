@@ -7,6 +7,7 @@ Description: CDRC auth plugin
 """
 
 
+from ckan.logic import authz
 import ckan.plugins.toolkit as toolkit
 
 def resource_download(context, data_dict):

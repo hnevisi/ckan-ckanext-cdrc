@@ -1,0 +1,19 @@
+{#
+Display a grid of topic items.
+
+topics - A list of topics.
+
+Example:
+
+    {% snippet "topic/snippets/customized_group_list.html" %}
+
+#}
+{% block topic_list %}
+<ul class="media-grid" data-module="media-grid">
+  {% block topic_list_inner %}
+  {% for topic in topics %}
+    {% snippet "topic/snippets/customized_group_item.html", topic=topic, position=loop.index %}
+  {% endfor %}
+   {% endblock %}
+</ul>
+{% endblock %}

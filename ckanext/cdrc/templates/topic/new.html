@@ -1,0 +1,19 @@
+{% extends "topic/base_form_page.html" %}
+
+{% set group_controller='ckanext.cdrc.controllers.topic:TopicController' %}
+
+{% block subtitle %}{{ _('Create an Topic') }}{% endblock %}
+
+{% block breadcrumb_link %}{{ h.nav_link(_('Create an Topic'), controller=group_controller, action='edit', id=c.topic.name) }}{% endblock %}
+
+{% block page_heading %}{{ _('Create an Topic') }}{% endblock %}
+
+{% block page_header %}{% endblock %}
+
+{% block breadcrumb_content_inner %}
+  <li class="active"><a href="#">{{ _('Create an Topic') }}</a></li>
+{% endblock %}
+
+{% block secondary_content %}
+  {% snippet "topic/snippets/helper.html" %}
+{% endblock %}

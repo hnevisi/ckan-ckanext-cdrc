@@ -1,0 +1,22 @@
+{#
+Displays a sidebard module with information for given lad
+
+org    - The lad dict.
+
+Example:
+
+  {% snippet "lad/snippets/info.html", org=org %}
+
+#}
+{% set group_controller='ckanext.cdrc.controllers.lad:LadController' %}
+
+{% if lad and h.check_access('lad_update', {'id':lad.id }) %}
+  <section class="module module-narrow package-info">
+    <h2 class="module-heading"><i class="icon-sitemap"></i> {{ _("Edit Lad") }}</h2>
+    <ul class="unstyled nav nav-simple">
+      <li class="nav-item{% if action == 'edit' %} active{% endif %}">
+        {% link_for _("Edit Lad"), controller=group_controller, action='edit', id=lad.name %}
+      </li>
+    </ul>
+  </section>
+{% endif %}

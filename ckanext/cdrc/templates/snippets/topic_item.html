@@ -1,0 +1,21 @@
+{% set group_controller='ckanext.cdrc.controllers.topic:TopicController'}
+<section class="group-list module module-narrow module-shallow">
+  <header class="module-heading">
+    {% set url=h.url_for(controller=group_controller, action='read', id=topic.name) %}
+    {% set truncate=truncate or 0 %}
+    <a class="module-image" href="{{ url }}">
+      <img src="{{ topic.image_display_url or h.url_for_static('/base/images/placeholder-group.png') }}" alt="{{ topic.name }}" />
+    </a>
+    <h3 class="media-heading"><a href={{ url }}>{{ topic.title or topic.name }}</a></h3>
+    {% if topic.description %}
+      {% if truncate == 0 %}
+        <p>{{ h.markdown_extract(topic.description)|urlize }}</p>
+      {% else %}
+        <p>{{ h.markdown_extract(topic.description, truncate)|urlize }}</p>
+      {% endif %}
+    {% endif %}
+  </header>
+  {% set list_class = "unstyled dataset-list" %}
+  {% set item_class = "dataset-item module-content" %}
+  {% snippet 'snippets/package_list.html', packages=topic.packages, list_class=list_class, item_class=item_class, truncate=120 %}
+</section>
