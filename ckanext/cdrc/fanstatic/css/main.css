@@ -6086,7 +6086,7 @@ a.tag:hover {
   *zoom: 1;
   margin: 0 -25px;
   padding-bottom: 15px;
-  background: #f5f5f6 url("../../../base/images/bg.png");
+  background: #f5f5f6 url("/base/images/bg.png");
   border: 1px solid #dddddd;
   border-width: 1px 0;
 }
@@ -6235,7 +6235,7 @@ a.tag:hover {
   *zoom: 1;
   margin: 0 -25px;
   padding-bottom: 15px;
-  background: #f5f5f6 url("../../../base/images/bg.png");
+  background: #f5f5f6 url("/base/images/bg.png");
   border: 1px solid #dddddd;
   border-width: 1px 0;
 }
@@ -6459,7 +6459,7 @@ a.tag:hover {
     right: -6px;
     width: 6px;
     height: 34px;
-    background-image: url("../../../base/images/nav-active.png?1");
+    background-image: url("/base/images/nav-active.png?1");
   }
 }
 .nav-item.active > a span,
@@ -6502,7 +6502,7 @@ a.tag:hover {
   top: 2px;
   width: 16px;
   height: 16px;
-  background-image: url("../../../base/images/sprite-ckan-icons.png");
+  background-image: url("/base/images/sprite-ckan-icons.png");
   background-repeat: no-repeat;
   background-position: 16px 16px;
   content: "";
@@ -6577,7 +6577,7 @@ a.tag:hover {
   top: 2px;
   width: 16px;
   height: 16px;
-  background-image: url("../../../base/images/sprite-ckan-icons.png");
+  background-image: url("/base/images/sprite-ckan-icons.png");
   background-repeat: no-repeat;
   background-position: 16px 16px;
   width: 17px;
@@ -7197,7 +7197,7 @@ textarea {
 }
 .resource-upload-field.loading {
   display: inline-block;
-  background: url("../../../base/images/loading-spinner.gif") no-repeat center right;
+  background: url("/base/images/loading-spinner.gif") no-repeat center right;
   padding-right: 5px;
 }
 .select2-container .select2-choice input,
@@ -7924,7 +7924,7 @@ textarea {
 }
 @media (min-width: 768px) {
   .span9 .page-header {
-    margin-left: -17px;
+    margin-left: -27px;
   }
 }
 @media (max-width: 768px) {
@@ -8044,7 +8044,7 @@ h4 small {
   top: 2px;
   width: 16px;
   height: 16px;
-  background-image: url("../../../base/images/sprite-ckan-icons.png");
+  background-image: url("/base/images/sprite-ckan-icons.png");
   background-repeat: no-repeat;
   background-position: 16px 16px;
 }
@@ -8233,11 +8233,11 @@ h4 small {
   top: 2px;
   width: 16px;
   height: 16px;
-  background-image: url("../../../base/images/sprite-ckan-icons.png");
+  background-image: url("/base/images/sprite-ckan-icons.png");
   background-repeat: no-repeat;
   background-position: 16px 16px;
   text-indent: -900em;
-  background: url("../../../base/images/sprite-resource-icons.png") no-repeat 0 0;
+  background: url("/base/images/sprite-resource-icons.png") no-repeat 0 0;
 }
 .format-label {
   width: 32px;
@@ -8367,14 +8367,14 @@ h4 small {
 }
 @media (min-width: 768px) {
   .wrapper {
-    background-image: url("../../../base/images/nav.png");
+    background-image: url("/base/images/nav.png");
     background-repeat: repeat-y;
     background-position: -54px 0px;
   }
 }
 @media (min-width: 980px) {
   .wrapper {
-    background-position: 0px 0px;
+    background-position: 50px 0px;
   }
 }
 .wrapper.no-nav {
@@ -8492,7 +8492,7 @@ h4 small {
 }
 @media (min-width: 768px) {
   .hero {
-    background: url("../../../base/images/background-tile.png");
+    background: url("/base/images/background-tile.png");
   }
 }
 .hero:after {
@@ -8736,7 +8736,7 @@ h4 small {
   *zoom: 1;
   height: 32px;
   color: #000000;
-  background: #ffffff url("../../../base/images/bg.png");
+  background: #ffffff;
 }
 .account-masthead:before,
 .account-masthead:after {
@@ -8819,7 +8819,7 @@ h4 small {
 .masthead {
   *zoom: 1;
   color: #000000;
-  background: #ffffff url("../../../base/images/bg.png");
+  background: #ffffff;
 }
 .masthead:before,
 .masthead:after {
@@ -8954,7 +8954,7 @@ h4 small {
 .site-footer {
   *zoom: 1;
   color: #000000;
-  background: #ffffff url("../../../base/images/bg.png");
+  background: #ffffff;
   padding: 20px 0;
   background-color: white;
 }
@@ -9080,7 +9080,7 @@ h4 small {
   width: 68px;
   height: 21px;
   margin-top: 2px;
-  background: url("../../../base/images/ckan-logo-footer.png") no-repeat top left;
+  background: url("/base/images/ckan-logo-footer.png") no-repeat top left;
   text-indent: -900em;
 }
 img.footer-logos {
@@ -9153,7 +9153,7 @@ img.footer-logos {
 .js .table-toggle-more .toggle-seperator td {
   height: 11px;
   padding: 0;
-  background-image: url("../../../base/images/table-seperator.png");
+  background-image: url("/base/images/table-seperator.png");
 }
 .js .table .toggle-show td {
   background: none;
@@ -9176,7 +9176,7 @@ img.footer-logos {
   margin: 10px 0;
   padding: 0;
   list-style-type: none;
-  background: transparent url('../../../base/images/dotted.png') 14px 0 repeat-y;
+  background: transparent url('/base/images/dotted.png') 14px 0 repeat-y;
 }
 .activity .item {
   position: relative;
@@ -9423,7 +9423,7 @@ img.footer-logos {
   right: -10px;
   width: 10px;
   height: 21px;
-  background: transparent url("../../../base/images/dashboard-followee-related.png");
+  background: transparent url("/base/images/dashboard-followee-related.png");
 }
 .popover-followee .popover-title {
   display: none;
@@ -9577,7 +9577,7 @@ img.footer-logos {
   color: #009900;
 }
 body {
-  background: #e7e8ea url("../../../base/images/bg.png");
+  background: #e7e8ea url("/base/images/bg.png");
 }
 [hidden] {
   display: none;
@@ -9716,11 +9716,11 @@ iframe {
 .ie7 [role=main],
 .ie8 .main,
 .ie7 .main {
-  background: #e7e8ea url("../../../base/images/bg.png");
+  background: #e7e8ea url("/base/images/bg.png");
 }
 .ie8 .hero,
 .ie7 .hero {
-  background: url("../../../base/images/background-tile.png");
+  background: url("/base/images/background-tile.png");
 }
 .ie8 .hero .hero-primary.module-popup .box,
 .ie7 .hero .hero-primary.module-popup .box {
@@ -9850,7 +9850,7 @@ iframe {
 .ie7 .toolbar .breadcrumb li {
   padding-right: 10px;
   margin-right: 5px;
-  background: transparent url("../../../base/images/breadcrumb-slash-ie7.png") 100% 50% no-repeat;
+  background: transparent url("/base/images/breadcrumb-slash-ie7.png") 100% 50% no-repeat;
 }
 .ie7 .toolbar .breadcrumb li.active {
   background-image: none;
