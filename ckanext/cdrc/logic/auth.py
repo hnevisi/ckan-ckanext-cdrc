@@ -15,5 +15,4 @@ def resource_download(context, data_dict):
         context_user = toolkit.c.user
     except TypeError:
         context_user = None
-    assert False
-    return toolkit.asbool(context_user)
+    return {'success': context_user is not None}
