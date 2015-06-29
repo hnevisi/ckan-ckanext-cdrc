@@ -18,6 +18,10 @@ class TopicController(group.GroupController):
 
     group_types = ['topic']
 
+    def __init__(self, *args, **kwargs):
+        super(group.GroupController, self).__init__(*args, **kwargs)
+        self.group_type = 'topic'
+
     def _guess_group_type(self, expecting_name=False):
         return 'topic'
 

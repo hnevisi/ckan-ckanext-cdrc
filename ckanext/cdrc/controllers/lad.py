@@ -18,6 +18,10 @@ class LadController(group.GroupController):
 
     group_types = ['lad']
 
+    def __init__(self, *args, **kwargs):
+        super(group.GroupController, self).__init__(*args, **kwargs)
+        self.group_type = 'lad'
+
     def _guess_group_type(self, expecting_name=False):
         return 'lad'
 

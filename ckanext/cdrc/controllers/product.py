@@ -18,6 +18,10 @@ class ProductController(group.GroupController):
 
     group_types = ['product']
 
+    def __init__(self, *args, **kwargs):
+        super(group.GroupController, self).__init__(*args, **kwargs)
+        self.group_type = 'product'
+
     def _guess_group_type(self, expecting_name=False):
         return 'product'
 
