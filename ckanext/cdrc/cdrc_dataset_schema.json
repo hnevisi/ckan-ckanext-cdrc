@@ -17,76 +17,6 @@
       "form_placeholder": "eg. my-dataset"
     },
     {
-      "field_name": "topics",
-      "label": "Topics",
-      "preset": "dataset_topics",
-      "choices": [
-        {
-          "label": "Art and Culture",           
-          "value": "art-and-culture"
-        },
-        {
-          "label": "Business and Economy",     
-          "value": "business-and-economy"
-        },
-        {
-          "label": "Championing London",       
-          "value": "championing-london"
-        },
-        {
-          "label": "Crime and Community Safety",
-          "value": "crime-and-community-safety"
-        },
-        {
-          "label": "Demographics",              
-          "value": "demographics"
-        },
-        {
-          "label": "Education",                 
-          "value": "education"
-        },
-        {
-          "label": "Employment and Skills",     
-          "value": "employment-and-skills"
-        },
-        {
-          "label": "Environment",               
-          "value": "environment"
-        },
-        {
-          "label": "Health",                    
-          "value": "health"
-        },
-        {
-          "label": "Housing",                   
-          "value": "housing"
-        },
-        {
-          "label": "London 2012",               
-          "value": "london-2012"
-        },
-        {
-          "label": "Planning",                  
-          "value": "planning"
-        },
-        {
-          "label": "Sport",                     
-          "value": "sport"},
-        {
-          "label": "Transparency",              
-          "value": "transparency"},
-        {
-          "label": "Transport",                 
-          "value": "transport"
-        },
-        {
-          "label": "Young People",              
-          "value": "young-people"
-        }
-      ],
-      "form_placeholder": "eg. Transport"
-    },
-    {
       "field_name": "notes",
       "label": "Description",
       "form_snippet": "markdown.html",
@@ -99,56 +29,91 @@
       "form_placeholder": "eg. economy, mental health, government"
     },
     {
-      "field_name": "license_id",
-      "label": "License",
-      "form_snippet": "license.html"
-    },
-    {
       "field_name": "owner_org",
       "label": "Organization",
       "preset": "dataset_organization"
     },
     {
       "field_name": "date_range",
-      "label": "Date range",
+      "validators": "ignore_missing",
+      "label": "Date Range",
+      "form_placeholder": "2011",
+      "preset": "text"
+    },
+    {
+      "field_name": "collDate",
+      "validators": "ignore_missing",
+      "label": "Collecting Date",
+      "form_placeholder": "27/03/11",
+      "preset": "text"
+    },
+    {
+      "field_name": "dataCollector",
+      "validators": "ignore_missing",
+      "label": "Data Collector",
+      "form_placeholder": "ONS",
       "preset": "text"
     },
     {
       "field_name": "update_frequency",
-      "label": "Update frequency",
+      "validators": "ignore_missing",
+      "label": "Update Frequency",
+      "form_placeholder": "Yearly",
       "preset": "text"
     },
     {
-      "field_name": "smallest_geography",
-      "label": "Smallest geography",
+      "field_name": "geogUnit",
+      "validators": "ignore_missing",
+      "label": "Geographical Scales",
+      "form_placeholder": "Output Area, Lower Layer Super Output Area",
+      "preset": "text"
+    },
+    {
+      "field_name": "anlyUnit",
+      "validators": "ignore_missing",
+      "label": "Analytical Units",
+      "form_placeholder": "Person, City",
+      "preset": "text"
+    },
+    {
+      "field_name": "dataKind",
+      "validators": "ignore_missing",
+      "label": "Data Kind",
+      "form_placeholder": "CSV, Shapefile",
       "preset": "text"
     },
     {
       "field_name": "bounding_box",
+      "validators": "ignore_missing",
       "label": "Bounding box",
+      "form_placeholder": "London",
+      "preset": "text"
+    },
+    {
+      "field_name": "nation",
+      "validators": "ignore_missing",
+      "label": "Nation",
+      "form_placeholder": "United Kingdom",
       "preset": "text"
     },
     {
       "field_name": "url",
+      "validators": "ignore_missing",
       "label": "Source",
       "form_placeholder": "http://example.com/dataset.json",
       "display_property": "foaf:homepage",
       "display_snippet": "link.html"
     },
     {
-      "field_name": "version",
-      "label": "Version",
-      "validators": "ignore_missing unicode package_version_validator",
-      "form_placeholder": "1.0"
-    },
-    {
       "field_name": "author",
+      "validators": "ignore_missing",
       "label": "Author",
       "form_placeholder": "Joe Bloggs",
       "display_property": "dc:creator"
     },
     {
       "field_name": "author_email",
+      "validators": "ignore_missing",
       "label": "Author Email",
       "form_placeholder": "joe@example.com",
       "display_property": "dc:creator",
@@ -157,12 +122,14 @@
     },
     {
       "field_name": "maintainer",
+      "validators": "ignore_missing",
       "label": "Maintainer",
       "form_placeholder": "Joe Bloggs",
       "display_property": "dc:contributor"
     },
     {
       "field_name": "maintainer_email",
+      "validators": "ignore_missing",
       "label": "Maintainer Email",
       "form_placeholder": "joe@example.com",
       "display_property": "dc:contributor",
