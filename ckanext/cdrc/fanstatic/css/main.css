@@ -5829,6 +5829,63 @@ a.badge:focus {
     overflow: visible !important;
   }
 }
+.contact-footer {
+  float: left;
+  width: 100%;
+  padding: 40px 0;
+  background-color: #5b6670;
+}
+.contact-footer .seven > div {
+  padding: 10px 0;
+  border-top: 1px solid #fff;
+  float: left;
+  width: 100%;
+  margin-bottom: 10px;
+}
+.contact-footer .seven > div a {
+  font-weight: bold;
+  color: #ffffff;
+  text-decoration: none;
+}
+.contact-footer .seven > div:last-child {
+  margin-bottom: 0;
+}
+.contact-footer .seven > div p {
+  color: #fff;
+  margin: 0;
+  font-family: 'Verdana', sans-serif;
+  font-size: 12px;
+  letter-spacing: .25px;
+}
+.contact-footer .seven > div h6 {
+  color: #fff;
+  margin: 0;
+  margin-bottom: 5px;
+  font-size: 16px;
+  letter-spacing: .25px;
+  line-height: 16px;
+}
+.contact-footer .key-section li {
+  float: left;
+  margin-right: 10px;
+  margin-bottom: 0;
+  list-style: disc;
+  list-style-position: inside;
+  color: #fff;
+}
+.contact-footer .key-section li a {
+  font-family: Verdana, sans-serif;
+  font-size: 14px;
+  letter-spacing: .1px;
+  font-weight: normal;
+}
+.contact-footer .key-section .sub-menu {
+  display: none;
+}
+.contact-footer #menu-main-menu-2 {
+  float: left;
+  margin: 0;
+}
 .break-word {
   -ms-word-break: break-all;
   word-break: break-all;
@@ -8958,10 +9015,6 @@ h4 small {
   background: #ffffff;
   padding: 20px 0;
   background-color: white;
-  -webkit-box-shadow: 0px -1px 20px 0px rgba(0, 0, 0, 0.35);
-  -moz-box-shadow: 0px -1px 20px 0px rgba(0, 0, 0, 0.35);
-  box-shadow: 0px -1px 20px 0px rgba(0, 0, 0, 0.35);
-  position: relative;
 }
 .site-footer:before,
 .site-footer:after {
