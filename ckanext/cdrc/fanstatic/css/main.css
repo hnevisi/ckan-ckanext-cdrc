@@ -192,7 +192,7 @@ textarea {
 }
 body {
   margin: 0;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: 'Museo', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 14px;
   line-height: 20px;
   color: #444444;
@@ -878,7 +878,7 @@ input,
 button,
 select,
 textarea {
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: 'Museo', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 label {
   display: block;
@@ -8463,7 +8463,7 @@ h4 small {
   [role=main],
   .main {
     background: #e6e8e9 url("/images/bottom-right-bg.png");
-    background-position: 100%;
+    background-position: 100% 100%;
     background-repeat: no-repeat;
     -webkit-box-shadow: inset 0px 5px 20px 0px rgba(0, 0, 0, 0.35);
     -moz-box-shadow: inset 0px 5px 20px 0px rgba(0, 0, 0, 0.35);
