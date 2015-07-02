@@ -5886,6 +5886,25 @@ a.badge:focus {
   float: left;
   margin: 0;
 }
+.final-footer {
+  background-color: white;
+}
+.final-footer li {
+  float: left;
+  margin-right: 10px;
+  list-style: none;
+}
+.final-footer p {
+  float: right;
+  font-family: Verdana, sans-serif;
+  font-size: 12px;
+}
+.final-footer li a {
+  font-family: Verdana, sans-serif;
+  font-size: 12px;
+  color: #071e2b;
+  text-decoration: none;
+}
 .break-word {
   -ms-word-break: break-all;
   word-break: break-all;
@@ -9015,8 +9034,11 @@ h4 small {
   *zoom: 1;
   color: #000000;
   background: #ffffff;
-  padding: 20px 0;
   background-color: white;
+  padding-top: 40px;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #5b6670;
 }
 .site-footer:before,
 .site-footer:after {
@@ -9637,7 +9659,7 @@ img.footer-logos {
   color: #009900;
 }
 body {
-  background: #e7e8ea url("/base/images/bg.png");
+  background: white;
 }
 [hidden] {
   display: none;
