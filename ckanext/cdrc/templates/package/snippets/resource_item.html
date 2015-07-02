@@ -31,13 +31,8 @@
         </a>
       {% if res.url and h.is_url(res.url) %}
         <a class="btn btn-mini btn-info" href="{{ res.url }}" class="resource-url-analytics" target="_blank">
-          {% if res.has_views %}
-            <i class="icon-download"></i>
-            {{ _('Download') }}
-          {% else %}
-            <i class="icon-external-link"></i>
-            {{ _('Go to resource') }}
-          {% endif %}
+          <i class="icon-download"></i>
+          {{ _('Download') }}
         </a>
       {% endif %}
       {% if can_edit %}
