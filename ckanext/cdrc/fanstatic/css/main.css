@@ -8462,9 +8462,7 @@ h4 small {
 @media (min-width: 768px) {
   [role=main],
   .main {
-    background: #e6e8e9 url("/images/bottom-right-bg.png");
-    background-position: 100% 100%;
-    background-repeat: no-repeat;
+    background: url("/images/bottom-right-bg.png") 100% 100% no-repeat, url("/images/top-left-bg.png") 0 0 no-repeat, #e6e8e9;
     -webkit-box-shadow: inset 0px 5px 20px 0px rgba(0, 0, 0, 0.35);
     -moz-box-shadow: inset 0px 5px 20px 0px rgba(0, 0, 0, 0.35);
     box-shadow: inset 0px 5px 20px 0px rgba(0, 0, 0, 0.35);

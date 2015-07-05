@@ -29,9 +29,7 @@
 }
 @media (min-width: 768px) {
   [role=main], .main {
-    background: @layoutBackgroundColor url("@{HollowBgPath}");
-    background-position: 100% 100%;
-    background-repeat: no-repeat;
+    background: url("@{HollowBgPath}") 100% 100% no-repeat, url("@{HollowBgPath_tf}") 0 0 no-repeat, @layoutBackgroundColor ;
     -webkit-box-shadow: inset 0px 5px 20px 0px rgba(0,0,0,0.35);
     -moz-box-shadow: inset 0px 5px 20px 0px rgba(0,0,0,0.35);
     box-shadow: inset 0px 5px 20px 0px rgba(0,0,0,0.35);
