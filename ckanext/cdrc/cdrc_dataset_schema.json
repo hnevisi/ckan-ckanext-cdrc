@@ -18,6 +18,7 @@
     },
     {
       "field_name": "notes",
+      "validators": "not_empty",
       "label": "Description",
       "form_snippet": "markdown.html",
       "form_placeholder": "eg. Some useful notes about the data"
