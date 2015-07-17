@@ -9023,6 +9023,12 @@ h4 small {
   }
 }
 @media (max-width: 767px) {
+  .site-footer .container {
+    display: none;
+  }
+  .contact-footer .container {
+    width: 80%;
+  }
   .account-masthead {
     margin-left: -20px;
     margin-right: -20px;
