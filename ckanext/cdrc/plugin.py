@@ -1,14 +1,24 @@
+import logging
 from textwrap import dedent
+import sqlalchemy
+from sqlalchemy import func
+from sqlalchemy import or_
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
 from ckan.logic import auth as ckan_auth
 from ckan.logic import action as ckan_action
+from ckan.logic import get_action as get_action
+from ckan.logic import check_access
+from ckan.logic.action.get import _unpick_search
 from ckan.common import c
 from ckan.lib.base import BaseController
 from ckan.lib.plugins import DefaultGroupForm
 from routes.mapper import SubMapper
 from ckanext.cdrc.logic import auth
 
+from paste.deploy.converters import asbool
+
+log = logging.getLogger('ckanext.cdrc')
 
 class CDRCExtController(BaseController):
     def assertfalse(self):
@@ -113,6 +123,100 @@ def mapper_mixin(map, group_type, controller):
                 action='bulk_process', ckan_icon='sitemap')
     return map
 
+
+def group_list(context, data_dict):
+    """ A fix for the efficiency of group_list"""
+    is_org = False
+
+    check_access('group_list', context, data_dict)
+
+    model = context['model']
+    api = context.get('api_version')
+    groups = data_dict.get('groups')
+    group_type = data_dict.get('type', 'group')
+    ref_group_by = 'id' if api == 2 else 'name'
+    lite_list = data_dict.get('lite_list', False)
+
+    sort = data_dict.get('sort', 'name')
+    q = data_dict.get('q')
+
+    # order_by deprecated in ckan 1.8
+    # if it is supplied and sort isn't use order_by and raise a warning
+    order_by = data_dict.get('order_by', '')
+    if order_by:
+        log.warn('`order_by` deprecated please use `sort`')
+        if not data_dict.get('sort'):
+            sort = order_by
+
+    # if the sort is packages and no sort direction is supplied we want to do a
+    # reverse sort to maintain compatibility.
+    if sort.strip() in ('packages', 'package_count'):
+        sort = 'package_count desc'
+
+    sort_info = _unpick_search(sort,
+                               allowed_fields=['name', 'packages',
+                                               'package_count', 'title'],
+                               total=1)
+
+    all_fields = data_dict.get('all_fields', None)
+    include_extras = all_fields and \
+                     asbool(data_dict.get('include_extras', False))
+
+    query = model.Session.query(model.Group)
+    if include_extras:
+        # this does an eager load of the extras, avoiding an sql query every
+        # time group_list_dictize accesses a group's extra.
+        query = query.options(sqlalchemy.orm.joinedload(model.Group._extras))
+
+    query = query.filter(model.Group.state == 'active')
+    if groups:
+        query = query.filter(model.Group.name.in_(groups))
+    if q:
+        q = u'%{0}%'.format(q)
+        query = query.filter(sqlalchemy.or_(
+            model.Group.name.ilike(q),
+            model.Group.title.ilike(q),
+            model.Group.description.ilike(q),
+        ))
+
+    query = query.filter(model.Group.is_organization == is_org)
+    if not is_org:
+        query = query.filter(model.Group.type == group_type)
+
+    if lite_list:
+        package_member = model.Session.query(model.Member.group_id).filter(model.Member.table_name == 'package').subquery()
+        query = query.add_column(func.count(package_member.c.group_id))\
+            .outerjoin(package_member, model.Group.id == package_member.c.group_id)\
+            .group_by(model.Group.id)
+        groups = query.all()
+        g_list = [{'id': g[0].id,
+                       'name': g[0].name,
+                       'display_name': g[0].title or g[0].name,
+                       'type': g[0].type,
+                       'description': g[0].description,
+                       'image_display_url': g[0].image_url,
+                       'package_count': g[1]}
+                      for g in groups]
+
+    else:
+        groups = query.all()
+
+        action = 'organization_show' if is_org else 'group_show'
+
+        g_list = []
+        for group in groups:
+            data_dict['id'] = group.id
+            g_list.append(get_action(action)(context, data_dict))
+
+    g_list = sorted(g_list, key=lambda x: x[sort_info[0][0]],
+        reverse=sort_info[0][1] == 'desc')
+
+    if not all_fields:
+        g_list = [group[ref_group_by] for group in g_list]
+
+    return g_list
+
+
 class CdrcTopicPlugin(plugins.SingletonPlugin, DefaultGroupForm):
     plugins.implements(plugins.IGroupForm)
     plugins.implements(plugins.IRoutes)
@@ -141,7 +245,7 @@ class CdrcTopicPlugin(plugins.SingletonPlugin, DefaultGroupForm):
 
     def get_actions(self):
         return {
-           'topic_list': ckan_action.get.group_list,
+           'topic_list': group_list,
            'topic_show': ckan_action.get.group_show,
            'topic_activity_list_html': ckan_action.get.group_activity_list_html,
            'topic_create': ckan_action.create.group_create,
@@ -217,7 +321,7 @@ class CdrcProductPlugin(plugins.SingletonPlugin, DefaultGroupForm):
 
     def get_actions(self):
         return {
-           'product_list': ckan_action.get.group_list,
+           'product_list': group_list,
            'product_show': ckan_action.get.group_show,
            'product_activity_list_html': ckan_action.get.group_activity_list_html,
            'product_create': ckan_action.create.group_create,
@@ -293,7 +397,7 @@ class CdrcLadPlugin(plugins.SingletonPlugin, DefaultGroupForm):
 
     def get_actions(self):
         return {
-           'lad_list': ckan_action.get.group_list,
+           'lad_list': group_list,
            'lad_show': ckan_action.get.group_show,
            'lad_activity_list_html': ckan_action.get.group_activity_list_html,
            'lad_create': ckan_action.create.group_create,
