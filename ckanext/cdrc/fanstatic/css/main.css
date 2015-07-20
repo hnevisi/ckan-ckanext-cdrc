@@ -5905,6 +5905,35 @@ a.badge:focus {
   color: #071e2b;
   text-decoration: none;
 }
+@media (min-width: 1200px) {
+  .span-left {
+    width: 270px;
+  }
+  .span-right {
+    width: 886px;
+  }
+}
+@media (min-width: 980px) and (max-width: 1199px) {
+  .span-left {
+    width: 252px;
+  }
+  .span-right {
+    width: 673px;
+  }
+}
+@media (min-width: 760px) and (max-width: 979px) {
+  .span-left {
+    width: 252px;
+  }
+  .span-right {
+    width: 457px;
+  }
+}
+@media (max-width: 797px) {
+  .span-left {
+    display: none;
+  }
+}
 .break-word {
   -ms-word-break: break-all;
   word-break: break-all;
@@ -8457,12 +8486,12 @@ h4 small {
   .wrapper {
     background-image: url("/base/images/nav.png");
     background-repeat: repeat-y;
-    background-position: -54px 0px;
+    background-position: 32px 0px;
   }
 }
 @media (min-width: 980px) {
   .wrapper {
-    background-position: 0px 0px;
+    background-position: 32px 0px;
   }
 }
 @media (min-width: 1200px) {
