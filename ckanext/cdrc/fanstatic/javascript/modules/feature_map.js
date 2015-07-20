@@ -1,7 +1,7 @@
 this.ckan.module('feature-map', function ($, _) {
   $(document).ready(function(){
-      var tileName = ",c11_ew_-QS201EW0002-QS201EW0001-wd-equal_bin-0.871304-0.167098-oa-equal_bin-0.817827-0.220243-cb-RdYlGn-8-0";
-      layerData = new ol.layer.Tile({
+    var tileName = ",c11_ew_-QS201EW0002-QS201EW0001-wd-equal_bin-0.871304-0.167098-oa-equal_bin-0.817827-0.220243-cb-RdYlGn-8-0";
+    layerData = new ol.layer.Tile({
       title: "",
       source: new ol.source.XYZ({
         url: "http://datashine.org.uk/tiler/" + tileName + "/{z}/{x}/{y}.png",
@@ -13,8 +13,7 @@ this.ckan.module('feature-map', function ($, _) {
         ]
       })
     });
-      olMap = new ol.Map(
-    {
+    olMap = new ol.Map({
       target: "map-container",
       interactions: ol.interaction.defaults({mouseWheelZoom:false}),
       layers:
