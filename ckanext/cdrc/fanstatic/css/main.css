@@ -8462,6 +8462,11 @@ h4 small {
 }
 @media (min-width: 980px) {
   .wrapper {
+    background-position: 0px 0px;
+  }
+}
+@media (min-width: 1200px) {
+  .wrapper {
     background-position: 50px 0px;
   }
 }
