@@ -48,7 +48,7 @@ class DefaultGroupController(group.GroupController):
             collection=results,
             page = self._get_page_number(request.params),
             url=h.pager_url,
-            items_per_page=21
+            items_per_page=self.items_per_page()
         )
         return render(self._index_template(group_type),
                       extra_vars={'group_type': group_type})
