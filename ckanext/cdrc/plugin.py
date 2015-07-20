@@ -44,7 +44,7 @@ class CdrcPlugin(plugins.SingletonPlugin):
 
         config_['ckan.site_logo'] = '/images/CDRC Col.jpg'
         config_['ckan.site_description'] = dedent(
-            ''' CDRC Data Cloud is a platform for data discovering, data analytics, data comprehension.
+            ''' CDRC Data is a platform for data discovering, data analytics, data comprehension.
             ''')
         config_['ckan.favicon'] = '/images/CDRC_fav.png'
         config_['ckan.site_about'] = dedent(
@@ -57,7 +57,7 @@ class CdrcPlugin(plugins.SingletonPlugin):
             </p>
             '''
         )
-        config_['ckan.site_title'] = 'CDRC Data Cloud'
+        config_['ckan.site_title'] = 'CDRC Data'
         config_['ckan.main_css'] = '/base/cdrc/css/main.css'
 
 
