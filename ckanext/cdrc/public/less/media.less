@@ -18,7 +18,7 @@
 .media-grid {
   .unstyled;
   .clearfix;
-  margin: 0 -25px;
+  margin: 0 auto;
   padding-bottom: 15px;
   background: lighten(@layoutBackgroundColor, 5%) url("@{bgPath}");
   border: 1px solid @moduleHeadingBorderColor;
@@ -26,14 +26,28 @@
 }
 @media (min-width: 768px) {
   .media-grid {
-    margin-left:-27px;
+    margin-left:-15px;
+    margin-right:-25px;
+    padding-right: 15px;
+  }
+}
+
+.topic-grid {
+  border: 0;
+  background: none;
+  .box-shadow(none);
+}
+
+@media (min-width: 768px) {
+  .media-grid.topic-grid {
+    margin-left: -15px;
   }
 }
 
 .media-item {
   position: relative;
   float: left;
-  width: 189px;
+  width: 170px;
   padding: 15px;
   margin: 15px 0 0 15px;
   background-color: white;

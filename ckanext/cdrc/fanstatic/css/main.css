@@ -6157,7 +6157,7 @@ a.tag:hover {
   margin: 0;
   list-style: none;
   *zoom: 1;
-  margin: 0 -25px;
+  margin: 0 auto;
   padding-bottom: 15px;
   background: #f4f4f5 url("/base/images/bg.png");
   border: 1px solid #dddddd;
@@ -6173,7 +6173,7 @@ a.tag:hover {
   clear: both;
 }
 .module-item {
-  width: 189px;
+  width: 170px;
   padding: 15px;
   margin: 15px 0 0 15px;
   background-color: white;
@@ -6306,7 +6306,7 @@ a.tag:hover {
   margin: 0;
   list-style: none;
   *zoom: 1;
-  margin: 0 -25px;
+  margin: 0 auto;
   padding-bottom: 15px;
   background: #f4f4f5 url("/base/images/bg.png");
   border: 1px solid #dddddd;
@@ -6323,13 +6323,27 @@ a.tag:hover {
 }
 @media (min-width: 768px) {
   .media-grid {
-    margin-left: -27px;
+    margin-left: -15px;
+    margin-right: -25px;
+    padding-right: 15px;
+  }
+}
+.topic-grid {
+  border: 0;
+  background: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+@media (min-width: 768px) {
+  .media-grid.topic-grid {
+    margin-left: -15px;
   }
 }
 .media-item {
   position: relative;
   float: left;
-  width: 189px;
+  width: 170px;
   padding: 15px;
   margin: 15px 0 0 15px;
   background-color: white;
@@ -7925,7 +7939,7 @@ textarea {
     display: none;
   }
   .toolbar .breadcrumb a {
-    color: #fff;
+    color: #5b6670;
     text-shadow: none;
   }
 }

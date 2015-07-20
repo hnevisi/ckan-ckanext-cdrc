@@ -8,6 +8,7 @@ from ckan.logic import auth as ckan_auth
 from ckan.logic import action as ckan_action
 from ckan.lib.base import BaseController
 from ckan.lib.plugins import DefaultGroupForm
+import ckan.lib.fanstatic_resources as fanstatic_resources
 from ckanext.cdrc.logic import auth
 from ckanext.cdrc.helpers import get_site_statistics, group_list
 
@@ -34,8 +35,13 @@ class CdrcPlugin(plugins.SingletonPlugin):
 
         toolkit.add_template_directory(config_, 'templates')
         toolkit.add_public_directory(config_, 'public')
-        toolkit.add_resource('fanstatic/css', 'css')
         toolkit.add_resource('fanstatic', 'cdrc')
+
+        # # Patching the ckan group needs to remove default mason-grid.js
+        # ckan_group = getattr(fanstatic_resources, 'base/ckan')
+        # ckan_group.depends = set([r for r in ckan_group.depends if not r.relpath.endswith('media-grid.js')])
+        # ckan_group.resources = set([r for r in ckan_group.depends if not r.relpath.endswith('media-grid.js')])
+
         config_['ckan.site_logo'] = '/images/CDRC Col.jpg'
         config_['ckan.site_description'] = dedent(
             ''' CDRC Data Cloud is a platform for data discovering, data analytics, data comprehension.

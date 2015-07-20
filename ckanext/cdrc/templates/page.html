@@ -47,6 +47,7 @@
             </div>
           {% endblock %}
 
+          {% block main %}
           <div class="row wrapper{% block wrapper_class %}{% endblock %}{% if self.secondary()|trim == '' %} no-nav{% endif %}">
 
             {#
@@ -117,6 +118,7 @@
           </div>
         {% endblock %}
       </div>
+      {% endblock %}
     </div>
   {% endblock -%}
 
@@ -133,6 +135,8 @@
 {%- block scripts %}
     {% resource 'base/main' %}
     {% resource 'base/ckan' %}
+    {# {% resource 'cdrc/javascript/modules/media-grid.js' %} #}
+
     {% if g.tracking_enabled %}
       {% resource 'base/tracking.js' %}
     {% endif %}
