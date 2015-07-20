@@ -29,6 +29,7 @@ class CdrcPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IAuthFunctions)
     plugins.implements(plugins.IRoutes)
     plugins.implements(plugins.IActions)
+    plugins.implements(plugins.IFacets)
 
     # IConfigurer
     def update_config(self, config_):
@@ -77,6 +78,11 @@ class CdrcPlugin(plugins.SingletonPlugin):
     def before_map(self, map):
         map.connect('/testing/assertfalse', controller='ckanext.cdrc.plugin:CDRCExtController', action='assertfalse')
         return map
+
+    def dataset_facets(self, facets_dict, package_type):
+        del facets_dict['organization']
+        del facets_dict['license_id']
+        return facets_dict
 
 
 def mapper_mixin(map, group_type, controller):
