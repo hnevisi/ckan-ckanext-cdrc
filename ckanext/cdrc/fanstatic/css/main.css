@@ -5929,7 +5929,7 @@ a.badge:focus {
 }
 @media (min-width: 760px) and (max-width: 979px) {
   .span-left {
-    width: 252px;
+    width: 251px;
   }
   .span-right {
     width: 455px;
@@ -5938,7 +5938,7 @@ a.badge:focus {
     width: 709px;
   }
 }
-@media (max-width: 797px) {
+@media (max-width: 759px) {
   .span-left {
     display: none;
   }
@@ -8495,7 +8495,7 @@ h4 small {
   .wrapper {
     background-image: url("/base/images/nav.png");
     background-repeat: repeat-y;
-    background-position: 32px 0px;
+    background-position: 31px 0px;
   }
 }
 @media (min-width: 980px) {
