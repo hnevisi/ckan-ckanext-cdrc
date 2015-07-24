@@ -84,6 +84,15 @@ class CdrcPlugin(plugins.SingletonPlugin):
         del facets_dict['license_id']
         return facets_dict
 
+    def group_facets(self, facets_dict, group_type, package_type):
+        del facets_dict['organization']
+        del facets_dict['license_id']
+        return facets_dict
+
+    def organization_facets(self, facets_dict, organization_type, package_type):
+        del facets_dict['organization']
+        del facets_dict['license_id']
+        return facets_dict
 
 def mapper_mixin(map, group_type, controller):
     """ Mixin for group types

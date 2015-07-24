@@ -118,6 +118,3 @@ def get_site_statistics(context, data_dict):
         'lad_count': len(group_list(context, {'type': 'lad', 'lite_list': True})),
         'dataset_count': get_action('package_search')({}, {"rows": 1})['count']
     }
-
-
-
