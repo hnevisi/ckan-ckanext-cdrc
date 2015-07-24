@@ -1,12 +1,8 @@
 {% ckan_extends %}
+
 {% block secondary_content %}
 <div class="filters">
   <div>
-    {% if 'groups' in c.facet_titles %}
-      {{ h.snippet('snippets/customized_facet_list.html', title='Topics', name='groups', prefix='topic-') }}
-      {{ h.snippet('snippets/customized_facet_list.html', title='Products', name='groups', prefix='product-') }}
-      {{ h.snippet('snippets/customized_facet_list.html', title='LADs', name='groups', prefix='lad-') }}
-    {% endif %}
     {% for facet in c.facet_titles if facet != 'groups' %}
       {{ h.snippet('snippets/facet_list.html', title=c.facet_titles[facet], name=facet) }}
     {% endfor %}

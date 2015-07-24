@@ -8,10 +8,12 @@ from ckan.logic import auth as ckan_auth
 from ckan.logic import action as ckan_action
 from ckan.lib.base import BaseController
 from ckan.lib.plugins import DefaultGroupForm
+import ckan.model as model
 import ckan.lib.fanstatic_resources as fanstatic_resources
 from ckanext.cdrc.logic import auth
 from ckanext.cdrc.helpers import get_site_statistics, group_list
 
+from ckan.common import _, g, c
 
 log = logging.getLogger('ckanext.cdrc')
 
@@ -27,9 +29,10 @@ class CDRCExtController(BaseController):
 class CdrcPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
     plugins.implements(plugins.IAuthFunctions)
-    plugins.implements(plugins.IRoutes)
+    plugins.implements(plugins.IRoutes, inherit=True)
     plugins.implements(plugins.IActions)
-    plugins.implements(plugins.IFacets)
+    plugins.implements(plugins.IFacets, inherit=True)
+    plugins.implements(plugins.IPackageController, inherit=True)
 
     # IConfigurer
     def update_config(self, config_):
@@ -79,9 +82,27 @@ class CdrcPlugin(plugins.SingletonPlugin):
         map.connect('/testing/assertfalse', controller='ckanext.cdrc.plugin:CDRCExtController', action='assertfalse')
         return map
 
+    def after_search(self, result, params):
+        if 'groups' in result['facets']:
+            group_facet = result['facets']['groups']
+            context = {'model': model, 'session': model.Session,
+                       'user': c.user or c.author, 'auth_user_obj': c.userobj}
+            for facet in ['topic', 'product', 'lad']:
+                groups = group_list(context, {'groups': group_facet.keys(),
+                                              'type': facet,
+                                              'lite_list': True,
+                                              'all_fields': True})
+                result['search_facets'].update({
+                    facet: {'items': [{'display_name': grp['display_name'], 'name': grp['name'], 'count': grp['package_count']} for grp in groups],
+                            'title': facet}})
+        return result
+
     def dataset_facets(self, facets_dict, package_type):
         del facets_dict['organization']
         del facets_dict['license_id']
+        facets_dict['topic'] = toolkit._('Topics')
+        facets_dict['product'] = toolkit._('Products')
+        facets_dict['lad'] = toolkit._('LADs')
         return facets_dict
 
     def group_facets(self, facets_dict, group_type, package_type):
@@ -89,10 +110,6 @@ class CdrcPlugin(plugins.SingletonPlugin):
         del facets_dict['license_id']
         return facets_dict
 
-    def organization_facets(self, facets_dict, organization_type, package_type):
-        del facets_dict['organization']
-        del facets_dict['license_id']
-        return facets_dict
 
 def mapper_mixin(map, group_type, controller):
     """ Mixin for group types
