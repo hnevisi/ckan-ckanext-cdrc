@@ -82,13 +82,13 @@ def group_list(context, data_dict):
             .group_by(model.Group.id)
         groups = query.all()
         g_list = [{'id': g[0].id,
-                       'name': g[0].name,
-                       'display_name': g[0].title or g[0].name,
-                       'type': g[0].type,
-                       'description': g[0].description,
-                       'image_display_url': g[0].image_url,
-                       'package_count': g[1]}
-                      for g in groups]
+                   'name': g[0].name,
+                   'display_name': g[0].title or g[0].name,
+                   'type': g[0].type,
+                   'description': g[0].description,
+                   'image_display_url': g[0].image_url,
+                   'package_count': g[1]}
+                  for g in groups]
 
     else:
         groups = query.all()
