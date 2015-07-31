@@ -16,6 +16,8 @@ from ckan.logic.action.get import _unpick_search
 from ckan.logic import get_action
 from ckan.common import c
 
+from ckanext.cdrc.models import group_pkg_counts
+
 def group_list(context, data_dict):
     """ A fix for the efficiency of group_list"""
     is_org = False
@@ -25,9 +27,11 @@ def group_list(context, data_dict):
     model = context['model']
     api = context.get('api_version')
     groups = data_dict.get('groups')
+    groups = []
     group_type = data_dict.get('type', 'group')
     ref_group_by = 'id' if api == 2 else 'name'
     lite_list = data_dict.get('lite_list', False)
+    # assert False
 
     sort = data_dict.get('sort', 'name')
     q = data_dict.get('q')
@@ -76,10 +80,9 @@ def group_list(context, data_dict):
         query = query.filter(model.Group.type == group_type)
 
     if lite_list:
-        package_member = model.Session.query(model.Member.group_id).filter(model.Member.table_name == 'package').subquery()
-        query = query.add_column(func.count(package_member.c.group_id))\
-            .outerjoin(package_member, model.Group.id == package_member.c.group_id)\
-            .group_by(model.Group.id)
+        package_count = model.Session.query(model.Member.group_id, func.count(model.Member.group_id).label('pkg_count')).filter(model.Member.table_name == 'package').group_by(model.Member.group_id).subquery()
+        query = query.outerjoin(package_count, model.Group.id == package_count.c.group_id).add_column(package_count.c.pkg_count)
+
         groups = query.all()
         g_list = [{'id': g[0].id,
                    'name': g[0].name,
