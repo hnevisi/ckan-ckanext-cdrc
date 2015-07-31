@@ -5867,11 +5867,12 @@ a.badge:focus {
 }
 .contact-footer .key-section li {
   float: left;
-  margin-right: 10px;
+  margin-right: 22px;
   margin-bottom: 0;
   list-style: disc;
   list-style-position: inside;
   color: #fff;
+  white-space: nowrap;
 }
 .contact-footer .key-section li a {
   font-family: Verdana, sans-serif;
