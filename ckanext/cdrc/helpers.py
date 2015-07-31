@@ -10,11 +10,13 @@ import sqlalchemy
 from sqlalchemy import func
 from sqlalchemy import or_
 from paste.deploy.converters import asbool
+from pylons import config
 
 from ckan.logic import check_access
 from ckan.logic.action.get import _unpick_search
 from ckan.logic import get_action
 from ckan.common import c
+
 
 def group_list(context, data_dict):
     """ A fix for the efficiency of group_list"""
@@ -118,3 +120,14 @@ def get_site_statistics(context, data_dict):
         'lad_count': len(group_list(context, {'type': 'lad', 'lite_list': True})),
         'dataset_count': get_action('package_search')({}, {"rows": 1})['count']
     }
+
+
+def get_ga_account_id(context, data_dict):
+    """ Return the code for google analytic account.
+
+    :context: TODO
+    :data_dict: TODO
+    :returns: TODO
+
+    """
+    return config.get('cdrc.google_analytics.id')
