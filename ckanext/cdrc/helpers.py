@@ -10,16 +10,20 @@ import sqlalchemy
 from sqlalchemy import func
 from sqlalchemy import or_
 from paste.deploy.converters import asbool
-from pylons import config
 
 from ckan.logic import check_access
 from ckan.logic.action.get import _unpick_search
 from ckan.logic import get_action
 from ckan.common import c
 
+from ckanext.cdrc.models import group_pkg_counts
+from pylons import cache
+
 
 def group_list(context, data_dict):
     """ A fix for the efficiency of group_list"""
+
+
     is_org = False
 
     check_access('group_list', context, data_dict)
@@ -77,30 +81,22 @@ def group_list(context, data_dict):
     if not is_org:
         query = query.filter(model.Group.type == group_type)
 
-    if lite_list:
-        package_member = model.Session.query(model.Member.group_id).filter(model.Member.table_name == 'package').subquery()
-        query = query.add_column(func.count(package_member.c.group_id))\
-            .outerjoin(package_member, model.Group.id == package_member.c.group_id)\
-            .group_by(model.Group.id)
-        groups = query.all()
-        g_list = [{'id': g[0].id,
-                   'name': g[0].name,
-                   'display_name': g[0].title or g[0].name,
-                   'type': g[0].type,
-                   'description': g[0].description,
-                   'image_display_url': g[0].image_url,
-                   'package_count': g[1]}
-                  for g in groups]
+    groups = query.all()
 
-    else:
-        groups = query.all()
+    action = 'organization_show' if is_org else 'group_show'
 
-        action = 'organization_show' if is_org else 'group_show'
+    g_list = []
 
-        g_list = []
-        for group in groups:
-            data_dict['id'] = group.id
-            g_list.append(get_action(action)(context, data_dict))
+
+    # The cache may leak private group information?
+    @cache.region('short_term')
+    def group_show_cached(action, group_id):
+        data_dict['id'] = group_id
+        return get_action(action)(context, data_dict)
+
+    for group in groups:
+        g_list.append(group_show_cached(action, group.id))
+
 
     g_list = sorted(g_list, key=lambda x: x[sort_info[0][0]],
         reverse=sort_info[0][1] == 'desc')
@@ -115,19 +111,8 @@ def get_site_statistics(context, data_dict):
     """ return package statistics, deprecated as get_action in helpers is deprecated. """
 
     return {
-        'topic_count': len(group_list(context, {'type': 'topic', 'lite_list': True})),
-        'product_count': len(group_list(context, {'type': 'product', 'lite_list': True})),
-        'lad_count': len(group_list(context, {'type': 'lad', 'lite_list': True})),
+        'topic_count': len(group_list(context, {'type': 'topic'})),
+        'product_count': len(group_list(context, {'type': 'product'})),
+        'lad_count': len(group_list(context, {'type': 'lad'})),
         'dataset_count': get_action('package_search')({}, {"rows": 1})['count']
     }
-
-
-def get_ga_account_id(context, data_dict):
-    """ Return the code for google analytic account.
-
-    :context: TODO
-    :data_dict: TODO
-    :returns: TODO
-
-    """
-    return config.get('cdrc.google_analytics.id')
