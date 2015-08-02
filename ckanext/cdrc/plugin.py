@@ -95,10 +95,9 @@ class CdrcPlugin(plugins.SingletonPlugin):
             for facet in ['topic', 'product', 'lad']:
                 groups = group_list(context, {'groups': group_facet.keys(),
                                               'type': facet,
-                                              'lite_list': True,
                                               'all_fields': True})
                 result['search_facets'].update({
-                    facet: {'items': [{'display_name': grp['display_name'], 'name': grp['name'], 'count': grp['package_count']} for grp in groups],
+                    facet: {'items': [{'display_name': grp['display_name'], 'name': grp['name'], 'count': group_facet[grp['name']]} for grp in groups],
                             'title': facet}})
         return result
 
