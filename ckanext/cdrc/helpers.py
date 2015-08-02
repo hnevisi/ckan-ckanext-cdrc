@@ -18,6 +18,7 @@ from ckan.common import c
 
 from ckanext.cdrc.models import group_pkg_counts
 from pylons import cache
+from pylons import config
 
 
 def group_list(context, data_dict):
@@ -116,3 +117,9 @@ def get_site_statistics(context, data_dict):
         'lad_count': len(group_list(context, {'type': 'lad'})),
         'dataset_count': get_action('package_search')({}, {"rows": 1})['count']
     }
+
+
+def get_ga_account_id(context, data_dict):
+    """ Return the code for google analytic account.
+    """
+    return config.get('cdrc.google_analytics.id')
