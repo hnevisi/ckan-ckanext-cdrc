@@ -84,7 +84,8 @@ class CdrcPlugin(plugins.SingletonPlugin):
         return map
 
     def before_search(self, data_dict):
-        data_dict['fq'] = data_dict['fq'].replace('topic:', 'groups:').replace('product:', 'groups:').replace('lad:', 'groups:')
+        if 'fq' in data_dict:
+            data_dict['fq'] = data_dict['fq'].replace('topic:', 'groups:').replace('product:', 'groups:').replace('lad:', 'groups:')
         return data_dict
 
     def after_search(self, result, params):
