@@ -83,6 +83,10 @@ class CdrcPlugin(plugins.SingletonPlugin):
         map.connect('/testing/assertfalse', controller='ckanext.cdrc.plugin:CDRCExtController', action='assertfalse')
         return map
 
+    def before_search(self, data_dict):
+        data_dict['fq'] = data_dict['fq'].replace('topic:', 'groups:').replace('product:', 'groups:').replace('lad:', 'groups:')
+        return data_dict
+
     def after_search(self, result, params):
         if 'groups' in result['facets']:
             group_facet = result['facets']['groups']
