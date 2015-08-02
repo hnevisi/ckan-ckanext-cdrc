@@ -6215,7 +6215,6 @@ a.tag:hover {
   width: 170px;
   padding: 15px;
   margin: 15px 0 0 15px;
-  background-color: white;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
@@ -6385,7 +6384,6 @@ a.tag:hover {
   width: 170px;
   padding: 15px;
   margin: 15px 0 0 15px;
-  background-color: white;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
@@ -6418,7 +6416,6 @@ a.tag:hover {
   left: 0;
   right: 0;
   bottom: 0;
-  border: 1px solid #dddddd;
   overflow: hidden;
   -webkit-transition: all 0.2s ease-in;
   -moz-transition: all 0.2s ease-in;

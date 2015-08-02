@@ -16,10 +16,14 @@ Example:
 <li class="media-item">
   {% block item_inner %}
   {% block image %}
+  <center>
     <img src="{{ topic.image_display_url or h.url_for_static('/base/images/placeholder-group.png') }}" alt="{{ topic.name }}" class="media-image">
+  </center>
   {% endblock %}
   {% block title %}
+  <center>
     <h3 class="media-heading">{{ topic.display_name }}</h3>
+  </center>
   {% endblock %}
   {% block description %}
     {% if topic.description %}
@@ -27,11 +31,13 @@ Example:
     {% endif %}
   {% endblock %}
   {% block datasets %}
+  <center>
     {% if topic.package_count %}
       <strong class="count">{{ ungettext('{num} Dataset', '{num} Datasets', topic.package_count).format(num=topic.package_count) }}</strong>
     {% else %}
       <span class="count">{{ _('0 Datasets') }}</span>
     {% endif %}
+  </center>
   {% endblock %}
   {% block link %}
   <a href="{{ url }}" title="{{ _('View {topic_name}').format(topic_name=topic.display_name) }}" class="media-view">
