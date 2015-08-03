@@ -20,7 +20,7 @@
 
       {% block header_account_container_content %}
         {% if c.userobj %}
-          <div class="account avatar authed" data-module="me" data-me="{{ c.userobj.id }}">
+          <div class="account avatar authed" data-module="me" data-me="{{ c.userobj.id }}" style="border-bottom: 1px dashed #e6e8e9">
             <ul class="unstyled">
               {% block header_account_logged %}
               {% if c.userobj.sysadmin %}

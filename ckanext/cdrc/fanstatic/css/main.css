@@ -6198,7 +6198,7 @@ a.tag:hover {
   *zoom: 1;
   margin: 0 auto;
   padding-bottom: 15px;
-  background: #f4f4f5 url("/base/images/bg.png");
+  background: #e6e8e9 url("/base/images/bg.png");
   border: 1px solid #dddddd;
   border-width: 1px 0;
 }
@@ -6346,7 +6346,7 @@ a.tag:hover {
   *zoom: 1;
   margin: 0 auto;
   padding-bottom: 15px;
-  background: #f4f4f5 url("/base/images/bg.png");
+  background: #e6e8e9 url("/base/images/bg.png");
   border: 1px solid #dddddd;
   border-width: 1px 0;
 }
@@ -8874,7 +8874,7 @@ h4 small {
 }
 .account-masthead {
   *zoom: 1;
-  height: 32px;
+  height: 33px;
   color: #071e2b;
   background: #ffffff;
 }
