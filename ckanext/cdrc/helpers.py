@@ -16,7 +16,6 @@ from ckan.logic.action.get import _unpick_search
 from ckan.logic import get_action
 from ckan.common import c
 
-from ckanext.cdrc.models import group_pkg_counts
 from pylons import cache
 from pylons import config
 
