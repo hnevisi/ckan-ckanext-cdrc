@@ -11,7 +11,7 @@ from ckan.lib.plugins import DefaultGroupForm
 import ckan.model as model
 import ckan.lib.fanstatic_resources as fanstatic_resources
 from ckanext.cdrc.logic import auth
-from ckanext.cdrc.helpers import get_site_statistics, group_list
+from ckanext.cdrc.helpers import get_site_statistics, group_list, get_ga_account_id
 
 from ckan.common import _, g, c
 
@@ -67,7 +67,8 @@ class CdrcPlugin(plugins.SingletonPlugin):
 
     def get_actions(self):
         return {
-           'get_site_statistics': get_site_statistics,
+            'get_site_statistics': get_site_statistics,
+            'get_ga_account_id': get_ga_account_id
         }
 
     def get_auth_functions(self):
@@ -82,6 +83,11 @@ class CdrcPlugin(plugins.SingletonPlugin):
         map.connect('/testing/assertfalse', controller='ckanext.cdrc.plugin:CDRCExtController', action='assertfalse')
         return map
 
+    def before_search(self, data_dict):
+        if 'fq' in data_dict:
+            data_dict['fq'] = data_dict['fq'].replace('topic:', 'groups:').replace('product:', 'groups:').replace('lad:', 'groups:')
+        return data_dict
+
     def after_search(self, result, params):
         if 'groups' in result['facets']:
             group_facet = result['facets']['groups']
@@ -90,10 +96,9 @@ class CdrcPlugin(plugins.SingletonPlugin):
             for facet in ['topic', 'product', 'lad']:
                 groups = group_list(context, {'groups': group_facet.keys(),
                                               'type': facet,
-                                              'lite_list': True,
                                               'all_fields': True})
                 result['search_facets'].update({
-                    facet: {'items': [{'display_name': grp['display_name'], 'name': grp['name'], 'count': grp['package_count']} for grp in groups],
+                    facet: {'items': [{'display_name': grp['display_name'], 'name': grp['name'], 'count': group_facet[grp['name']]} for grp in groups],
                             'title': facet}})
         return result
 
