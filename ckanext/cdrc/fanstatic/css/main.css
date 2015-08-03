@@ -8763,13 +8763,12 @@ h4 small {
   position: absolute;
   right: 0px;
   width: 30%;
-  padding: 5px;
   margin: 20px 0 0 0;
   color: #071e2b;
   background: #ffffff;
 }
 .homepage .module-search .search-giant {
-  margin-bottom: 10px;
+  margin-bottom: 0;
 }
 .homepage .module-search .search-giant input {
   border-color: #515963;
@@ -8780,6 +8779,7 @@ h4 small {
   border-radius: 3px 3px 0 0;
   background-color: #e7e8ea;
   border-bottom: none;
+  padding: 0;
 }
 .homepage .module-search .module-content .heading {
   margin-top: 0;
