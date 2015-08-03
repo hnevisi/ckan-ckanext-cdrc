@@ -33,7 +33,7 @@
       <div id="content" class="container">
         {% block main_content %}
           {% block flash %}
-            <div class="flash-messages">
+            <div class="flash-messages" style="position: absolute; z-index: 100; left: 0; width: 100%">
               {% block flash_inner %}
                 {% for message in h.flash.pop_messages() | list %}
                   <div class="alert fade in {{ message.category }}">

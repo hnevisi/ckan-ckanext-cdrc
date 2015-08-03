@@ -4,7 +4,16 @@
     position: relative;
   }
 
+  @media (max-width:768px) {
+    .module-search {
+      display: none;
+    }
+  }
+
   .module-search {
+    position: absolute;
+    right: 0px;
+    width: 30%;
     padding: 5px;
     margin: 20px 0 0 0;
     color: @mastheadTextColor;

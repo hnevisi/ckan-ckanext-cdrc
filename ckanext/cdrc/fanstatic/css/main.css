@@ -8754,7 +8754,15 @@ h4 small {
 .homepage .row {
   position: relative;
 }
+@media (max-width: 768px) {
+  .homepage .module-search {
+    display: none;
+  }
+}
 .homepage .module-search {
+  position: absolute;
+  right: 0px;
+  width: 30%;
   padding: 5px;
   margin: 20px 0 0 0;
   color: #071e2b;
