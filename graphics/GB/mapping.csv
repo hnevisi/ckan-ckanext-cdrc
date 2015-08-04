@@ -73,7 +73,7 @@ Hertsmere District (B),E07000098,hertsmere
 Broxbourne District (B),E07000095,broxbourne
 Dacorum District (B),E07000096,dacorum
 East Hertfordshire District,E07000242,east-hertfordshire
-St. Albans District (B),E07000240,st.-albans
+St. Albans District (B),E07000240,st-albans
 Welwyn Hatfield District (B),E07000241,welwyn-hatfield
 North Hertfordshire District,E07000099,north-hertfordshire
 Watford District (B),E07000103,watford
@@ -119,7 +119,7 @@ Lincoln District (B),E07000138,lincoln
 North Norfolk District,E07000147,north-norfolk
 Great Yarmouth District (B),E07000145,great-yarmouth
 South Norfolk District,E07000149,south-norfolk
-King's Lynn and West Norfolk District (B),E07000146,king's-lynn-and-west-norfolk
+King's Lynn and West Norfolk District (B),E07000146,king-s-lynn-and-west-norfolk
 Breckland District,E07000143,breckland
 South Northamptonshire District,E07000155,south-northamptonshire
 East Northamptonshire District,E07000152,east-northamptonshire
@@ -163,7 +163,7 @@ Tamworth District (B),E07000199,tamworth
 Waveney District,E07000206,waveney
 Babergh District,E07000200,babergh
 Suffolk Coastal District,E07000205,suffolk-coastal
-St. Edmundsbury District (B),E07000204,st.-edmundsbury
+St. Edmundsbury District (B),E07000204,st-edmundsbury
 Forest Heath District,E07000201,forest-heath
 Mid Suffolk District,E07000203,mid-suffolk
 Ipswich District (B),E07000202,ipswich
@@ -228,7 +228,7 @@ Hackney London Boro,E09000012,hackney
 Haringey London Boro,E09000014,haringey
 Newham London Boro,E09000025,newham
 Barking and Dagenham London Boro,E09000002,barking-and-dagenham
-City and County of the City of London,E09000001,city-and-county-of-the-london
+City and County of the City of London,E09000001,city-of-london
 Barnsley District (B),E08000016,barnsley
 Birmingham District (B),E08000025,birmingham
 Bolton District (B),E08000001,bolton
@@ -257,7 +257,7 @@ Sheffield District (B),E08000019,sheffield
 Solihull District (B),E08000029,solihull
 South Tyneside District (B),E08000023,south-tyneside
 Stockport District (B),E08000007,stockport
-St. Helens District (B),E08000013,st.-helens
+St. Helens District (B),E08000013,st-helens
 Sunderland District (B),E08000024,sunderland
 Tameside District (B),E08000008,tameside
 Trafford District (B),E08000009,trafford
@@ -281,9 +281,9 @@ Castell-nedd Port Talbot - Neath Port Talbot,W06000012,neath-port-talbot
 Central Bedfordshire,E06000056,central-bedfordshire
 Cheshire East (B),E06000049,cheshire-east
 Cheshire West and Chester (B),E06000050,cheshire-west-and-chester
-City of Bristol (B),E06000023,bristol
+City of Bristol (B),E06000023,city-of-bristol
 City of Derby (B),E06000015,derby
-City of Kingston upon Hull (B),E06000010,kingston-upon-hull
+City of Kingston upon Hull (B),E06000010,city-of-kingston-upon-hull
 City of Leicester (B),E06000016,leicester
 City of Nottingham (B),E06000018,nottingham
 City of Peterborough (B),E06000031,peterborough
@@ -335,7 +335,7 @@ Stirling,S12000030,stirling
 Stockton-on-Tees (B),E06000004,stockton-on-tees
 Swindon (B),E06000030,swindon
 Telford and Wrekin (B),E06000020,telford-and-wrekin
-The City of Brighton and Hove (B),E06000043,the-brighton-and-hove
+The City of Brighton and Hove (B),E06000043,brighton-and-hove
 Thurrock (B),E06000034,thurrock
 Tor-faen - Torfaen,W06000020,torfaen
 Torbay (B),E06000027,torbay
@@ -367,7 +367,7 @@ Argyll and Bute,S12000035,argyll-and-bute
 Aberdeenshire,S12000034,aberdeenshire
 Fife,S12000015,fife
 Aberdeen City,S12000033,aberdeen-city
-City of Edinburgh,S12000036,edinburgh
+City of Edinburgh,S12000036,city-of-edinburgh
 East Lothian,S12000010,east-lothian
 Shetland Islands,S12000027,shetland-islands
 North Ayrshire,S12000021,north-ayrshire
