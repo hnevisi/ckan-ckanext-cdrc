@@ -86,6 +86,8 @@ class CdrcPlugin(plugins.SingletonPlugin):
     def before_search(self, data_dict):
         if 'fq' in data_dict:
             data_dict['fq'] = data_dict['fq'].replace('topic:', 'groups:').replace('product:', 'groups:').replace('lad:', 'groups:')
+        if 'q' in data_dict:
+            data_dict['q'] = data_dict['q'].replace('topic:', 'groups:').replace('product:', 'groups:').replace('lad:', 'groups:')
         return data_dict
 
     def after_search(self, result, params):
@@ -98,7 +100,8 @@ class CdrcPlugin(plugins.SingletonPlugin):
                                               'type': facet,
                                               'all_fields': True})
                 result['search_facets'].update({
-                    facet: {'items': [{'display_name': grp['display_name'], 'name': grp['name'], 'count': group_facet[grp['name']]} for grp in groups],
+                    facet: {'items': [{'display_name': grp['display_name'], 'name': grp['name'], 'count': group_facet[grp['name']]}
+                                      for grp in groups],
                             'title': facet}})
         return result
 
@@ -113,6 +116,12 @@ class CdrcPlugin(plugins.SingletonPlugin):
     def group_facets(self, facets_dict, group_type, package_type):
         del facets_dict['organization']
         del facets_dict['license_id']
+        if group_type != 'topic':
+            facets_dict['topic'] = toolkit._('Topics')
+        if group_type != 'product':
+            facets_dict['product'] = toolkit._('Products')
+        if group_type != 'lad':
+            facets_dict['lad'] = toolkit._('LADs')
         return facets_dict
 
 
