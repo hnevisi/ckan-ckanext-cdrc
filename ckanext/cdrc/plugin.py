@@ -101,7 +101,7 @@ class CdrcPlugin(plugins.SingletonPlugin):
                                               'all_fields': True})
                 result['search_facets'].update({
                     facet: {'items': [{'display_name': grp['display_name'], 'name': grp['name'], 'count': group_facet[grp['name']]}
-                                      for grp in groups],
+                                      for grp in groups if grp['name'] in group_facet],
                             'title': facet}})
         return result
 
