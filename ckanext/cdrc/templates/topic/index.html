@@ -16,21 +16,24 @@
   {% endif %}
 {% endblock %}
 
-{% block main %}
-  {% block topic_list %}
-    {% if c.page.items or request.params %}
-      {% if c.page.items %}
-        {% snippet "topic/snippets/customized_group_list.html", topics=c.page.items %}
-      {% endif %}
-    {% else %}
-      <p class="empty">
-        {{ _('There are currently no topics for this site') }}.
-        {% if h.check_access('topic_create') %}
-          {% link_for _('How about creating one?'), controller=group_controller, action='new' %}</a>.
+{% block primary %}
+  <div style="padding-left: 15px">
+    {% block topic_list %}
+      {% if c.page.items or request.params %}
+        {% if c.page.items %}
+          {% snippet "topic/snippets/customized_group_list.html", topics=c.page.items %}
         {% endif %}
-      </p>
-    {% endif %}
-  {% endblock %}
+      {% else %}
+        <p class="empty">
+          {{ _('There are currently no topics for this site') }}.
+          {% if h.check_access('topic_create') %}
+            {% link_for _('How about creating one?'), controller=group_controller, action='new' %}</a>.
+          {% endif %}
+        </p>
+      {% endif %}
+    {% endblock %}
+  
+  </div>
 {% endblock %}
 
 {% block secondary %}
