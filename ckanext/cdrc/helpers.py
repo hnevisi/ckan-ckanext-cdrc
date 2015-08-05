@@ -13,6 +13,7 @@ from paste.deploy.converters import asbool
 
 from ckan.logic import check_access
 from ckan.logic.action.get import _unpick_search
+from ckan.logic.action.patch import group_patch as ckan_group_patch
 from ckan.logic import get_action
 from ckan.common import c
 
@@ -89,7 +90,6 @@ def group_list(context, data_dict):
 
 
     # The cache may leak private group information?
-    @cache.region('short_term')
     def group_show_cached(action, group_id):
         data_dict['id'] = group_id
         return get_action(action)(context, data_dict)
@@ -122,3 +122,10 @@ def get_ga_account_id(context, data_dict):
     """ Return the code for google analytic account.
     """
     return config.get('cdrc.google_analytics.id')
+
+
+def group_patch(context, data_dict):
+    """ A patched version for group_patch
+    """
+    context['allow_partial_update'] = True
+    return ckan_group_patch(context, data_dict)

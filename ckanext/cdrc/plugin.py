@@ -11,7 +11,7 @@ from ckan.lib.plugins import DefaultGroupForm
 import ckan.model as model
 import ckan.lib.fanstatic_resources as fanstatic_resources
 from ckanext.cdrc.logic import auth
-from ckanext.cdrc.helpers import get_site_statistics, group_list, get_ga_account_id
+from ckanext.cdrc.helpers import get_site_statistics, group_list, get_ga_account_id, group_patch
 
 from ckan.common import _, g, c
 
@@ -201,6 +201,7 @@ class CdrcTopicPlugin(plugins.SingletonPlugin, DefaultGroupForm):
            'topic_activity_list_html': ckan_action.get.group_activity_list_html,
            'topic_create': ckan_action.create.group_create,
            'topic_update': ckan_action.update.group_update,
+           'topic_patch': group_patch,
            'topic_delete': ckan_action.delete.group_delete,
         }
 
@@ -277,6 +278,7 @@ class CdrcProductPlugin(plugins.SingletonPlugin, DefaultGroupForm):
            'product_activity_list_html': ckan_action.get.group_activity_list_html,
            'product_create': ckan_action.create.group_create,
            'product_update': ckan_action.update.group_update,
+           'product_patch': group_patch,
            'product_delete': ckan_action.delete.group_delete,
         }
 
@@ -353,6 +355,7 @@ class CdrcLadPlugin(plugins.SingletonPlugin, DefaultGroupForm):
            'lad_activity_list_html': ckan_action.get.group_activity_list_html,
            'lad_create': ckan_action.create.group_create,
            'lad_update': ckan_action.update.group_update,
+           'lad_patch': group_patch,
            'lad_delete': ckan_action.delete.group_delete,
         }
 
