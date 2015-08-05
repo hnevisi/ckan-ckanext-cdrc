@@ -7948,6 +7948,10 @@ textarea {
 .toolbar .breadcrumb:after {
   clear: both;
 }
+.toolbar .breadcrumb li {
+  text-shadow: 0px -1px 15px #e6e7e8, /* north      */ 0px 1px 15px #e6e7e8, /* south      */ -1px 0px 15px #e6e7e8, /* west       */ 1px 0px 15px #e6e7e8, /* east       */ -1px -1px 15px #e6e7e8, /* north-west */ -1px 1px 15px #e6e7e8, /* north-east */ 1px -1px 15px #e6e7e8, /* south-west */ 1px 1px 15px #e6e7e8;
+  /* south-east */
+}
 .toolbar .breadcrumb li:after {
   content: " / ";
 }
@@ -7965,6 +7969,7 @@ textarea {
 }
 .toolbar .breadcrumb a {
   color: #505050;
+  text-decoration: none;
 }
 @media (max-width: 767px) {
   .toolbar .breadcrumb {
