@@ -1,4 +1,4 @@
-this.ckan.module('feature-map', function ($, _) {
+this.ckan.module('embedded-datashine', function ($, _) {
   $(document).ready(function(){
     var tileName = ",c11_ew_-QS201EW0002-QS201EW0001-wd-equal_bin-0.871304-0.167098-oa-equal_bin-0.817827-0.220243-cb-RdYlGn-8-0";
     layerData = new ol.layer.Tile({
