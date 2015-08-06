@@ -1,0 +1,10 @@
+<section class="additional-info">
+  <h3>{{ _('Map Preview') }}</h3>
+
+  <div id="map-container" style="height: 300px; width: auto; background: #5b6670" data-src="{{ res.url }}">
+
+  </div>
+  {% resource 'cdrc/leaflet' %}
+  {% resource 'cdrc/vendor/chroma/chroma.js' %}
+  {% resource 'cdrc/geojson_preview' %}
+</section>

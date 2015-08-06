@@ -2,3 +2,12 @@
 
 {% block page_heading %}
 {% endblock %}
+
+{% block package_tags %}
+  {{ super() }}
+  {% for res in pkg.resources %}
+    {% if res.name == 'preview.geojson' %}
+      {% snippet 'package/snippets/geojson_preview.html', res=res %}
+    {% endif %}
+  {% endfor %}
+{% endblock %}

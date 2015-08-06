@@ -2,6 +2,7 @@
 {% set url_action = 'resource_edit' if url_is_edit and can_edit else 'resource_read' %}
 {% set url = h.url_for(controller='package', action=url_action, id=pkg.name, resource_id=res.id) %}
 
+{% if res.name != 'preview.geojson' %}
 <li class="resource-item" data-id="{{ res.id }}">
   {% block resource_item_title %}
   <a class="heading" href="{{ url }}" title="{{ res.name or res.description }}">
@@ -46,3 +47,4 @@
   {% endif %}
   {% endblock %}
 </li>
+{% endif %}
