@@ -1,6 +1,6 @@
 this.ckan.module('embedded-datashine', function ($, _) {
   $(document).ready(function(){
-    var tileName = ",c11_ew_-QS201EW0002-QS201EW0001-wd-equal_bin-0.871304-0.167098-oa-equal_bin-0.817827-0.220243-cb-RdYlGn-8-0";
+    var tileName = ",c11_ew_-QS302EW0002-QS302EW0001-wd-standard_dev-0.470440000-0.052875400-oa-standard_dev-0.465285000-0.088207400-cb-RdYlGn-8-0";
     layerData = new ol.layer.Tile({
       title: "",
       source: new ol.source.XYZ({
@@ -9,10 +9,12 @@ this.ckan.module('embedded-datashine', function ($, _) {
         attributions: [
           ol.source.OSM.ATTRIBUTION,
           new ol.Attribution({ 'html': '<br />Census data: National Statistics, licensed under the Open Government Licence v.3.0.<br />' }),
-          new ol.Attribution({ 'html': 'DataShine was created by Oliver O&apos;Brien and James Cheshire at UCL CASA/UCL Geography.<br />' })
+          new ol.Attribution({ 'html': 'DataShine was created by Oliver O&apos;Brien and James Cheshire at UCL CASA/UCL Geography.<br />' }),
+          new ol.Attribution({ 'html': '<h3>Percentages of People in Good Health (Ward)</h3> See more on <a href="http://datashine.org.uk" style="text-decoration: underline;">DataShine</a> and <a href="http://maps.cdrc.ac.uk" style="text-decoration: underline;">CDRC Maps</a>' })
         ]
       })
     });
+
     olMap = new ol.Map({
       target: "map-container",
       interactions: ol.interaction.defaults({mouseWheelZoom:false}),
