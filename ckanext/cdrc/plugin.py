@@ -11,7 +11,7 @@ from ckan.lib.plugins import DefaultGroupForm
 import ckan.model as model
 import ckan.lib.fanstatic_resources as fanstatic_resources
 from ckanext.cdrc.logic import auth
-from ckanext.cdrc.helpers import get_site_statistics, group_list, get_ga_account_id, group_patch
+from ckanext.cdrc.helpers import get_site_statistics, group_list, get_ga_account_ids, group_patch
 
 from ckan.common import _, g, c
 
@@ -68,7 +68,7 @@ class CdrcPlugin(plugins.SingletonPlugin):
     def get_actions(self):
         return {
             'get_site_statistics': get_site_statistics,
-            'get_ga_account_id': get_ga_account_id
+            'get_ga_account_ids': get_ga_account_ids
         }
 
     def get_auth_functions(self):

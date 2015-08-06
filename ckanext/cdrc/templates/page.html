@@ -21,8 +21,10 @@
       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
       })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-      ga('create', '{{ h.get_action("get_ga_account_id") }}', 'auto');
-      ga('send', 'pageview');
+      {% for name, ga_id in h.get_action("get_ga_account_ids") %}
+      ga('create', '{{ ga_id }}', 'auto', {name: "{{name}}"});
+      ga('send.{{name}}', 'pageview');
+      {% endfor %}
 
     </script>
   {% endblock -%}

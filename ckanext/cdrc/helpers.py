@@ -9,7 +9,7 @@ Description: The helper functions for CDRC plugin
 import sqlalchemy
 from sqlalchemy import func
 from sqlalchemy import or_
-from paste.deploy.converters import asbool
+from paste.deploy.converters import asbool, aslist
 
 from ckan.logic import check_access
 from ckan.logic.action.get import _unpick_search
@@ -119,10 +119,10 @@ def get_site_statistics(context, data_dict):
     }
 
 
-def get_ga_account_id(context, data_dict):
+def get_ga_account_ids(context, data_dict):
     """ Return the code for google analytic account.
     """
-    return config.get('cdrc.google_analytics.id')
+    return [('tracking_{0}'.format(i), gaid) for i, gaid in enumerate(aslist(config.get('cdrc.google_analytics.id', [])))]
 
 
 def group_patch(context, data_dict):
