@@ -3,7 +3,10 @@ this.ckan.module('geojson-preview', function ($, _) {
     $.ajax($('#map-container').attr('data-src')).done(function(data){
 
       var geojson = JSON.parse(data);
-      $('#map-container>h3').html(geojson.title);
+      if(geojson.title)
+        $('#map-title').html(geojson.title + ' - Preview (Sample)');
+      else
+        $('#map-title').html('Map Preview (Sample)');
       var valMin, valMax;
       for(var i in geojson.features) {
         var val = geojson.features[i].properties.value
@@ -18,10 +21,9 @@ this.ckan.module('geojson-preview', function ($, _) {
       function style(feature) {
         return {
           fillColor: colorMap(feature.properties.value).hex(),
-          weight: 2,
+          weight: 0.5,
           opacity: 1,
           color: 'white',
-          dashArray: '3',
           fillOpacity: 0.7
         };
       }
