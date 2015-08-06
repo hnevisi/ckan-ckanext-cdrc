@@ -1,0 +1,11 @@
+@media (max-width: 767px){
+  #map-container {
+    display: none;
+  }
+}
+#map-container {
+  height: 300px; 
+  width: auto; 
+  background: #5b6670; 
+  margin-top: -20px
+}
