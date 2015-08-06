@@ -90,6 +90,7 @@ def group_list(context, data_dict):
 
 
     # The cache may leak private group information?
+    @cache.region('short_term')
     def group_show_cached(action, group_id):
         data_dict['id'] = group_id
         return get_action(action)(context, data_dict)

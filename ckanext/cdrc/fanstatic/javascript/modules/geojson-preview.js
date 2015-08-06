@@ -3,6 +3,7 @@ this.ckan.module('geojson-preview', function ($, _) {
     $.ajax($('#map-container').attr('data-src')).done(function(data){
 
       var geojson = JSON.parse(data);
+      $('#map-container>h3').html(geojson.title);
       var valMin, valMax;
       for(var i in geojson.features) {
         var val = geojson.features[i].properties.value
