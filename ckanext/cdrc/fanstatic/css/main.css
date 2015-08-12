@@ -6198,9 +6198,7 @@ a.tag:hover {
   *zoom: 1;
   margin: 0 auto;
   padding-bottom: 15px;
-  background: #e6e8e9 url("/base/images/bg.png");
-  border: 1px solid #dddddd;
-  border-width: 1px 0;
+  background: white;
 }
 .module-grid:before,
 .module-grid:after {
@@ -6346,9 +6344,7 @@ a.tag:hover {
   *zoom: 1;
   margin: 0 auto;
   padding-bottom: 15px;
-  background: #e6e8e9 url("/base/images/bg.png");
-  border: 1px solid #dddddd;
-  border-width: 1px 0;
+  background: white;
 }
 .media-grid:before,
 .media-grid:after {
