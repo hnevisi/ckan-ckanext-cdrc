@@ -19,6 +19,7 @@ from ckan.common import c
 
 from pylons import cache
 from pylons import config
+from subprocess import check_output
 
 
 def group_list(context, data_dict):
@@ -115,7 +116,8 @@ def get_site_statistics(context, data_dict):
         'topic_count': len(group_list(context, {'type': 'topic'})),
         'product_count': len(group_list(context, {'type': 'product'})),
         'lad_count': len(group_list(context, {'type': 'lad'})),
-        'dataset_count': get_action('package_search')({}, {"rows": 1})['count']
+        'dataset_count': get_action('package_search')({}, {"rows": 1})['count'],
+        'resource_size': check_output(['du', config['ckan.storage_path'] + '/resources', '-bs']).split('\t')[0]
     }
 
 
