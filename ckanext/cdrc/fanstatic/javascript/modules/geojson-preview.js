@@ -21,7 +21,7 @@ this.ckan.module('geojson-preview', function ($, _) {
       function style(feature) {
         return {
           fillColor: colorMap(feature.properties.value).hex(),
-          weight: 0.5,
+          weight: 0,
           opacity: 1,
           color: 'white',
           fillOpacity: 0.7
