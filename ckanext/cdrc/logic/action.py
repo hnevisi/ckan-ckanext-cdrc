@@ -146,13 +146,24 @@ def resource_clean(context, data_dict):
     """
     check_access('resource_clean', context, data_dict)
     model = context['model']
+    confirmed = data_dict.get('confirmed', False)
     res_indb = set([r[0] for r in sqlalchemy.sql.select([model.resource_table.c.id]).execute()])
     storage_path = os.path.join(get_storage_path(), 'resources')
-    deleted = []
+
+    dangling = []
     for l in check_output(['find', storage_path, '-type', 'f']).split('\n'):
         if l:
             rid = ''.join(l.split('/')[-3:])
             if rid not in res_indb:
-                os.remove(l)
-                deleted.append(l)
-    return {'deleted': deleted}
+                dangling.append(l)
+
+    deleted = []
+    if confirmed:
+        for f in dangling:
+            os.remove(f)
+            deleted.append(f)
+
+    return {'deleted': deleted,
+            'deleted_count': len(deleted),
+            'dangling': dangling,
+            'dangling_count': len(dangling)}
