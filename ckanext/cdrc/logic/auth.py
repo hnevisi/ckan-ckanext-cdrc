@@ -18,3 +18,8 @@ def resource_download(context, data_dict):
     return {'success': logged_in or is_preview,
             'msg': 'Please login to download the resources.'
             }
+
+def resource_clean(context, data_dict):
+    # Only sysadmin can do the cleaning
+    return {'success': False}
+

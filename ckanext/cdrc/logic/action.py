@@ -6,6 +6,7 @@ Github: http://github.com/spacelis
 Description: Extending the set of actions to facilitate this plugin.
 """
 
+import os
 import sqlalchemy
 from sqlalchemy import func
 from sqlalchemy import or_
@@ -15,6 +16,7 @@ from ckan.logic import check_access
 from ckan.logic.action.get import _unpick_search
 from ckan.logic.action.patch import group_patch as ckan_group_patch
 from ckan.logic import get_action
+from ckan.lib.uploader import get_storage_path
 from ckan.common import c
 
 from pylons import cache
@@ -132,3 +134,25 @@ def group_patch(context, data_dict):
     """
     context['allow_partial_update'] = True
     return ckan_group_patch(context, data_dict)
+
+
+def resource_clean(context, data_dict):
+    """ Remove resource that is not referred by a package.
+
+    :context: TODO
+    :data_dict: TODO
+    :returns: TODO
+
+    """
+    check_access('resource_clean', context, data_dict)
+    model = context['model']
+    res_indb = set([r[0] for r in sqlalchemy.sql.select([model.resource_table.c.id]).execute()])
+    storage_path = os.path.join(get_storage_path(), 'resources')
+    deleted = []
+    for l in check_output(['find', storage_path, '-type', 'f']).split('\n'):
+        if l:
+            rid = ''.join(l.split('/')[-3:])
+            if rid not in res_indb:
+                os.remove(l)
+                deleted.append(l)
+    return {'deleted': deleted}
