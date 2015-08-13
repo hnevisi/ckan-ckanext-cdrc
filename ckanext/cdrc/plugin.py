@@ -11,7 +11,7 @@ from ckan.lib.plugins import DefaultGroupForm
 import ckan.model as model
 import ckan.lib.fanstatic_resources as fanstatic_resources
 from ckanext.cdrc.logic import auth
-from ckanext.cdrc.helpers import get_site_statistics, group_list, get_ga_account_ids, group_patch
+from ckanext.cdrc.logic.action import get_site_statistics, group_list, get_ga_account_ids, group_patch
 
 from ckan.common import _, g, c
 

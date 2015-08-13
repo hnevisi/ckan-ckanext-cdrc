@@ -1,9 +1,9 @@
 """
-File: helpers.py
+File: action.py
 Author: Wen Li
 Email: spacelis@gmail.com
 Github: http://github.com/spacelis
-Description: The helper functions for CDRC plugin
+Description: Extending the set of actions to facilitate this plugin.
 """
 
 import sqlalchemy
