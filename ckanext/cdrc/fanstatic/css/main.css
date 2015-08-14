@@ -5913,9 +5913,6 @@ a.badge:focus {
   .span-right {
     width: 886px;
   }
-  [role="main"] .container {
-    width: 1159px;
-  }
 }
 @media (min-width: 980px) and (max-width: 1199px) {
   .span-left {
@@ -5924,9 +5921,6 @@ a.badge:focus {
   .span-right {
     width: 673px;
   }
-  [role="main"] .container {
-    width: 928px;
-  }
 }
 @media (min-width: 760px) and (max-width: 979px) {
   .span-left {
@@ -5934,9 +5928,6 @@ a.badge:focus {
   }
   .span-right {
     width: 455px;
-  }
-  [role="main"] .container {
-    width: 709px;
   }
 }
 @media (max-width: 759px) {
@@ -6357,7 +6348,7 @@ a.tag:hover {
 }
 @media (min-width: 768px) {
   .media-grid {
-    margin-left: -15px;
+    margin-left: -25px;
     margin-right: -25px;
     padding-right: 15px;
   }
@@ -6371,7 +6362,7 @@ a.tag:hover {
 }
 @media (min-width: 768px) {
   .media-grid.topic-grid {
-    margin-left: -15px;
+    margin-left: 20px;
   }
 }
 .media-item {
