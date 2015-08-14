@@ -111,16 +111,57 @@ def group_list(context, data_dict):
     return g_list
 
 
+FILESIZE_UNITS = {
+    'name': ['B', 'KB', 'MB', 'GB', 'TB', 'PB'],
+    'base': 1024,
+    'upper_bound': 99
+}
+
+SI_NUMBER_UNITS = {
+    'name': ['', 'k', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y'],
+    'base': 1000,
+    'upper_bound': 99
+}
+
+
+def unitify(number, unit_frame):
+    ''' Returns a localised unicode representation of a number in bytes, MiB
+    etc '''
+
+    number = float(number)
+    unit_idx = 0
+    while number > unit_frame['upper_bound']:
+        number = number / unit_frame['base']
+        unit_idx += 1
+
+    return number, unit_frame['name'][unit_idx]
+
+
 def get_site_statistics(context, data_dict):
     """ return package statistics, deprecated as get_action in helpers is deprecated. """
 
-    return {
-        'topic_count': len(group_list(context, {'type': 'topic'})),
-        'product_count': len(group_list(context, {'type': 'product'})),
-        'lad_count': len(group_list(context, {'type': 'lad'})),
-        'dataset_count': get_action('package_search')({}, {"rows": 1})['count'],
-        'resource_size': check_output(['du', config['ckan.storage_path'] + '/resources', '-bs']).split('\t')[0]
-    }
+    mappings = [
+        ('topic_count', len(group_list(context, {'type': 'topic'})), SI_NUMBER_UNITS),
+        ('product_count', len(group_list(context, {'type': 'product'})), SI_NUMBER_UNITS),
+        ('lad_count', len(group_list(context, {'type': 'lad'})), SI_NUMBER_UNITS),
+        ('dataset_count', get_action('package_search')({}, {"rows": 1})['count'], SI_NUMBER_UNITS),
+        ('resource_size', int(check_output(['du', config['ckan.storage_path'] + '/resources', '-bs']).split('\t')[0]), FILESIZE_UNITS)
+    ]
+
+    stats = {}
+
+    for name, number, unit_frame in mappings:
+        short, unit = unitify(number, unit_frame)
+        short_text = '{:.1f}'.format(short)
+        if short_text.endswith('.0'):
+            short_text = short_text[:-2]
+        stats[name] = {
+            'number': number,
+            'text': '{0}{1}'.format(short_text, unit),
+            'html': '{0}<span class="unit">{1}</span>'.format(short_text, unit)
+        }
+
+    return stats
 
 
 def get_ga_account_ids(context, data_dict):

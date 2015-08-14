@@ -6,32 +6,26 @@
     <ul>
       <li>
         <a href="/topic">
-          <b>{{ h.SI_number_span(stats.topic_count) }}</b>
-          {{ _('topic') if stats.topic_count == 1 else _('topics') }}
+          <b>{{ stats.topic_count.html | safe }}</b>
+          {{ _('topic') if stats.topic_count.number == 1 else _('topics') }}
         </a>
       </li>
       <li>
-        <a href="product">
-          <b>{{ h.SI_number_span(stats.product_count) }}</b>
-          {{ _('product') if stats.product_count == 1 else _('products') }}
+        <a href="/product">
+          <b>{{ stats.product_count.html | safe }}</b>
+          {{ _('product') if stats.product_count.number == 1 else _('products') }}
         </a>
       </li>
-      <!-- <li> -->
-      <!--   <a href="lad"> -->
-      <!--     <b>{{ h.SI_number_span(stats.lad_count) }}</b> -->
-      <!--     {{ _('LAD') if stats.lad_count == 1 else _('LADs') }} -->
-      <!--   </a> -->
-      <!-- </li> -->
       <li>
         <a href="{{ h.url_for(controller='package', action='search') }}">
-          <b>{{ h.SI_number_span(stats.resource_size) }}</b>
+          <b>{{ stats.resource_size.html | safe }}</b>
           data
         </a>
       </li>
       <li>
         <a href="{{ h.url_for(controller='package', action='search') }}">
-          <b>{{ h.SI_number_span(stats.dataset_count) }}</b>
-          {{ _('dataset') if stats.dataset_count == 1 else _('datasets') }}
+          <b>{{ stats.dataset_count.html | safe }}</b>
+          {{ _('dataset') if stats.dataset_count.number == 1 else _('datasets') }}
         </a>
       </li>
     </ul>
