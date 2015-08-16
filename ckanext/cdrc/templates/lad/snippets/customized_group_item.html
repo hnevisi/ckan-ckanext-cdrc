@@ -26,9 +26,6 @@ Example:
   </center>
   {% endblock %}
   {% block description %}
-    {% if lad.description %}
-      <p>{{ h.markdown_extract(lad.description, extract_length=80) }}</p>
-    {% endif %}
   {% endblock %}
   {% block datasets %}
   <center>
