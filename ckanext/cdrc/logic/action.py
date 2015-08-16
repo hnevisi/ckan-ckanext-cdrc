@@ -21,7 +21,7 @@ from ckan.common import c
 
 from pylons import cache
 from pylons import config
-from subprocess import check_output
+from subprocess import check_output, CalledProcessError
 
 
 def group_list(context, data_dict):
@@ -137,6 +137,17 @@ def unitify(number, unit_frame):
     return number, unit_frame['name'][unit_idx]
 
 
+def storage_use():
+    """ Return the number of bytes used for storing resource.
+    :returns: TODO
+
+    """
+    try:
+        return int(check_output(['du', config['ckan.storage_path'] + '/resources', '-bs']).split('\t')[0])
+    except CalledProcessError:
+        return 0
+
+
 def get_site_statistics(context, data_dict):
     """ return package statistics, deprecated as get_action in helpers is deprecated. """
 
@@ -145,7 +156,7 @@ def get_site_statistics(context, data_dict):
         ('product_count', len(group_list(context, {'type': 'product'})), SI_NUMBER_UNITS),
         ('lad_count', len(group_list(context, {'type': 'lad'})), SI_NUMBER_UNITS),
         ('dataset_count', get_action('package_search')({}, {"rows": 1})['count'], SI_NUMBER_UNITS),
-        ('resource_size', int(check_output(['du', config['ckan.storage_path'] + '/resources', '-bs']).split('\t')[0]), FILESIZE_UNITS)
+        ('resource_size', storage_use(), FILESIZE_UNITS)
     ]
 
     stats = {}
