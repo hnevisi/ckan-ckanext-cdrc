@@ -5911,7 +5911,7 @@ a.badge:focus {
     width: 270px;
   }
   .span-right {
-    width: 886px;
+    width: 897px;
   }
 }
 @media (min-width: 980px) and (max-width: 1199px) {
@@ -5919,7 +5919,7 @@ a.badge:focus {
     width: 252px;
   }
   .span-right {
-    width: 673px;
+    width: 685px;
   }
 }
 @media (min-width: 760px) and (max-width: 979px) {
@@ -5927,7 +5927,7 @@ a.badge:focus {
     width: 251px;
   }
   .span-right {
-    width: 455px;
+    width: 470px;
   }
 }
 @media (max-width: 759px) {
