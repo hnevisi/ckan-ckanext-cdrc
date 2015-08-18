@@ -2,11 +2,7 @@
 
 {% block heading %}
   {{ super() }}
-  <ul class="dataset-resource unstyled">
-    {% for grp in pkg.groups if grp.type == 'accesslevel' %}
-    <li>
-      <a href="{{ h.url_for(controller='ckanext.cdrc.controllers.accesslevel:AccessLevelController', action='about', id=grp.name) }}" class="label label-{{ grp.name }}" data-accesslevel="{{ grp.name }}">{{ grp.title }}</a>
-    </li>
-    {% endfor %}
-  </ul>
+  {% for grp in pkg.groups if grp.type == 'accesslevel' %}
+    <a href="{{ h.url_for(controller='ckanext.cdrc.controllers.accesslevel:AccessLevelController', action='about', id=grp.name) }}" class="label label-{{ grp.name }}" data-accesslevel="{{ grp.name }}">{{ grp.title }}</a>
+  {% endfor %}
 {% endblock %}

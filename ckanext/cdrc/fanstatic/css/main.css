@@ -5937,12 +5937,15 @@ a.badge:focus {
 }
 .label[data-accesslevel=secure] {
   background-color: #cc0000;
+  color: white;
 }
 .label[data-accesslevel=open] {
-  background-color: #59c41a;
+  background-color: #69c41a;
+  color: white;
 }
 .label[data-accesslevel=safe-guarded] {
   background-color: #f57900;
+  color: white;
 }
 .break-word {
   -ms-word-break: break-all;
