@@ -5935,6 +5935,15 @@ a.badge:focus {
     display: none;
   }
 }
+.label[data-accesslevel=secure] {
+  background-color: #cc0000;
+}
+.label[data-accesslevel=open] {
+  background-color: #59c41a;
+}
+.label[data-accesslevel=safe-guarded] {
+  background-color: #f57900;
+}
 .break-word {
   -ms-word-break: break-all;
   word-break: break-all;
@@ -6353,7 +6362,8 @@ a.tag:hover {
     padding-right: 15px;
   }
 }
-.topic-grid {
+.topic-grid,
+.accesslevel-grid {
   border: 0;
   background: none;
   -webkit-box-shadow: none;
@@ -6361,7 +6371,8 @@ a.tag:hover {
   box-shadow: none;
 }
 @media (min-width: 768px) {
-  .media-grid.topic-grid {
+  .media-grid.topic-grid,
+  .media-grid.accesslevel-grid {
     margin-left: 20px;
   }
 }

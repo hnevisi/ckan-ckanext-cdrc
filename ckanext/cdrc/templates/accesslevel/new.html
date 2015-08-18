@@ -1,0 +1,19 @@
+{% extends "accesslevel/base_form_page.html" %}
+
+{% set group_controller='ckanext.cdrc.controllers.accesslevel:AccessLevelController' %}
+
+{% block subtitle %}{{ _('Create an Access Level') }}{% endblock %}
+
+{% block breadcrumb_link %}{{ h.nav_link(_('Create an Access Level'), controller=group_controller, action='edit', id=c.accesslevel.name) }}{% endblock %}
+
+{% block page_heading %}{{ _('Create an Access Level') }}{% endblock %}
+
+{% block page_header %}{% endblock %}
+
+{% block breadcrumb_content_inner %}
+  <li class="active"><a href="#">{{ _('Create an Access Level') }}</a></li>
+{% endblock %}
+
+{% block secondary_content %}
+  {% snippet "accesslevel/snippets/helper.html" %}
+{% endblock %}

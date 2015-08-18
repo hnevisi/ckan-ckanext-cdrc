@@ -1,0 +1,40 @@
+{% extends "page.html" %}
+
+{% set group_controller='ckanext.cdrc.controllers.accesslevel:AccessLevelController' %}
+
+{% block subtitle %}{{ _('Access Level') }}{% endblock %}
+
+{% block breadcrumb_content %}
+  <li class="active">{% link_for _('Access Level'), controller=group_controller, action='index' %}</li>
+{% endblock %}
+
+{% block page_header %}{% endblock %}
+
+{% block page_primary_action %}
+  {% if h.check_access('accesslevel_create') %}
+    {% link_for _('Add Access Level'), controller=group_controller, action='new', class_='btn btn-primary', icon='plus-sign-alt' %}
+  {% endif %}
+{% endblock %}
+
+{% block primary %}
+  <div style="padding-left: 15px">
+    {% block accesslevel_list %}
+      {% if c.page.items or request.params %}
+        {% if c.page.items %}
+          {% snippet "accesslevel/snippets/customized_group_list.html", accesslevels=c.page.items %}
+        {% endif %}
+      {% else %}
+        <p class="empty">
+          {{ _('There are currently no access levels for this site') }}.
+          {% if h.check_access('accesslevel_create') %}
+            {% link_for _('How about creating one?'), controller=group_controller, action='new' %}</a>.
+          {% endif %}
+        </p>
+      {% endif %}
+    {% endblock %}
+  
+  </div>
+{% endblock %}
+
+{% block secondary %}
+{% endblock %}

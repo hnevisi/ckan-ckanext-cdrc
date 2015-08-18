@@ -1,0 +1,31 @@
+{% extends "page.html" %}
+
+{% set group_controller='ckanext.cdrc.controllers.accesslevel:AccessLevelController' %}
+{% block subtitle %}{{ c.group_dict.display_name }} - {{ _('Access Level') }}{% endblock %}
+
+{% block breadcrumb_content %}
+  <li>{% link_for _('Access Levels'), controller=group_controller, action='index' %}</li>
+  <li class="active">{% link_for c.group_dict.display_name|truncate(35), controller=group_controller, action='read', id=c.group_dict.name %}</li>
+{% endblock %}
+
+{% block content_action %}
+  {% if h.check_access('accesslevel_update', {'id': c.group_dict.id}) %}
+    {% link_for _('Manage'), controller=group_controller, action='edit', id=c.group_dict.name, class_='btn', icon='wrench' %}
+  {% endif %}
+{% endblock %}
+
+{% block content_primary_nav %}
+  {{ h.build_nav_icon('accesslevel_read', _('Datasets'), id=c.group_dict.name) }}
+  {{ h.build_nav_icon('accesslevel_activity', _('Activity Stream'), id=c.group_dict.name, offset=0) }}
+  {{ h.build_nav_icon('accesslevel_about', _('About'), id=c.group_dict.name) }}
+{% endblock %}
+
+{% block secondary_content %}
+  {% snippet 'snippets/accesslevel.html', accesslevel=c.group_dict, show_nums=true %}
+  {% block accesslevel_facets %}{% endblock %}
+{% endblock %}
+
+{% block links %}
+  {{ super() }}
+  {% include "accesslevel/snippets/feeds.html" %}
+{% endblock %}

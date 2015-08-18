@@ -1,0 +1,9 @@
+{% ckan_extends %}
+{% block resources_inner %}
+  {{ super() }}
+  {% for grp in package.groups if grp.type == 'accesslevel' %}
+  <li>
+    <a href="{{ h.url_for(controller='ckanext.cdrc.controllers.accesslevel:AccessLevelController', action='about', id=grp.name) }}" class="label label-{{ grp.name }}" data-accesslevel="{{ grp.name }}">{{ grp.title }}</a>
+  </li>
+  {% endfor %}
+{% endblock %}

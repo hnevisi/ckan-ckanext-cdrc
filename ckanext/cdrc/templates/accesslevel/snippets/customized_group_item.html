@@ -1,0 +1,49 @@
+{#
+Renders a media item for a accesslevel. This should be used in a list.
+
+accesslevel - A accesslevel dict.
+
+Example:
+
+    <ul class="media-grid">
+      {% for accesslevel in accesslevels %}
+        {% snippet "accesslevel/snippets/customized_group_item.html", accesslevel=accesslevel %}
+      {% endfor %}
+    </ul>
+#}
+{% set url = h.url_for(accesslevel.type ~ '_read', action='read', id=accesslevel.name) %}
+{% block item %}
+<li class="media-item">
+  {% block item_inner %}
+  {% block image %}
+  <center>
+    <img src="{{ accesslevel.image_display_url or h.url_for_static('/base/images/placeholder-group.png') }}" alt="{{ accesslevel.name }}" class="media-image">
+  </center>
+  {% endblock %}
+  {% block title %}
+  <center>
+    <h3 class="media-heading">{{ accesslevel.display_name }}</h3>
+  </center>
+  {% endblock %}
+  {% block description %}
+  {% endblock %}
+  {% block datasets %}
+  <center>
+    {% if accesslevel.package_count %}
+      <strong class="count">{{ ungettext('{num} Dataset', '{num} Datasets', accesslevel.package_count).format(num=accesslevel.package_count) }}</strong>
+    {% else %}
+      <span class="count">{{ _('0 Datasets') }}</span>
+    {% endif %}
+  </center>
+  {% endblock %}
+  {% block link %}
+  <a href="{{ url }}" title="{{ _('View {accesslevel_name}').format(accesslevel_name=accesslevel.display_name) }}" class="media-view">
+    <span>{{ _('View {accesslevel_name}').format(accesslevel_name=accesslevel.display_name) }}</span>
+  </a>
+  {% endblock %}
+  {% endblock %}
+</li>
+{% endblock %}
+{% if position is divisibleby 3 %}
+  <li class="clearfix js-hide"></li>
+{% endif %}

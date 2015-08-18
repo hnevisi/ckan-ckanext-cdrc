@@ -88,9 +88,9 @@ class CdrcPlugin(plugins.SingletonPlugin):
 
     def before_search(self, data_dict):
         if 'fq' in data_dict:
-            data_dict['fq'] = data_dict['fq'].replace('topic:', 'groups:').replace('product:', 'groups:').replace('lad:', 'groups:')
+            data_dict['fq'] = data_dict['fq'].replace('topic:', 'groups:').replace('product:', 'groups:').replace('lad:', 'groups:').replace('accesslevel:', 'groups:')
         if 'q' in data_dict:
-            data_dict['q'] = data_dict['q'].replace('topic:', 'groups:').replace('product:', 'groups:').replace('lad:', 'groups:')
+            data_dict['q'] = data_dict['q'].replace('topic:', 'groups:').replace('product:', 'groups:').replace('lad:', 'groups:').replace('accesslevel:', 'groups:')
         return data_dict
 
     def after_search(self, result, params):
@@ -98,7 +98,7 @@ class CdrcPlugin(plugins.SingletonPlugin):
             group_facet = result['facets']['groups']
             context = {'model': model, 'session': model.Session,
                        'user': c.user or c.author, 'auth_user_obj': c.userobj}
-            for facet in ['topic', 'product', 'lad']:
+            for facet in ['topic', 'product', 'lad', 'accesslevel']:
                 groups = group_list(context, {'groups': group_facet.keys(),
                                               'type': facet,
                                               'all_fields': True})
@@ -114,6 +114,7 @@ class CdrcPlugin(plugins.SingletonPlugin):
         facets_dict['topic'] = toolkit._('Topics')
         facets_dict['product'] = toolkit._('Products')
         facets_dict['lad'] = toolkit._('LADs')
+        facets_dict['accesslevel'] = toolkit._('Access Levels')
         return facets_dict
 
     def group_facets(self, facets_dict, group_type, package_type):
@@ -125,6 +126,8 @@ class CdrcPlugin(plugins.SingletonPlugin):
             facets_dict['product'] = toolkit._('Products')
         if group_type != 'lad':
             facets_dict['lad'] = toolkit._('LADs')
+        if group_type != 'accesslevel':
+            facets_dict['accesslevel'] = toolkit._('Access Levels')
         return facets_dict
 
 
@@ -400,3 +403,81 @@ class CdrcLadPlugin(plugins.SingletonPlugin, DefaultGroupForm):
 
     def activity_template(self):
         return 'lad/activity_stream.html'
+
+
+class CdrcAcclvlPlugin(plugins.SingletonPlugin, DefaultGroupForm):
+    plugins.implements(plugins.IGroupForm)
+    plugins.implements(plugins.IRoutes)
+    plugins.implements(plugins.IAuthFunctions)
+    plugins.implements(plugins.IActions)
+
+    def is_fallback(self):
+        return False
+
+    def group_types(self):
+        return ['accesslevel']
+
+    def after_map(self, map):
+        mapper_mixin(map, 'accesslevel', 'ckanext.cdrc.controllers.accesslevel:AccessLevelController')
+        return map
+
+    def before_map(self, map):
+        return map
+
+    def get_auth_functions(self):
+        return {
+           'accesslevel_create': ckan_auth.create.group_create,
+           'accesslevel_update': ckan_auth.update.group_update,
+           'accesslevel_delete': ckan_auth.delete.group_delete,
+        }
+
+    def get_actions(self):
+        return {
+           'accesslevel_list': group_list,
+           'accesslevel_show': ckan_action.get.group_show,
+           'accesslevel_activity_list_html': ckan_action.get.group_activity_list_html,
+           'accesslevel_create': ckan_action.create.group_create,
+           'accesslevel_update': ckan_action.update.group_update,
+           'accesslevel_patch': group_patch,
+           'accesslevel_delete': ckan_action.delete.group_delete,
+        }
+
+    def group_controller(self):
+        """TODO: Docstring for group_controller.
+        :returns: TODO
+
+        """
+        return 'ckanext.cdrc.controllers.accesslevel:AccessLevelController'
+
+    def group_form(self):
+        return 'accesslevel/new_customized_group_form.html'
+
+    def setup_template_variables(self, context, data_dict):
+        pass
+
+    def new_template(self):
+        return 'accesslevel/new.html'
+
+    def about_template(self):
+        return 'accesslevel/about.html'
+
+    def index_template(self):
+        return 'accesslevel/index.html'
+
+    def admins_template(self):
+        return 'accesslevel/admins.html'
+
+    def bulk_process_template(self):
+        return 'accesslevel/bulk_process.html'
+
+    def read_template(self):
+        return 'accesslevel/read.html'
+
+    # don't override history_template - use group template for history
+
+    def edit_template(self):
+        return 'accesslevel/edit.html'
+
+    def activity_template(self):
+        return 'accesslevel/activity_stream.html'
+

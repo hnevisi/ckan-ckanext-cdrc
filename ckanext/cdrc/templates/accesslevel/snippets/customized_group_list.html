@@ -1,0 +1,19 @@
+{#
+Display a grid of accesslevel items.
+
+accesslevel - A list of accesslevel.
+
+Example:
+
+    {% snippet "accesslevel/snippets/customized_group_list.html" %}
+
+#}
+{% block accesslevel_list %}
+<ul class="media-grid accesslevel-grid" data-module="media-grid">
+  {% block accesslevel_list_inner %}
+  {% for accesslevel in accesslevels %}
+    {% snippet "accesslevel/snippets/customized_group_item.html", accesslevel=accesslevel, position=loop.index %}
+  {% endfor %}
+   {% endblock %}
+</ul>
+{% endblock %}

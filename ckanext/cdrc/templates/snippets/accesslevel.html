@@ -1,0 +1,74 @@
+{#
+Embeds a accesslevel within the sidebar of a page.
+
+accesslevel    - The accesslevel dict.
+truncate - A max length for the accesslevel description. If not provided the description
+           will be full length.
+has_context_title - Boolean for whether to display a module-heading for when
+                    this snippet appears within a non-accesslevel template
+                    (e.g. dataset page sidebar)
+
+Example:
+
+    {% snippet 'snippets/accesslevel, accesslevel=c.group_dict %}
+
+#}
+
+{% set truncate = truncate or 0 %}
+{% set group_controller='ckanext.cdrc.controllers.accesslevel:AccessLevelController' %}
+{% set url = h.url_for(controller=group_controller, action='read', id=accesslevel.name) %}
+
+  {% block info %}
+  <div class="module module-narrow module-shallow context-info">
+    {% if has_context_title %}
+      <h2 class="module-heading"><i class="icon-building"></i> {{ _('Access Level') }}</h2>
+    {% endif %}
+    <section class="module-content">
+      {% block inner %}
+      {% block image %}
+        <div class="image">
+          <a href="{{ url }}">
+            <img src="{{ accesslevel.image_display_url or h.url_for_static('/base/images/placeholder-group.png') }}" width="200" alt="{{ accesslevel.name }}" />
+          </a>
+        </div>
+      {% endblock %}
+      {% block heading %}
+      <h1 class="heading">{{ accesslevel.title or accesslevel.name }}
+        {% if accesslevel.state == 'deleted' %}
+          [{{ _('Deleted') }}]
+        {% endif %}
+      </h1>
+      {% endblock %}
+      {% block description %}
+      {% if accesslevel.description %}
+        <p>
+          {{ h.markdown_extract(accesslevel.description, 180) }}
+          {% link_for _('read more'), controller=group_controller, action='about', id=accesslevel.name %}
+        </p>
+      {% else %}
+        <p class="empty">{{ _('There is no description for this access level') }}</p>
+      {% endif %}
+      {% endblock %}
+      {% if show_nums %}
+        {% block nums %}
+        <div class="nums">
+          <dl>
+            <dt>{{ _('Followers') }}</dt>
+            <dd>{{ h.SI_number_span(accesslevel.num_followers) }}</dd>
+          </dl>
+          <dl>
+            <dt>{{ _('Datasets') }}</dt>
+            <dd>{{ h.SI_number_span(accesslevel.package_count) }}</dd>
+          </dl>
+        </div>
+        {% endblock %}
+        {% block follow %}
+        <div class="follow_button">
+          {{ h.follow_button('group', accesslevel.id) }}
+        </div>
+        {% endblock %}
+      {% endif %}
+      {% endblock %}
+    </section>
+  </div>
+  {% endblock %}

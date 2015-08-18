@@ -1,0 +1,22 @@
+{#
+Displays a sidebard module with information for given accesslevel
+
+org    - The accesslevel dict.
+
+Example:
+
+  {% snippet "accesslevel/snippets/info.html", org=org %}
+
+#}
+{% set group_controller='ckanext.cdrc.controllers.accesslevel:AccessLevelController' %}
+
+{% if accesslevel and h.check_access('accesslevel_update', {'id':accesslevel.id }) %}
+  <section class="module module-narrow package-info">
+    <h2 class="module-heading"><i class="icon-sitemap"></i> {{ _("Edit accesslevel") }}</h2>
+    <ul class="unstyled nav nav-simple">
+      <li class="nav-item{% if action == 'edit' %} active{% endif %}">
+        {% link_for _("Edit accesslevel"), controller=group_controller, action='edit', id=accesslevel.name %}
+      </li>
+    </ul>
+  </section>
+{% endif %}

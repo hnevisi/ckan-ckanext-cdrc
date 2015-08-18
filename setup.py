@@ -81,6 +81,7 @@ setup(
         'ckan.plugins': [
             "cdrc=ckanext.cdrc.plugin:CdrcPlugin",
             "cdrc_topic=ckanext.cdrc.plugin:CdrcTopicPlugin",
+            "cdrc_accesslevel=ckanext.cdrc.plugin:CdrcAcclvlPlugin",
             "cdrc_product=ckanext.cdrc.plugin:CdrcProductPlugin",
             "cdrc_lad=ckanext.cdrc.plugin:CdrcLadPlugin",
             ],
