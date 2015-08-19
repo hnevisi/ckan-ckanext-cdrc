@@ -5947,6 +5947,9 @@ a.badge:focus {
   background-color: #f57900;
   color: white;
 }
+article > div.module-content a {
+  text-decoration: underline;
+}
 .break-word {
   -ms-word-break: break-all;
   word-break: break-all;
