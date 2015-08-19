@@ -16,12 +16,12 @@
           {{ _('product') if stats.product_count.number == 1 else _('products') }}
         </a>
       </li>
-      <!-- <li> -->
-      <!--   <a href="{{ h.url_for(controller='package', action='search') }}"> -->
-      <!--     <b>{{ stats.resource_size.html | safe }}</b> -->
-      <!--     data -->
-      <!--   </a> -->
-      <!-- </li> -->
+      <li>
+        <a href="{{ h.url_for(controller='package', action='search') }}">
+          <b>{{ stats.resource_size.html | safe }}</b>
+          data
+        </a>
+      </li>
       <!-- <li> -->
       <!--   <a href="{{ h.url_for(controller='package', action='search') }}"> -->
       <!--     <b>{{ stats.dataset_count.html | safe }}</b> -->
