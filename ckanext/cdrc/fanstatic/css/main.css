@@ -5943,7 +5943,7 @@ a.badge:focus {
   background-color: #69c41a;
   color: white;
 }
-.label[data-accesslevel=safe-guarded] {
+.label[data-accesslevel=safeguarded] {
   background-color: #f57900;
   color: white;
 }
