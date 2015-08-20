@@ -94,7 +94,8 @@ class CdrcPlugin(plugins.SingletonPlugin):
 
     def before_map(self, map):
         map.connect('/testing/assertfalse', controller='ckanext.cdrc.plugin:CDRCExtController', action='assertfalse')
-        map.connect('national', '/national', controller='group', action='read', id='national')
+        map.connect('national', '/national', controller='ckanext.cdrc.controllers.singlegroup:SingleGroupController', action='read_national')
+        map.connect('regional', '/regional', controller='ckanext.cdrc.controllers.singlegroup:SingleGroupController', action='read_regional')
         return map
 
     def before_search(self, data_dict):
