@@ -14,10 +14,10 @@
 
   {% block home_image %}
     <section class="featured media-overlay hidden-phone">
-      <h2 class="media-heading">{% block home_image_caption %}{{ _("This is a featured section") }}{% endblock %}</h2>
+      <!-- <h2 class="media-heading">{% block home_image_caption %}{{ _("This is a featured section") }}{% endblock %}</h2> -->
       {% block home_image_content %}
         <a class="media-image" href="http://public.cdrc.ac.uk">
-          <img src="{{ h.url_for_static('/images/public.png') }}" alt="Placeholder" width="420" height="220" />
+          <img src="{{ h.url_for_static('/images/retail_image.png') }}" alt="Placeholder" width="420" height="220" />
         </a>
       {% endblock %}
     </section>

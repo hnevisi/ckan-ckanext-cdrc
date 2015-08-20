@@ -63,6 +63,17 @@ class CdrcPlugin(plugins.SingletonPlugin):
         )
         config_['ckan.site_title'] = 'CDRC Data'
         config_['ckan.main_css'] = '/base/cdrc/css/main.css'
+        config_['ckan.site_intro_text'] = dedent('''
+            ## Welcome to CDRC Data
+
+            CDRC's mission is to make consumer data available to an ever broader
+            constituency of users in the research, business and local government
+            communities. We do this by creating data packs that are readily
+            available for analysis and intelligible to a broad constituency of
+            users. We are also committed to extend the collection available here
+            with new, novel and policy-relevant datasets as our work programme
+            develops.
+        ''')
 
 
     def get_actions(self):
