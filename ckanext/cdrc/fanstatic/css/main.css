@@ -5950,6 +5950,9 @@ a.badge:focus {
 article .markdown-description a {
   text-decoration: underline;
 }
+.description a {
+  text-decoration: underline;
+}
 .break-word {
   -ms-word-break: break-all;
   word-break: break-all;
