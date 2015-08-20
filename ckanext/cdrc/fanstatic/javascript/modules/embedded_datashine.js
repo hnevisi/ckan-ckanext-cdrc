@@ -7,12 +7,13 @@ this.ckan.module('embedded-datashine', function ($, _) {
         url: "http://datashine.org.uk/tiler/" + tileName + "/{z}/{x}/{y}.png",
         crossOrigin: 'null',
         attributions: [
-          new ol.Attribution({ 'html': '<br />Census data: National Statistics, licensed under the Open Government Licence v.3.0.<br />' }),
-          new ol.Attribution({ 'html': 'DataShine was created by Oliver O&apos;Brien and James Cheshire at UCL CASA/UCL Geography.<br />' }),
+          // new ol.Attribution({ 'html': '<br />Census data: National Statistics, licensed under the Open Government Licence v.3.0.<br />' }),
+          // new ol.Attribution({ 'html': 'DataShine was created by Oliver O&apos;Brien and James Cheshire at UCL CASA/UCL Geography.<br />' }),
           new ol.Attribution({ 'html': 'This map shows the % of people who are deemed as in "good health" as recorded by the 2011 census. <br />' }),
           new ol.Attribution({ 'html': 'The CDRC are interested in how these patterns vary geographically, and how these outcomes relate to consumption.  <br />' }),
-          new ol.Attribution({ 'html': 'To search and download census data click <a href="https://data.cdrc.ac.uk/dataset?q=census+data" style="text-decoration: underline;">here</a>, or to browse more maps click <a href="http://maps.cdrc.ac.uk" style="text-decoration: underline;">here</a>' }),
-          new ol.Attribution({ 'html': '<br /><br /><br /><br />' }),
+          new ol.Attribution({ 'html': 'To search and download census data click <a href="https://data.cdrc.ac.uk/dataset?q=census+data" style="text-decoration: underline;">here</a>, or to browse more maps click <a href="http://maps.cdrc.ac.uk" style="text-decoration: underline;">here</a>. <br />' }),
+          new ol.Attribution({ 'html': 'Contains National Statistics data Crown copyright and database right 2015; <br /> Contains Ordnance Survey data Crown copyright and database right 2015.' }),
+          new ol.Attribution({ 'html': '<br /><br /><br />' }),
         ]
       })
     });
