@@ -99,8 +99,21 @@
               {{ h.build_nav_main(
                 ('topic_index', _('Topics')),
                 ('product_index', _('Products')),
-                ('lad_index', _('LADs')),
-                ('national', _('National')),
+              ) }}
+              <li class="dropdown">
+                <a id="nav-geography"class="dropdown-toggle" role="button" href="#" data-toggle="dropdown">
+                  Geography
+                  <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="nav-geography">
+                  <li><a href="#" style="background: white; cursor: default; font-weight: bold;">Geography</a></li>
+                  {{ h.build_nav_main(
+                    ('lad_index', _('LADs')),
+                    ('national', _('National')),
+                  ) }}
+                </ul>
+              </li>
+              {{ h.build_nav_main(
                 ('search', _('Datasets')),
               ) }}
             {% endblock %}

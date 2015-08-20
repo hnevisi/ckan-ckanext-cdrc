@@ -5953,6 +5953,49 @@ article .markdown-description a {
 .description a {
   text-decoration: underline;
 }
+.nav > li.open > .dropdown-menu > li > a:focus,
+.nav > li.open > .dropdown-menu > .active > a,
+.nav > li.open > .dropdown-menu > li > a:hover,
+.nav > li.open > .dropdown-menu > .active > a:hover,
+.nav > li.open > .dropdown-menu > .active > a:focus {
+  color: #222;
+  text-shadow: none;
+  background: #e6e8e9;
+  box-shadow: none;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+  border: 0;
+  border-radius: 0;
+  margin: 0;
+}
+.nav > li.open > .dropdown-menu > li > a {
+  color: #222;
+  text-shadow: none;
+  background: white;
+  box-shadow: none;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+  border: 0;
+  border-radius: 0;
+  margin: 0;
+  padding: 10px 15px;
+}
+.dropdown-menu {
+  margin: 0;
+  top: 0;
+}
+.nav-tabs .dropdown-menu {
+  border: 0;
+  border-radius: 0;
+  padding: 0 0;
+  background: white;
+}
+.navbar .nav > li > .dropdown-menu:before {
+  display: none;
+}
+.navbar .nav > li > .dropdown-menu:after {
+  display: none;
+}
 .break-word {
   -ms-word-break: break-all;
   word-break: break-all;
