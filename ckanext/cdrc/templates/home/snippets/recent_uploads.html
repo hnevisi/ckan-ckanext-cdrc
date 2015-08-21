@@ -1,9 +1,0 @@
-{% set packages = h.get_action('package_search', {'sort': 'metadata_created desc', 'rows': 3}).results %}
-<div class="module-content box">
-  <header>
-    <h2>Recent Uploaded</h2>
-  </header>
-
-  {% snippet 'snippets/package_list.html', packages=packages %}
-
-</div>

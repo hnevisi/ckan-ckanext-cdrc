@@ -1,5 +1,5 @@
 {% set promoted_text = '''
-## London Output Area Classification
+### London Output Area Classification
 
 The London Output Area Classification (LOAC) was created by [Alex
 Singleton](http://alex-singleton.com) and [Paul
@@ -17,19 +17,23 @@ Teaching Pack: [Creating a LOAC Map in R.](#)
 {% set promoted_img = '/images/London_LOAC.png' %}
 {% set promoted_url = 'http://public.cdrc.ac.uk' %}
 
-<div class="module-content box description">
-  <header>
-    {{ h.render_markdown(promoted_text) }}
-  </header>
+<div class="box description" style="margin-bottom: 20px">
+  <div class="inner">
+    <header>
+      <h2>A Focus On ...</h2>
+      <hr>
+      {{ h.render_markdown(promoted_text) }}
+    </header>
 
-  {% block home_image %}
-    <section class="featured media-overlay hidden-phone">
-      <!-- <h2 class="media-heading">{% block home_image_caption %}{{ _("This is a featured section") }}{% endblock %}</h2> -->
-      {% block home_image_content %}
-        <a class="media-image" href="{{ promoted_url }}">
-          <img src="{{ h.url_for_static(promoted_img) }}" alt="Placeholder" width="420" height="220" />
-        </a>
-      {% endblock %}
-    </section>
-  {% endblock %}
+    {% block home_image %}
+      <section class="featured media-overlay hidden-phone">
+        <!-- <h2 class="media-heading">{% block home_image_caption %}{{ _("This is a featured section") }}{% endblock %}</h2> -->
+        {% block home_image_content %}
+          <a class="media-image" href="{{ promoted_url }}">
+            <img src="{{ h.url_for_static(promoted_img) }}" alt="Placeholder" width="420" height="220" />
+          </a>
+        {% endblock %}
+      </section>
+    {% endblock %}
+  </div>
 </div>

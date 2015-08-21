@@ -1,8 +1,8 @@
-{% set packages = h.get_action('package_search', {'sort': 'views_recent desc', 'rows': 3, 'fq': 'views_recent:[10 TO *]'}).results %}
+{% set packages = h.get_action('package_search', {'sort': 'metadata_created desc', 'rows': 3}).results %}
 <div class="box" style="margin-bottom: 20px">
   <div class="inner">
     <header>
-      <h2>Popular Datasets</h2>
+      <h2>Latest Datasets</h2>
     </header>
     <hr>
     {% snippet 'snippets/package_list.html', packages=packages %}
