@@ -1,0 +1,25 @@
+{% set intro = g.site_intro_text %}
+
+<div class="module-content box">
+  <header>
+    {% if intro %}
+      {{ h.render_markdown(intro) }}
+    {% else %}
+      <h1 class="page-heading">{{ _("Welcome to CDRC Data") }}</h1>
+      <p>
+        We are an academic led, multi-institution laboratory which discovers, mines, analyses and synthesises consumer-related datasets from around the UK. The CDRC is an ESRC Data Investment.
+      </p>
+    {% endif %}
+  </header>
+
+  {% block home_image %}
+    <section class="featured media-overlay hidden-phone">
+      <!-- <h2 class="media-heading">{% block home_image_caption %}{{ _("This is a featured section") }}{% endblock %}</h2> -->
+      {% block home_image_content %}
+        <a class="media-image" href="http://public.cdrc.ac.uk">
+          <img src="{{ h.url_for_static('/images/retail_image.png') }}" alt="Placeholder" width="420" height="220" />
+        </a>
+      {% endblock %}
+    </section>
+  {% endblock %}
+</div>

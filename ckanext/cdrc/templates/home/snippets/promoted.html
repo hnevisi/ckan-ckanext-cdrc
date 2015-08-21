@@ -1,23 +1,33 @@
-{% set intro = g.site_intro_text %}
+{% set promoted_text = '''
+## London Output Area Classification
+
+The London Output Area Classification (LOAC) was created by [Alex
+Singleton](http://alex-singleton.com) and [Paul
+Longley](http://paul-longley.com/) in collaboration with the [Greater
+London Authority](http://www.london.gov.uk/). The recently published
+[article](dx.doi.org/10.1002/geo2.7) explores the geography of where
+Londoners live to identify 19 distinctive "tribes" that characterise
+neighbourhoods in the capital.
+
+Download Data: [CDRC 2011 LOAC Geodata
+Pack](https://data.cdrc.ac.uk/product/cdrc-2011-loac-geodata-pack)
+View LOAC Map: [maps.cdrc.ac.uk](maps.cdrc.ac.uk)
+Teaching Pack: [Creating a LOAC Map in R.](#)
+''' %}
+{% set promoted_img = '/images/London_LOAC.png' %}
+{% set promoted_url = 'http://public.cdrc.ac.uk' %}
 
 <div class="module-content box">
   <header>
-    {% if intro %}
-      {{ h.render_markdown(intro) }}
-    {% else %}
-      <h1 class="page-heading">{{ _("Welcome to CDRC Data") }}</h1>
-      <p>
-        We are an academic led, multi-institution laboratory which discovers, mines, analyses and synthesises consumer-related datasets from around the UK. The CDRC is an ESRC Data Investment.
-      </p>
-    {% endif %}
+    {{ h.render_markdown(promoted_text) }}
   </header>
 
   {% block home_image %}
     <section class="featured media-overlay hidden-phone">
       <!-- <h2 class="media-heading">{% block home_image_caption %}{{ _("This is a featured section") }}{% endblock %}</h2> -->
       {% block home_image_content %}
-        <a class="media-image" href="http://public.cdrc.ac.uk">
-          <img src="{{ h.url_for_static('/images/retail_image.png') }}" alt="Placeholder" width="420" height="220" />
+        <a class="media-image" href="{{ promoted_url }}">
+          <img src="{{ h.url_for_static(promoted_img) }}" alt="Placeholder" width="420" height="220" />
         </a>
       {% endblock %}
     </section>
