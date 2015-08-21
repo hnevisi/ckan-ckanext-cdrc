@@ -42,6 +42,16 @@
           {% snippet 'home/snippets/def_geography.html' %}
         {% endblock %}
       </div>
+      <div class="span5 col2" style="margin-top: 20px">
+        {% block popular %}
+          {% snippet 'home/snippets/popular_datasets.html' %}
+        {% endblock %}
+      </div>
+      <div class="span5 col2" style="margin-top: 20px">
+        {% block recent %}
+          {% snippet 'home/snippets/recent_uploads.html' %}
+        {% endblock %}
+      </div>
     </div>
   </div>
 </div>
