@@ -8,6 +8,9 @@
   <div class="container">
     <div class="row" style="margin-top: 20px">
       <div class="span5">
+        {% block stats %}
+          {% snippet 'home/snippets/stats.html' %}
+        {% endblock %}
         {% block welcome %}
           {% snippet 'home/snippets/welcome.html' %}
         {% endblock %}
@@ -21,16 +24,13 @@
       <div class="span7">
         <div class="row">
           <div class="span4">
-            {% block stats %}
-              {% snippet 'home/snippets/stats.html' %}
-            {% endblock %}
-            {% block def_topic %}
-              {% snippet 'home/snippets/def_topic.html' %}
+            {% block def_service %}
+              {% snippet 'home/snippets/def_service.html' %}
             {% endblock %}
           </div>
           <div class="span3">
-            {% block def_service %}
-              {% snippet 'home/snippets/def_service.html' %}
+            {% block def_topic %}
+              {% snippet 'home/snippets/def_topic.html' %}
             {% endblock %}
           </div>
         </div>
