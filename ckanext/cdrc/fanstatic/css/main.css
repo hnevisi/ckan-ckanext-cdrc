@@ -5953,6 +5953,9 @@ article .markdown-description a {
 .description a {
   text-decoration: underline;
 }
+.hyphenate {
+  text-align: justify;
+}
 .nav > li.open > .dropdown-menu > li > a:focus,
 .nav > li.open > .dropdown-menu > .active > a,
 .nav > li.open > .dropdown-menu > li > a:hover,

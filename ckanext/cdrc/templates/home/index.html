@@ -11,3 +11,8 @@
     </div>
   </div>
 {% endblock %}
+
+{% block scripts %}
+  {{ super() }}
+  {% resource 'cdrc/hyphenator' %}
+{% endblock %}
