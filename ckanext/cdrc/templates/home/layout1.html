@@ -22,6 +22,12 @@
         {% endblock %}
       </div>
       <div class="span7">
+        {% block popular %}
+          {% snippet 'home/snippets/popular_datasets.html' %}
+        {% endblock %}
+        {% block latest %}
+          {% snippet 'home/snippets/latest_datasets.html' %}
+        {% endblock %}
         <div class="row">
           <div class="span4">
             {% block def_service %}
@@ -36,12 +42,6 @@
         </div>
         {% block def_geography %}
           {% snippet 'home/snippets/def_geography.html' %}
-        {% endblock %}
-        {% block popular %}
-          {% snippet 'home/snippets/popular_datasets.html' %}
-        {% endblock %}
-        {% block latest %}
-          {% snippet 'home/snippets/latest_datasets.html' %}
         {% endblock %}
       </div>
     </div>
