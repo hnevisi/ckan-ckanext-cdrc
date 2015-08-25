@@ -148,6 +148,13 @@ def storage_use():
         return 0
 
 
+def number_of_downloads(session):
+    """ Return the total number of downloads from this service.
+    """
+    return list(session.execute(
+        "select sum(running_total ) from tracking_summary where tracking_type='resource' and tracking_date = (select max(tracking_date) from tracking_summary)"))[0][0]
+
+
 def get_site_statistics(context, data_dict):
     """ return package statistics, deprecated as get_action in helpers is deprecated. """
 
@@ -156,7 +163,8 @@ def get_site_statistics(context, data_dict):
         ('product_count', len(group_list(context, {'type': 'product'})), SI_NUMBER_UNITS),
         ('lad_count', len(group_list(context, {'type': 'lad'})), SI_NUMBER_UNITS),
         ('dataset_count', get_action('package_search')({}, {"rows": 1})['count'], SI_NUMBER_UNITS),
-        ('resource_size', storage_use(), FILESIZE_UNITS)
+        ('resource_size', storage_use(), FILESIZE_UNITS),
+        ('downloads', number_of_downloads(context['session']), SI_NUMBER_UNITS)
     ]
 
     stats = {}
