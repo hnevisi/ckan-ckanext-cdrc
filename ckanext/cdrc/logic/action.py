@@ -153,7 +153,7 @@ def number_of_downloads(session):
     """ Return the total number of downloads from this service.
     """
     return list(session.execute(
-        "select sum(running_total ) from tracking_summary where tracking_type='resource' and tracking_date = (select max(tracking_date) from tracking_summary)"))[0][0] or 0
+        "select sum(running_total) from tracking_summary where tracking_type='download' and tracking_date = (select max(tracking_date) from tracking_summary)"))[0][0] or 0
 
 
 def get_site_statistics(context, data_dict):
