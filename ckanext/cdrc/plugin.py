@@ -11,7 +11,7 @@ from ckan.lib.plugins import DefaultGroupForm
 import ckan.model as model
 import ckan.lib.fanstatic_resources as fanstatic_resources
 from ckanext.cdrc.logic import auth
-from ckanext.cdrc.logic.action import get_site_statistics, group_list, get_ga_account_ids, group_patch, resource_clean
+from ckanext.cdrc.logic import action
 
 from ckan.common import _, g, c
 
@@ -74,19 +74,29 @@ class CdrcPlugin(plugins.SingletonPlugin):
             with new, novel and policy-relevant datasets as our work programme
             develops.
         ''')
+        config_['ckan.site_notice'] = dedent('''
+            There is a problem
+        ''')
 
+    def update_config_schema(self, schema):
+        schema['ckan.site_notice'] = [unicode]
+        return schema
 
     def get_actions(self):
         return {
-            'get_site_statistics': get_site_statistics,
-            'get_ga_account_ids': get_ga_account_ids,
-            'resource_clean': resource_clean
+            'get_site_statistics': action.get_site_statistics,
+            'get_ga_account_ids': action.get_ga_account_ids,
+            'resource_clean': action.resource_clean,
+            'notice_show': action.notice_show,
+            'notice_exist': action.notice_exist,
+            'notice_update': action.notice_update
         }
 
     def get_auth_functions(self):
         return {
             'resource_download': auth.resource_download,
-            'resource_clean': auth.resource_clean
+            'resource_clean': auth.resource_clean,
+            'notice_update': auth.notice_update
         }
 
     def after_map(self, map):
@@ -111,7 +121,7 @@ class CdrcPlugin(plugins.SingletonPlugin):
             context = {'model': model, 'session': model.Session,
                        'user': c.user or c.author, 'auth_user_obj': c.userobj}
             for facet in ['topic', 'product', 'lad', 'accesslevel']:
-                groups = group_list(context, {'groups': group_facet.keys(),
+                groups = action.group_list(context, {'groups': group_facet.keys(),
                                               'type': facet,
                                               'all_fields': True})
                 result['search_facets'].update({
@@ -214,12 +224,12 @@ class CdrcTopicPlugin(plugins.SingletonPlugin, DefaultGroupForm):
 
     def get_actions(self):
         return {
-           'topic_list': group_list,
+           'topic_list': action.group_list,
            'topic_show': ckan_action.get.group_show,
            'topic_activity_list_html': ckan_action.get.group_activity_list_html,
            'topic_create': ckan_action.create.group_create,
            'topic_update': ckan_action.update.group_update,
-           'topic_patch': group_patch,
+           'topic_patch': action.group_patch,
            'topic_delete': ckan_action.delete.group_delete,
         }
 
@@ -291,12 +301,12 @@ class CdrcProductPlugin(plugins.SingletonPlugin, DefaultGroupForm):
 
     def get_actions(self):
         return {
-           'product_list': group_list,
+           'product_list': action.group_list,
            'product_show': ckan_action.get.group_show,
            'product_activity_list_html': ckan_action.get.group_activity_list_html,
            'product_create': ckan_action.create.group_create,
            'product_update': ckan_action.update.group_update,
-           'product_patch': group_patch,
+           'product_patch': action.group_patch,
            'product_delete': ckan_action.delete.group_delete,
         }
 
@@ -368,12 +378,12 @@ class CdrcLadPlugin(plugins.SingletonPlugin, DefaultGroupForm):
 
     def get_actions(self):
         return {
-           'lad_list': group_list,
+           'lad_list': action.group_list,
            'lad_show': ckan_action.get.group_show,
            'lad_activity_list_html': ckan_action.get.group_activity_list_html,
            'lad_create': ckan_action.create.group_create,
            'lad_update': ckan_action.update.group_update,
-           'lad_patch': group_patch,
+           'lad_patch': action.group_patch,
            'lad_delete': ckan_action.delete.group_delete,
         }
 
@@ -445,12 +455,12 @@ class CdrcAcclvlPlugin(plugins.SingletonPlugin, DefaultGroupForm):
 
     def get_actions(self):
         return {
-           'accesslevel_list': group_list,
+           'accesslevel_list': action.group_list,
            'accesslevel_show': ckan_action.get.group_show,
            'accesslevel_activity_list_html': ckan_action.get.group_activity_list_html,
            'accesslevel_create': ckan_action.create.group_create,
            'accesslevel_update': ckan_action.update.group_update,
-           'accesslevel_patch': group_patch,
+           'accesslevel_patch': action.group_patch,
            'accesslevel_delete': ckan_action.delete.group_delete,
         }
 

@@ -23,3 +23,6 @@ def resource_clean(context, data_dict):
     # Only sysadmin can do the cleaning
     return {'success': False}
 
+def notice_update(context, data_dict):
+    # Only sysadmin can do the cleaning
+    return {'success': False}

@@ -22,6 +22,7 @@ from ckan.common import c
 from pylons import cache
 from pylons import config
 from subprocess import check_output, CalledProcessError
+from ckan.lib.app_globals import app_globals, set_app_global
 
 
 def group_list(context, data_dict):
@@ -227,3 +228,31 @@ def resource_clean(context, data_dict):
             'deleted_count': len(deleted),
             'dangling': dangling,
             'dangling_count': len(dangling)}
+
+
+def notice_show(context, data_dict):
+    """ return the stored notice
+    """
+    return app_globals.site_notice
+
+
+def notice_update(context, data_dict):
+    """ return the stored notice
+    """
+    check_access('notice_update', context, data_dict)
+    model = context['model']
+    model.set_system_info('ckan.site_notice', data_dict.get('text', ''))
+    set_app_global('ckan.site_notice', data_dict.get('text', ''))
+    return True
+
+
+def notice_exist(context, data_dict):
+    """ return the stored notice
+    """
+    try:
+        if app_globals.site_notice is not None:
+            return len(app_globals.site_notice) > 0
+        else:
+            return False
+    except AttributeError:
+        return False
