@@ -17,7 +17,18 @@
   making sitewide header changes it is preferable to override the header.html
   file.
   #}
-  {% include "site_wide_notice.html" %}
+  {% block flash %}
+    {{ h.get_action('notice_show') }}
+    <div class="flash-messages container" style="">
+      {% block flash_inner %}
+        {% for message in h.flash.pop_messages() | list %}
+          <div class="alert fade in {{ message.category }}">
+            {{ h.literal(message) }}
+          </div>
+        {% endfor %}
+      {% endblock %}
+    </div>
+  {% endblock %}
   {%- block header %}
     {% include "header.html" %}
     <script src="//use.typekit.net/pra1loi.js"></script>
@@ -41,17 +52,6 @@
     {% block maintag %}<div role="main">{% endblock %}
       <div id="content" class="container">
         {% block main_content %}
-          {% block flash %}
-            <div class="flash-messages" style="position: absolute; z-index: 100; left: 0; width: 100%">
-              {% block flash_inner %}
-                {% for message in h.flash.pop_messages() | list %}
-                  <div class="alert fade in {{ message.category }}">
-                    {{ h.literal(message) }}
-                  </div>
-                {% endfor %}
-              {% endblock %}
-            </div>
-          {% endblock %}
 
           {% block toolbar %}
             <div class="toolbar">

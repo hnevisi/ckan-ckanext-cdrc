@@ -8805,9 +8805,7 @@ h4 small {
   margin-top: 0;
 }
 .flash-messages .alert {
-  -webkit-box-shadow: 0 0 0 1px white;
-  -moz-box-shadow: 0 0 0 1px white;
-  box-shadow: 0 0 0 1px white;
+  margin-bottom: 3px;
 }
 .homepage .row {
   position: relative;

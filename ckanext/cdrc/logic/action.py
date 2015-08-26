@@ -7,6 +7,7 @@ Description: Extending the set of actions to facilitate this plugin.
 """
 
 import os
+import json
 import sqlalchemy
 from sqlalchemy import func
 from sqlalchemy import or_
@@ -18,6 +19,7 @@ from ckan.logic.action.patch import group_patch as ckan_group_patch
 from ckan.logic import get_action
 from ckan.lib.uploader import get_storage_path
 from ckan.common import c
+from ckan.lib import helpers as h
 
 from pylons import cache
 from pylons import config
@@ -233,26 +235,24 @@ def resource_clean(context, data_dict):
 def notice_show(context, data_dict):
     """ return the stored notice
     """
-    return app_globals.site_notice
+    try:
+        notice = json.loads(app_globals.site_notice)
+        if 'text' in notice and len(notice['text']) > 0:
+            h.flash(notice['text'], notice['type'])
+    except:
+        pass
+    return ''
 
 
 def notice_update(context, data_dict):
     """ return the stored notice
     """
     check_access('notice_update', context, data_dict)
+    notice = {
+        'text': data_dict.get('text', ''),
+        'type': data_dict.get('type', 'alert-error')
+    }
     model = context['model']
-    model.set_system_info('ckan.site_notice', data_dict.get('text', ''))
-    set_app_global('ckan.site_notice', data_dict.get('text', ''))
-    return True
-
-
-def notice_exist(context, data_dict):
-    """ return the stored notice
-    """
-    try:
-        if app_globals.site_notice is not None:
-            return len(app_globals.site_notice) > 0
-        else:
-            return False
-    except AttributeError:
-        return False
+    model.set_system_info('ckan.site_notice', json.dumps(notice))
+    set_app_global('ckan.site_notice', json.dumps(notice))
+    return notice

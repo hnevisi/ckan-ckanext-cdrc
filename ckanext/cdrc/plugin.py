@@ -88,7 +88,6 @@ class CdrcPlugin(plugins.SingletonPlugin):
             'get_ga_account_ids': action.get_ga_account_ids,
             'resource_clean': action.resource_clean,
             'notice_show': action.notice_show,
-            'notice_exist': action.notice_exist,
             'notice_update': action.notice_update
         }
 
