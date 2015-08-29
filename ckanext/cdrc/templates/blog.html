@@ -1,0 +1,27 @@
+{% extends "page.html" %}
+
+
+{% block subtitle %}{{ _('Topic') }}{% endblock %}
+
+{% block breadcrumb_content %}
+  <li class="active">{% link_for _('Blog'), controller='ckanext.cdrc.controllers.blog:CDRCBlogController', action='blog_proxy' %}</li>
+{% endblock %}
+
+{% block page_header %}{% endblock %}
+
+{% block page_primary_action %}
+{% endblock %}
+
+{% block primary %}
+  <script language="javascript" type="text/javascript">
+    function resizeIframe(obj) {
+      obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';
+    }
+  </script>
+  <iframe id="blog-cdrc-data" src="/_blog" frameborder="0" scrolling="no"  onload='javascript:resizeIframe(this);'
+    style="width: 100%; border-radius:5px">
+  </iframe>
+{% endblock %}
+
+{% block secondary %}
+{% endblock %}

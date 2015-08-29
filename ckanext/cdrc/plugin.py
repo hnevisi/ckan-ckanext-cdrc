@@ -103,6 +103,7 @@ class CdrcPlugin(plugins.SingletonPlugin):
 
     def before_map(self, map):
         map.connect('/testing/assertfalse', controller='ckanext.cdrc.plugin:CDRCExtController', action='assertfalse')
+        map.connect('blog', '/blog', controller='ckanext.cdrc.controllers.blog:CDRCBlogController', action='blog_proxy')
         map.connect('national', '/national', controller='ckanext.cdrc.controllers.singlegroup:SingleGroupController', action='read_national')
         map.connect('regional', '/regional', controller='ckanext.cdrc.controllers.singlegroup:SingleGroupController', action='read_regional')
         return map
