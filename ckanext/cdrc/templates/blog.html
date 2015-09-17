@@ -13,15 +13,15 @@
 {% endblock %}
 
 {% block primary %}
-  <script language="javascript" type="text/javascript">
-    function resizeIframe(obj) {
-      obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';
-    }
-  </script>
-  <iframe id="blog-cdrc-data" src="{{ h.url('/', locale='default', qualified=true) }}_blog/" frameborder="0" scrolling="no"  onload='javascript:resizeIframe(this);'
+  <iframe id="blog-cdrc-data" src="{{ h.url('/', locale='default', qualified=true) }}_blog/" frameborder="0" scrolling="no"
     style="width: 100%; border-radius:5px">
   </iframe>
 {% endblock %}
 
 {% block secondary %}
+{% endblock %}
+
+{% block scripts %}
+  {{ super() }}
+  {% resource 'cdrc/iframe-resizer' %}
 {% endblock %}
