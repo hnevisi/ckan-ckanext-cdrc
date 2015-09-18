@@ -85,6 +85,7 @@ class CdrcPlugin(plugins.SingletonPlugin):
     def get_actions(self):
         return {
             'get_site_statistics': action.get_site_statistics,
+            'refresh_site_statistics': action.refresh_site_statistics,
             'get_ga_account_ids': action.get_ga_account_ids,
             'resource_clean': action.resource_clean,
             'notice_show': action.notice_show,

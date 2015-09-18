@@ -96,7 +96,7 @@ def group_list(context, data_dict):
 
 
     # The cache may leak private group information?
-    @cache.region('short_term')
+    @cache.region('short_term', 'action_group_show')
     def group_show_cached(action, group_id):
         data_dict['id'] = group_id
         return get_action(action)(context, data_dict)
@@ -160,6 +160,14 @@ def number_of_downloads(session):
 
 def get_site_statistics(context, data_dict):
     """ return package statistics, deprecated as get_action in helpers is deprecated. """
+    try:
+        stats = cache.get_cache_region('cdrc_data', 'long_term').get('ckan_stats')
+    except:
+        stats = refresh_site_statistics(context, data_dict)
+    return stats
+
+def refresh_site_statistics(context, data_dict):
+    """ refresh package statistics, deprecated as get_action in helpers is deprecated. """
 
     mappings = [
         ('topic_count', len(group_list(context, {'type': 'topic'})), SI_NUMBER_UNITS),
@@ -182,6 +190,7 @@ def get_site_statistics(context, data_dict):
             'text': '{0}{1}'.format(short_text, unit),
             'html': '{0}<span class="unit">{1}</span>'.format(short_text, unit)
         }
+    cache.get_cache_region('cdrc_data', 'long_term').put('ckan_stats', stats)
 
     return stats
 
