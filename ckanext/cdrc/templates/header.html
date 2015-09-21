@@ -1,23 +1,24 @@
 {% block header_wrapper %}
-{% block header_account %}
-  <header class="account-masthead">
-    <div class="container">
-      {# The .header-image class hides the main text and uses image replacement for the title #}
-      <hgroup class="{{ g.header_class }} pull-left">
+<div class="container">
+  {% block header_account %}
 
-        {% block header_logo %}
-          {% if g.site_logo %}
-            <a class="logo" href="{{ h.url('home') }}"><img src="{{ h.url_for_static_or_external(g.site_logo) }}" alt="{{ g.site_title }}" title="{{ g.site_title }}" style="position:relative; top: 10px; left: 10px; max-height: 60px;" /></a>
-          {% else %}
-            <h1>
-              <a href="{{ h.url('home') }}">{{ g.site_title }}</a>
-            </h1>
-            {% if g.site_description %}<h2>{{ g.site_description }}</h2>{% endif %}
-          {% endif %}
-        {% endblock %}
+    {# The .header-image class hides the main text and uses image replacement for the title #}
+    <hgroup class="{{ g.header_class }} pull-left">
+      {% block header_logo %}
+        {% if g.site_logo %}
+          <a class="logo" href="{{ h.url('home') }}" style="margin-top: 10px; margin-left: 10px; display: block;">
+            <img src="{{ h.url_for_static_or_external(g.site_logo) }}" alt="{{ g.site_title }}" title="{{ g.site_title }}" style="max-height: 60px; "/>
+          </a>
+        {% else %}
+          <h1>
+            <a href="{{ h.url('home') }}">{{ g.site_title }}</a>
+          </h1>
+          {% if g.site_description %}<h2>{{ g.site_description }}</h2>{% endif %}
+        {% endif %}
+      {% endblock %}
+    </hgroup>
 
-      </hgroup>
-
+    <header class="account-masthead">
       {% block header_account_container_content %}
         {% if c.userobj %}
           <div class="account avatar authed" data-module="me" data-me="{{ c.userobj.id }}" style="border-bottom: 1px dashed #e6e8e9">
@@ -74,66 +75,66 @@
           </nav>
         {% endif %}
       {% endblock %}
-    </div>
-  </header>
-{% endblock %}
-<header class="navbar navbar-static-top masthead">
-  {% block header_debug %}
-    {% if g.debug and not g.debug_supress_header %}
-      <div class="debug">Controller : {{ c.controller }}<br/>Action : {{ c.action }}</div>
-    {% endif %}
+    </header>
   {% endblock %}
-  <div class="container">
-    <button data-target=".nav-collapse" data-toggle="collapse" class="btn btn-navbar" type="button">
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-    </button>
-    <div class="nav-collapse collapse">
 
-      {% block header_site_navigation %}
-        <nav class="section navigation" style="margin-right: 0px">
-          <ul class="nav nav-tabs" style="margin-right: 0px">
-            {% block header_site_navigation_tabs %}
-              <li><a href="http://maps.cdrc.ac.uk" target='_blank'>Maps</a></li>
-              {{ h.build_nav_main(
-                ('blog', _('Blog')),
-                ('topic_index', _('Topics')),
-                ('product_index', _('Products')),
-              ) }}
-              <li class="dropdown">
-                <a id="nav-geography"class="dropdown-toggle" role="button" href="#" data-toggle="dropdown">
-                  Geography
-                  <b class="caret"></b>
-                </a>
-                <ul class="dropdown-menu" role="menu" aria-labelledby="nav-geography">
-                  <li><a href="#" style="background: white; cursor: default; color: #888;">Geography</a></li>
-                  {{ h.build_nav_main(
-                    ('lad_index', _('LADs')),
-                    ('national', _('National')),
-                    ('regional', _('Regional')),
-                  ) }}
-                </ul>
-              </li>
-              {{ h.build_nav_main(
-                ('search', _('Datasets')),
-              ) }}
-            {% endblock %}
-          </ul>
-        </nav>
-      {% endblock %}
 
-      {# {% block header_site_search %} #}
-      {#   <form class="section site-search simple-input" action="{% url_for controller='package', action='search' %}" method="get"> #}
-      {#     <div class="field"> #}
-      {#       <label for="field-sitewide-search">{% block header_site_search_label %}{{ _('Search Datasets') }}{% endblock %}</label> #}
-      {#       <input id="field-sitewide-search" type="text" name="q" placeholder="{{ _('Search') }}" /> #}
-      {#       <button class="btn-search" type="submit"><i class="icon-search"></i></button> #}
-      {#     </div> #}
-      {#   </form> #}
-      {# {% endblock %} #}
+  <header class="navbar navbar-static-top masthead">
+    {% block header_debug %}
+      {% if g.debug and not g.debug_supress_header %}
+        <div class="debug">Controller : {{ c.controller }}<br/>Action : {{ c.action }}</div>
+      {% endif %}
+    {% endblock %}
+      <button data-target=".nav-collapse" data-toggle="collapse" class="btn btn-navbar" type="button">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="nav-collapse collapse">
 
-    </div>
-  </div>
-</header>
+        {% block header_site_navigation %}
+          <nav class="section navigation" style="margin-right: 0px">
+            <ul class="nav nav-tabs" style="margin-right: 0px">
+              {% block header_site_navigation_tabs %}
+                <li><a href="http://maps.cdrc.ac.uk" target='_blank'>Maps</a></li>
+                {{ h.build_nav_main(
+                  ('blog', _('Blog')),
+                  ('topic_index', _('Topics')),
+                  ('product_index', _('Products')),
+                ) }}
+                <li class="dropdown">
+                  <a id="nav-geography"class="dropdown-toggle" role="button" href="#" data-toggle="dropdown">
+                    Geography
+                    <b class="caret"></b>
+                  </a>
+                  <ul class="dropdown-menu" role="menu" aria-labelledby="nav-geography">
+                    <li><a href="#" style="background: white; cursor: default; color: #888;">Geography</a></li>
+                    {{ h.build_nav_main(
+                      ('lad_index', _('LADs')),
+                      ('national', _('National')),
+                      ('regional', _('Regional')),
+                    ) }}
+                  </ul>
+                </li>
+                {{ h.build_nav_main(
+                  ('search', _('Datasets')),
+                ) }}
+              {% endblock %}
+            </ul>
+          </nav>
+        {% endblock %}
+
+        {# {% block header_site_search %} #}
+        {#   <form class="section site-search simple-input" action="{% url_for controller='package', action='search' %}" method="get"> #}
+        {#     <div class="field"> #}
+        {#       <label for="field-sitewide-search">{% block header_site_search_label %}{{ _('Search Datasets') }}{% endblock %}</label> #}
+        {#       <input id="field-sitewide-search" type="text" name="q" placeholder="{{ _('Search') }}" /> #}
+        {#       <button class="btn-search" type="submit"><i class="icon-search"></i></button> #}
+        {#     </div> #}
+        {#   </form> #}
+        {# {% endblock %} #}
+
+      </div>
+  </header>
+</div>
 {% endblock %}
