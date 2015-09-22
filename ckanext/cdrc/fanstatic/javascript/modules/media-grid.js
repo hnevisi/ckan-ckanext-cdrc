@@ -3,13 +3,5 @@
  * grid and then applies the jQuery.masonry to then
  */
 this.ckan.module('media-grid', function ($, _) {
-  return {
-    initialize: function () {
-      var wrapper = this.el;
-        wrapper.masonry({
-          itemSelector: '.media-item',
-          // isFitWidth: true
-      });
-    }
-  };
+  $('#group-list').mixItUp({selectors:{target: '.media-item'}, animation:{enable: false}})
 });

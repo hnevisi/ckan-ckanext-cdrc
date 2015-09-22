@@ -9,7 +9,7 @@ Example:
 
 #}
 {% block product_list %}
-<ul class="media-grid" data-module="media-grid">
+<ul id='group-list' class="media-grid" data-module="media-grid">
   {% block product_list_inner %}
   {% for product in products %}
     {% snippet "product/snippets/customized_group_item.html", product=product, position=loop.index %}
@@ -17,3 +17,5 @@ Example:
    {% endblock %}
 </ul>
 {% endblock %}
+
+{% resource 'cdrc/mixitup' %}

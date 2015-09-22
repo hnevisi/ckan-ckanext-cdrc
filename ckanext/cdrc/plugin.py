@@ -12,6 +12,7 @@ import ckan.model as model
 import ckan.lib.fanstatic_resources as fanstatic_resources
 from ckanext.cdrc.logic import auth
 from ckanext.cdrc.logic import action
+from ckanext.cdrc import helpers as cdrc_helpers
 
 from ckan.common import _, g, c
 
@@ -41,10 +42,10 @@ class CdrcPlugin(plugins.SingletonPlugin):
         toolkit.add_public_directory(config_, 'public')
         toolkit.add_resource('fanstatic', 'cdrc')
 
-        # # Patching the ckan group needs to remove default mason-grid.js
-        # ckan_group = getattr(fanstatic_resources, 'base/ckan')
-        # ckan_group.depends = set([r for r in ckan_group.depends if not r.relpath.endswith('media-grid.js')])
-        # ckan_group.resources = set([r for r in ckan_group.depends if not r.relpath.endswith('media-grid.js')])
+        # Patching the ckan group needs to remove default mason-grid.js
+        ckan_group = getattr(fanstatic_resources, 'base/ckan')
+        ckan_group.depends = set([r for r in ckan_group.depends if not r.relpath.endswith('media-grid.js')])
+        ckan_group.resources = set([r for r in ckan_group.resources if not r.relpath.endswith('media-grid.js')])
 
         config_['ckan.site_logo'] = '/images/CDRC Col.jpg'
         config_['ckan.site_description'] = dedent(
