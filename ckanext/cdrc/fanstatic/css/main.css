@@ -192,7 +192,7 @@ textarea {
 }
 body {
   margin: 0;
-  font-family: 'Museo', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: 'Verdana', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 14px;
   line-height: 20px;
   color: #444444;
@@ -604,7 +604,7 @@ h4,
 h5,
 h6 {
   margin: 10px 0;
-  font-family: inherit;
+  font-family: 'museo', serif;
   font-weight: bold;
   line-height: 20px;
   color: inherit;
@@ -878,7 +878,7 @@ input,
 button,
 select,
 textarea {
-  font-family: 'Museo', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: 'Verdana', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 label {
   display: block;
@@ -3371,7 +3371,7 @@ input[type="submit"].btn.btn-mini {
 .navbar-search .search-query {
   margin-bottom: 0;
   padding: 4px 14px;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'Verdana', "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 13px;
   font-weight: normal;
   line-height: 1;
@@ -5991,6 +5991,7 @@ article .markdown-description a {
   border-radius: 0;
   padding: 0 0;
   background: white;
+  font-family: 'museo', serif;
 }
 .navbar .nav > li > .dropdown-menu:before {
   display: none;
@@ -7965,6 +7966,7 @@ textarea {
   margin-top: 12px;
   margin-bottom: 5px;
   padding: 5px 0;
+  font-family: 'museo', serif;
 }
 .toolbar:before,
 .toolbar:after {
@@ -8080,6 +8082,7 @@ textarea {
   clear: both;
 }
 .page-header .nav-tabs {
+  font-family: 'museo', serif;
   float: left;
   margin-bottom: -1px;
 }
@@ -9091,6 +9094,7 @@ h4 small {
   border: 0;
   border-radius: 0;
   margin: 0;
+  font-family: 'museo', serif;
 }
 .masthead .nav > li > a {
   color: #222;
@@ -9102,6 +9106,7 @@ h4 small {
   border: 0;
   border-radius: 0;
   margin: 0;
+  font-family: 'museo', serif;
 }
 .masthead .site-search {
   margin: 2px 8px 2px 0;
@@ -9254,6 +9259,7 @@ h4 small {
   border: 0;
   border-radius: 0;
   margin: 0;
+  font-family: 'museo', serif;
 }
 .site-footer .nav > li > a {
   color: #222;
@@ -9265,6 +9271,7 @@ h4 small {
   border: 0;
   border-radius: 0;
   margin: 0;
+  font-family: 'museo', serif;
 }
 .site-footer .site-search {
   margin: 2px 8px 2px 0;
