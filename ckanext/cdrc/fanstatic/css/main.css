@@ -5999,6 +5999,15 @@ article .markdown-description a {
 .navbar .nav > li > .dropdown-menu:after {
   display: none;
 }
+dt {
+  font-family: 'museo', serif;
+}
+.btn {
+  font-family: 'museo', serif;
+}
+.username {
+  font-family: 'museo', serif;
+}
 .break-word {
   -ms-word-break: break-all;
   word-break: break-all;
