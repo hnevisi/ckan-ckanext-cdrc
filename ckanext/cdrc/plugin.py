@@ -12,7 +12,6 @@ import ckan.model as model
 import ckan.lib.fanstatic_resources as fanstatic_resources
 from ckanext.cdrc.logic import auth
 from ckanext.cdrc.logic import action
-from ckanext.cdrc import helpers as cdrc_helpers
 
 from ckan.common import _, g, c
 
