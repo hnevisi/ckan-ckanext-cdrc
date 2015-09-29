@@ -6008,6 +6008,9 @@ dt {
 .username {
   font-family: 'museo', serif;
 }
+fieldset > legend {
+  font-family: 'museo', serif;
+}
 .break-word {
   -ms-word-break: break-all;
   word-break: break-all;
