@@ -295,7 +295,7 @@ class CdrcProductPlugin(plugins.SingletonPlugin, DefaultGroupForm):
 
     def get_auth_functions(self):
         return {
-           'product_create': ckan_auth.create.group_create,
+           'product_create': auth.product_create,
            'product_update': ckan_auth.update.group_update,
            'product_delete': ckan_auth.delete.group_delete,
         }
