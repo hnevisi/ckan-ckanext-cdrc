@@ -9,8 +9,9 @@ Description: CDRC auth plugin
 
 from ckan.logic import authz
 import ckan.plugins.toolkit as toolkit
-from ckan.logic import get_action
+from ckan.logic import get_action, check_access
 from ckan.logic import auth as ckan_auth
+from ckan.logic import action as ckan_action
 
 @toolkit.auth_allow_anonymous_access
 def resource_download(context, data_dict):
@@ -20,10 +21,21 @@ def resource_download(context, data_dict):
             'msg': 'Please login to download the resources.'
             }
 
-def product_create(context, data_dict):
+def group_edit(context, data_dict):
     """ check whether user are allowed to create products.
     """
     return ckan_auth.create.package_create(context, {'owner_org': 'consumer-data-research-centre'})
+
+
+def group_create(context, data_dict):
+    user = authz.get_user_id_for_username(context['user'], allow_none=True)
+    group_type = data_dict.get('type', 'group')
+
+    if not group_type == 'group':
+        return {'success': check_access(group_type + '_create', context, data_dict)}
+
+    else:
+        ckan_auth.create.group_create(context, data_dict)
 
 
 def resource_clean(context, data_dict):

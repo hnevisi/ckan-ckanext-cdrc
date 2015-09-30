@@ -96,7 +96,8 @@ class CdrcPlugin(plugins.SingletonPlugin):
         return {
             'resource_download': auth.resource_download,
             'resource_clean': auth.resource_clean,
-            'notice_update': auth.notice_update
+            'notice_update': auth.notice_update,
+            'group_create': auth.group_create
         }
 
     def after_map(self, map):
@@ -218,20 +219,20 @@ class CdrcTopicPlugin(plugins.SingletonPlugin, DefaultGroupForm):
 
     def get_auth_functions(self):
         return {
-           'topic_create': ckan_auth.create.group_create,
-           'topic_update': ckan_auth.update.group_update,
-           'topic_delete': ckan_auth.delete.group_delete,
+            'topic_create': ckan_auth.create.group_create,
+            'topic_update': ckan_auth.update.group_update,
+            'topic_delete': ckan_auth.delete.group_delete,
         }
 
     def get_actions(self):
         return {
-           'topic_list': action.group_list,
-           'topic_show': ckan_action.get.group_show,
-           'topic_activity_list_html': ckan_action.get.group_activity_list_html,
-           'topic_create': ckan_action.create.group_create,
-           'topic_update': ckan_action.update.group_update,
-           'topic_patch': action.group_patch,
-           'topic_delete': ckan_action.delete.group_delete,
+            'topic_list': action.group_list,
+            'topic_show': ckan_action.get.group_show,
+            'topic_activity_list_html': ckan_action.get.group_activity_list_html,
+            'topic_create': ckan_action.create.group_create,
+            'topic_update': ckan_action.update.group_update,
+            'topic_patch': action.group_patch,
+            'topic_delete': ckan_action.delete.group_delete,
         }
 
     def group_controller(self):
@@ -295,20 +296,20 @@ class CdrcProductPlugin(plugins.SingletonPlugin, DefaultGroupForm):
 
     def get_auth_functions(self):
         return {
-           'product_create': auth.product_create,
-           'product_update': ckan_auth.update.group_update,
-           'product_delete': ckan_auth.delete.group_delete,
+            'product_create': auth.group_edit,
+            'product_update': auth.group_edit,
+            'product_delete': ckan_auth.delete.group_delete,
         }
 
     def get_actions(self):
         return {
-           'product_list': action.group_list,
-           'product_show': ckan_action.get.group_show,
-           'product_activity_list_html': ckan_action.get.group_activity_list_html,
-           'product_create': ckan_action.create.group_create,
-           'product_update': ckan_action.update.group_update,
-           'product_patch': action.group_patch,
-           'product_delete': ckan_action.delete.group_delete,
+            'product_list': action.group_list,
+            'product_show': ckan_action.get.group_show,
+            'product_activity_list_html': ckan_action.get.group_activity_list_html,
+            'product_create': ckan_action.create.group_create,
+            'product_update': ckan_action.update.group_update,
+            'product_patch': action.group_patch,
+            'product_delete': ckan_action.delete.group_delete,
         }
 
     def group_controller(self):
@@ -372,20 +373,20 @@ class CdrcLadPlugin(plugins.SingletonPlugin, DefaultGroupForm):
 
     def get_auth_functions(self):
         return {
-           'lad_create': ckan_auth.create.group_create,
-           'lad_update': ckan_auth.update.group_update,
-           'lad_delete': ckan_auth.delete.group_delete,
+            'lad_create': lambda c, d: ckan_auth.create.group_create(c, dict(d, type='group')),
+            'lad_update': auth.group_edit,
+            'lad_delete': ckan_auth.delete.group_delete,
         }
 
     def get_actions(self):
         return {
-           'lad_list': action.group_list,
-           'lad_show': ckan_action.get.group_show,
-           'lad_activity_list_html': ckan_action.get.group_activity_list_html,
-           'lad_create': ckan_action.create.group_create,
-           'lad_update': ckan_action.update.group_update,
-           'lad_patch': action.group_patch,
-           'lad_delete': ckan_action.delete.group_delete,
+            'lad_list': action.group_list,
+            'lad_show': ckan_action.get.group_show,
+            'lad_activity_list_html': ckan_action.get.group_activity_list_html,
+            'lad_create': ckan_action.create.group_create,
+            'lad_update': ckan_action.update.group_update,
+            'lad_patch': action.group_patch,
+            'lad_delete': ckan_action.delete.group_delete,
         }
 
     def group_controller(self):
@@ -449,20 +450,20 @@ class CdrcAcclvlPlugin(plugins.SingletonPlugin, DefaultGroupForm):
 
     def get_auth_functions(self):
         return {
-           'accesslevel_create': ckan_auth.create.group_create,
-           'accesslevel_update': ckan_auth.update.group_update,
-           'accesslevel_delete': ckan_auth.delete.group_delete,
+            'accesslevel_create': lambda c, d: ckan_auth.create.group_create(c, dict(d, type='group')),
+            'accesslevel_update': auth.group_edit,
+            'accesslevel_delete': ckan_auth.delete.group_delete,
         }
 
     def get_actions(self):
         return {
-           'accesslevel_list': action.group_list,
-           'accesslevel_show': ckan_action.get.group_show,
-           'accesslevel_activity_list_html': ckan_action.get.group_activity_list_html,
-           'accesslevel_create': ckan_action.create.group_create,
-           'accesslevel_update': ckan_action.update.group_update,
-           'accesslevel_patch': action.group_patch,
-           'accesslevel_delete': ckan_action.delete.group_delete,
+            'accesslevel_list': action.group_list,
+            'accesslevel_show': ckan_action.get.group_show,
+            'accesslevel_activity_list_html': ckan_action.get.group_activity_list_html,
+            'accesslevel_create': ckan_action.create.group_create,
+            'accesslevel_update': ckan_action.update.group_update,
+            'accesslevel_patch': action.group_patch,
+            'accesslevel_delete': ckan_action.delete.group_delete,
         }
 
     def group_controller(self):
