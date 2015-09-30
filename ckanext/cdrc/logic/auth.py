@@ -45,3 +45,8 @@ def resource_clean(context, data_dict):
 def notice_update(context, data_dict):
     # Only sysadmin can do the cleaning
     return {'success': False}
+
+
+def member_edit(context, data_dict):
+    return ckan_auth.create.package_create(context, {'owner_org': 'consumer-data-research-centre'})
+

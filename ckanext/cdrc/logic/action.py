@@ -13,6 +13,7 @@ from sqlalchemy import func
 from sqlalchemy import or_
 from paste.deploy.converters import asbool, aslist
 
+from ckan.logic import action as ckan_action
 from ckan.logic import check_access
 from ckan.logic.action.get import _unpick_search
 from ckan.logic.action.patch import group_patch as ckan_group_patch
@@ -20,6 +21,7 @@ from ckan.logic import get_action
 from ckan.lib.uploader import get_storage_path
 from ckan.common import c
 from ckan.lib import helpers as h
+import ckan.lib.dictization.model_dictize as model_dictize
 
 from pylons import cache
 from pylons import config
@@ -265,3 +267,21 @@ def notice_update(context, data_dict):
     model.set_system_info('ckan.site_notice', json.dumps(notice))
     set_app_global('ckan.site_notice', json.dumps(notice))
     return notice
+
+def group_list_authz(context, data_dict):
+    try:
+        check_access('member_create', context, data_dict)
+    except:
+        return []
+    available_only = data_dict.get('available_only', False)
+    group_list = set([(g['id'], g['display_name']) for g in ckan_action.get.group_list_authz(context, data_dict)])
+    for t in ['topic', 'product', 'lad', 'accesslevel']:
+        group_list |= set([(g['id'], g['display_name']) for g in ckan_action.get.group_list(context, {'type': t, 'all_fields': True})])
+
+    if available_only:
+        package = context.get('package')
+        if package:
+            group_list -= set([(g['id'], g['display_name']) for g in model_dictize.group_list_dictize(package.get_groups(), context)])
+
+    return [{'id': g[0], 'display_name': g[1]} for g in sorted(list(group_list), key=lambda g: g[1].lower())]
+

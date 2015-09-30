@@ -89,7 +89,8 @@ class CdrcPlugin(plugins.SingletonPlugin):
             'get_ga_account_ids': action.get_ga_account_ids,
             'resource_clean': action.resource_clean,
             'notice_show': action.notice_show,
-            'notice_update': action.notice_update
+            'notice_update': action.notice_update,
+            'group_list_authz': action.group_list_authz,
         }
 
     def get_auth_functions(self):
@@ -97,7 +98,9 @@ class CdrcPlugin(plugins.SingletonPlugin):
             'resource_download': auth.resource_download,
             'resource_clean': auth.resource_clean,
             'notice_update': auth.notice_update,
-            'group_create': auth.group_create
+            'group_create': auth.group_create,
+            'member_create': auth.member_edit,
+            'member_delete': auth.member_edit,
         }
 
     def after_map(self, map):
