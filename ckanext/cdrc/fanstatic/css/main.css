@@ -7676,6 +7676,9 @@ textarea {
 .additional-info th {
   width: 50%;
 }
+.label {
+  font-family: 'Verdana', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
 .label[data-format=html],
 .label[data-format*=html] {
   background-color: #aaaaaa;
