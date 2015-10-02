@@ -8925,11 +8925,11 @@ h4 small {
 }
 .homepage .stats ul li a b {
   display: block;
-  font-size: 35px;
+  font-size: 26.25px;
   line-height: 1.5;
 }
 .homepage .stats ul li a b .unit {
-  font-size: 17.85px;
+  font-size: 11.9px;
 }
 .homepage .stats ul li a:hover {
   text-decoration: none;
