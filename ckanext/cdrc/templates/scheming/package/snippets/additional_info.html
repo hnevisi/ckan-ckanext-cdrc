@@ -10,7 +10,6 @@
     'owner_org',
     'maintainer_email',
     'maintainer',
-    'author_email'
     ] -%}
 
 {% block package_additional_info %}
@@ -26,12 +25,6 @@
     {%- endif -%}
   {%- endfor -%}
       <tr>
-        <th scope="row" class="dataset-label">Author Email</th>
-        <td class="dataset-details">
-          <a href="mailto:data.cdrc.ac.uk">data@cdrc.ac.uk</a>
-        </td>
-      </tr>
-      <tr>
         <th scope="row" class="dataset-label">Maintainer</th>
         <td class="dataset-details">
           Consumer Data Research Centre
@@ -40,7 +33,7 @@
       <tr>
         <th scope="row" class="dataset-label">Maintainer Email</th>
         <td class="dataset-details">
-          <a href="mailto:data.cdrc.ac.uk">data@cdrc.ac.uk</a>
+          <a href="mailto:data@cdrc.ac.uk">data@cdrc.ac.uk</a>
         </td>
       </tr>
   {% if h.check_access('package_update',{'id':pkg_dict.id}) %}
