@@ -274,14 +274,13 @@ def group_list_authz(context, data_dict):
     except:
         return []
     available_only = data_dict.get('available_only', False)
-    group_list = set([(g['id'], g['display_name']) for g in ckan_action.get.group_list_authz(context, data_dict)])
+    glist = set([(g['id'], g['display_name']) for g in ckan_action.get.group_list_authz(context, data_dict)])
     for t in ['topic', 'product', 'lad', 'accesslevel']:
-        group_list |= set([(g['id'], g['display_name']) for g in ckan_action.get.group_list(context, {'type': t, 'all_fields': True})])
+        glist |= set([(g['id'], g['display_name']) for g in group_list(context, {'type': t, 'all_fields': True})])
 
     if available_only:
         package = context.get('package')
         if package:
-            group_list -= set([(g['id'], g['display_name']) for g in model_dictize.group_list_dictize(package.get_groups(), context)])
+            glist -= set([(g['id'], g['display_name']) for g in model_dictize.group_list_dictize(package.get_groups(), context)])
 
-    return [{'id': g[0], 'display_name': g[1]} for g in sorted(list(group_list), key=lambda g: g[1].lower())]
-
+    return [{'id': g[0], 'display_name': g[1]} for g in sorted(list(glist), key=lambda g: g[1].lower())]
