@@ -40,8 +40,8 @@
       })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
       {% for name, ga_id in h.get_action("get_ga_account_ids") %}
-      ga('create', '{{ ga_id }}', 'auto', {name: "{{name}}"});
-      ga('send.{{name}}', 'pageview');
+      ga('create', '{{ ga_id }}', 'auto', '{{name}}');
+      ga('{{name}}.send', 'pageview');
       {% endfor %}
 
     </script>
