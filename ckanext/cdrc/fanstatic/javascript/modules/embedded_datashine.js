@@ -1,6 +1,6 @@
 this.ckan.module('embedded-datashine', function ($, _) {
   $(document).ready(function(){
-    var tileName = ",c11_ew_-QS302EW0002-QS302EW0001-wd-standard_dev-0.470440000-0.052875400-oa-standard_dev-0.465285000-0.088207400-cb-RdYlGn-8-0";
+    var tileName = ",c11_ew_-QS302EW0002-QS302EW0001-wd-standard_dev-0.470440000-0.052875400-oa-standard_dev-0.465285000-0.088207400-cb-RdYlBu-8-0";
     layerData = new ol.layer.Tile({
       title: "",
       source: new ol.source.XYZ({
