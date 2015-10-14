@@ -35,7 +35,7 @@ def group_create(context, data_dict):
         return {'success': check_access(group_type + '_create', context, data_dict)}
 
     else:
-        ckan_auth.create.group_create(context, data_dict)
+        return ckan_auth.create.group_create(context, data_dict)
 
 
 def resource_clean(context, data_dict):
