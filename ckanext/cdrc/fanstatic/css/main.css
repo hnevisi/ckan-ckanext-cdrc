@@ -6808,9 +6808,6 @@ label {
   cursor: pointer;
   font-size: 14px;
 }
-label:after {
-  content: ":";
-}
 label.radio:after,
 label.checkbox:after {
   content: "";
@@ -6848,7 +6845,8 @@ textarea {
 .control-medium input,
 .control-medium select,
 .control-medium textarea {
-  width: 320px;
+  width: 90%;
+  max-width: 320px;
 }
 @media (max-width: 768px) {
   .control-medium input,
