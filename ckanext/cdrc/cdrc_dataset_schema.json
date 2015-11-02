@@ -100,24 +100,29 @@
     {
       "field_name": "url",
       "validators": "ignore_missing",
-      "label": "Source",
+      "label": "Source URL",
       "form_placeholder": "http://example.com/dataset.json",
       "display_property": "foaf:homepage",
       "display_snippet": "link.html"
     },
     {
+      "field_name": "source",
+      "validators": "ignore_missing",
+      "label": "Source",
+      "form_placeholder": "ONS",
+      "preset": "text"
+    },
+    {
       "field_name": "author",
       "validators": "ignore_missing",
       "label": "Author",
-      "form_placeholder": "Joe Bloggs",
-      "display_property": "dc:creator"
+      "form_placeholder": "Joe Bloggs"
     },
     {
       "field_name": "author_email",
       "validators": "ignore_missing",
       "label": "Author Email",
       "form_placeholder": "joe@example.com",
-      "display_property": "dc:creator",
       "display_snippet": "email.html",
       "display_email_name_field": "author"
     },
@@ -126,16 +131,50 @@
       "validators": "ignore_missing",
       "label": "Maintainer",
       "form_placeholder": "Joe Bloggs",
-      "display_property": "dc:contributor"
+      "preset": "text"
     },
     {
       "field_name": "maintainer_email",
       "validators": "ignore_missing",
       "label": "Maintainer Email",
       "form_placeholder": "joe@example.com",
-      "display_property": "dc:contributor",
       "display_snippet": "email.html",
       "display_email_name_field": "maintainer"
+    },
+    {
+      "field_name": "geography_url",
+      "validators": "ignore_missing",
+      "label": "Geography URL",
+      "form_placeholder": "http://example.org/boundaries",
+      "display_snippet": "link.html"
+    },
+    {
+      "field_name": "attribution",
+      "validators": "ignore_missing",
+      "label": "Attribution Statement",
+      "form_placeholder": "Attribution is required for using this dataset.",
+      "preset": "text"
+    },
+    {
+      "field_name": "citation",
+      "validators": "ignore_missing",
+      "label": "Citation",
+      "form_placeholder": "J. Bloggs. In Journal of Data and Anything. 1900. pp.2015-2020",
+      "preset": "text"
+    },
+    {
+      "field_name": "map_url",
+      "validators": "ignore_missing",
+      "label": "CDRC Map URL",
+      "form_placeholder": "http://maps.cdrc.ac.uk/",
+      "display_property": "foaf:homepage",
+      "display_snippet": "link.html"
+    },
+    {
+      "field_name": "license_id",
+      "label": "License",
+      "form_snippet": "license.html",
+      "help_text": "License definitions and additional information can be found at http://opendefinition.org/"
     }
   ],
   "resource_fields": [
