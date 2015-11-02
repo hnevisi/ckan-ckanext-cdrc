@@ -1,6 +1,15 @@
 {% ckan_extends %}
 
 {% block package_organization %}
+  {% if pkg.creator_id %}
+  <div class="module module-narrow module-shallow context-info">
+      <h2 class="module-heading"><i class="icon-cloud-upload"></i> {{ _('Uploaded by') }}</h2>
+    <section class="module-content">
+      {{ pkg.creator_id }} {% if pkg.creator_name %}({{ pkg.creator_name }}) {% endif %}
+    </section>
+  </div>
+  {% endif %}
+
 {% endblock %}
 
 {% block content_primary_nav %}

@@ -12,6 +12,7 @@ import ckan.model as model
 import ckan.lib.fanstatic_resources as fanstatic_resources
 from ckanext.cdrc.logic import auth
 from ckanext.cdrc.logic import action
+from ckan.logic import get_action as ckan_get_action
 
 from ckan.common import _, g, c
 
@@ -157,6 +158,12 @@ class CdrcPlugin(plugins.SingletonPlugin):
         if group_type != 'accesslevel':
             facets_dict['accesslevel'] = toolkit._('Access Levels')
         return facets_dict
+
+    def before_view(self, pkg_dict):
+        user_dict = ckan_get_action('user_show')({'model': model}, {'id': pkg_dict['creator_user_id']})
+        pkg_dict['creator_name'] = user_dict['fullname']
+        pkg_dict['creator_id'] = user_dict['name']
+        return pkg_dict
 
 
 def mapper_mixin(map, group_type, controller):
