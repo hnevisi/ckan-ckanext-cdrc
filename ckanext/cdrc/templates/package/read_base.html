@@ -1,19 +1,41 @@
 {% ckan_extends %}
 
-{% block package_organization %}
-  {% if pkg.creator_id %}
-  <div class="module module-narrow module-shallow context-info">
-      <h2 class="module-heading"><i class="icon-cloud-upload"></i> {{ _('Uploaded by') }}</h2>
-    <section class="module-content">
-      {{ pkg.creator_id }} {% if pkg.creator_name %}({{ pkg.creator_name }}) {% endif %}
-    </section>
-  </div>
-  {% endif %}
-
-{% endblock %}
 
 {% block content_primary_nav %}
   {{ h.build_nav_icon('dataset_read', _('Dataset'), id=pkg.name) }}
   {{ h.build_nav_icon('dataset_groups', _('Groups'), id=pkg.name) }}
   {{ h.build_nav_icon('dataset_activity', _('Activity Stream'), id=pkg.name) }}
+{% endblock %}
+
+{% block secondary_content %}
+
+  {% block secondary_help_content %}{% endblock %}
+
+  {% block package_info %}
+    {% snippet 'package/snippets/info.html', pkg=pkg %}
+  {% endblock %}
+
+  {% block package_license %}
+    {% snippet "snippets/license.html", pkg_dict=pkg %}
+  {% endblock %}
+
+  {% block package_organization %}
+  {% endblock %}
+
+  {% block package_creator %}
+    {% if pkg.creator_id %}
+    <div class="module module-narrow module-shallow context-info">
+        <h2 class="module-heading"><i class="icon-cloud-upload"></i> {{ _('Uploaded by') }}</h2>
+      <section class="module-content">
+        {{ pkg.creator_id }} {% if pkg.creator_name %}({{ pkg.creator_name }}) {% endif %}
+      </section>
+    </div>
+    {% endif %}
+  {% endblock %}
+
+  {% block package_social %}
+    {% snippet "snippets/social.html" %}
+  {% endblock %}
+
+
 {% endblock %}
