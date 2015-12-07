@@ -92,6 +92,7 @@ class CdrcPlugin(plugins.SingletonPlugin):
             'notice_show': action.notice_show,
             'notice_update': action.notice_update,
             'group_list_authz': action.group_list_authz,
+            'package_create': action.package_create,
         }
 
     def get_auth_functions(self):

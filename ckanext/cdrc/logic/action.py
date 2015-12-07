@@ -7,6 +7,7 @@ Description: Extending the set of actions to facilitate this plugin.
 """
 
 import os
+import re
 import json
 import sqlalchemy
 from sqlalchemy import func
@@ -27,6 +28,16 @@ from pylons import cache
 from pylons import config
 from subprocess import check_output, CalledProcessError
 from ckan.lib.app_globals import app_globals, set_app_global
+
+NONALPHANUMERIC = re.compile(r'[^a-z0-9_-]')
+DASHES = re.compile(r'[-_]+')
+DASHATEND = re.compile(r'^[-_]+|[-_]+$')
+
+def namify(title):
+    """ Generate a name from a title """
+    name = NONALPHANUMERIC.subn('-', title.lower())[0]
+    name = DASHES.subn('-', name)[0]
+    return DASHATEND.subn('', name)[0][:95]
 
 
 def group_list(context, data_dict):
@@ -87,7 +98,7 @@ def group_list(context, data_dict):
         ))
 
     query = query.filter(model.Group.is_organization == is_org)
-    if not is_org:
+    if not is_org and group_type != 'group':
         query = query.filter(model.Group.type == group_type)
 
     groups = query.all()
@@ -284,3 +295,27 @@ def group_list_authz(context, data_dict):
             glist -= set([(g['id'], g['display_name']) for g in model_dictize.group_list_dictize(package.get_groups(), context)])
 
     return [{'id': g[0], 'display_name': g[1]} for g in sorted(list(glist), key=lambda g: g[1].lower())]
+
+
+def package_create(context, data_dict):
+    """ Wrapping around the original package create and add parsers for product/topic/geography info.
+    :returns: TODO
+
+    """
+    tag_names = [t['name'].lower() for t in data_dict['tags']]
+    groups = [{'name': g} for g in group_list(context, {'groups': tag_names})]
+    if data_dict['product_info']:
+        product_title = data_dict['product_info']
+        product_name = namify(product_title)
+        product = group_list(context, {'type': 'product', 'groups': [product_name]})
+        if len(product) == 0:
+            ckan_action.create.group_create(context, {
+                'name': product_name,
+                'title': product_title,
+                'type': 'product'
+            })
+        groups += [{'name': product_name}]
+
+    data_dict['groups'] = groups
+    pkg_dict = ckan_action.create.package_create(context, data_dict)
+    return pkg_dict
