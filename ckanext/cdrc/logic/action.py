@@ -28,6 +28,7 @@ from pylons import cache
 from pylons import config
 from subprocess import check_output, CalledProcessError
 from ckan.lib.app_globals import app_globals, set_app_global
+from ckanext.cdrc import helpers
 
 NONALPHANUMERIC = re.compile(r'[^a-z0-9_-]')
 DASHES = re.compile(r'[-_]+')
@@ -302,9 +303,15 @@ def package_create(context, data_dict):
     :returns: TODO
 
     """
-    tag_names = [t['name'].lower() for t in data_dict['tags']]
-    groups = [{'name': g} for g in group_list(context, {'groups': tag_names})]
-    if data_dict['product_info']:
+    if not helpers.is_admin_in_org_or_group(data_dict['owner_org']):
+        data_dict['private'] = u'True'
+    group_names = []
+    if data_dict.get('tags'):
+        group_names += [t['name'].lower() for t in data_dict['tags']]
+    elif data_dict.get('tag_string'):
+        group_names += [t.lower() for t in data_dict['tag_string'].split(',')]
+
+    if data_dict.get('product_info'):
         product_title = data_dict['product_info']
         product_name = namify(product_title)
         product = group_list(context, {'type': 'product', 'groups': [product_name]})
@@ -314,8 +321,11 @@ def package_create(context, data_dict):
                 'title': product_title,
                 'type': 'product'
             })
-        groups += [{'name': product_name}]
+        group_names += product
 
-    data_dict['groups'] = groups
+    if group_names:
+        grpu_names = list(set([g['name'] for g in data_dict.get('groups', [])] + group_names))
+        groups = [{'name': g} for g in group_list(context, {'groups': group_names})]
+        data_dict['groups'] = groups
     pkg_dict = ckan_action.create.package_create(context, data_dict)
     return pkg_dict
