@@ -103,7 +103,9 @@ class CdrcPlugin(plugins.SingletonPlugin):
             'group_create': auth.group_create,
             'member_create': auth.member_edit,
             'member_delete': auth.member_edit,
-            'user_list': auth.user_list
+            'user_list': auth.user_list,
+            'package_update': auth.package_update,
+            'package_create': auth.package_create
         }
 
     def after_map(self, map):

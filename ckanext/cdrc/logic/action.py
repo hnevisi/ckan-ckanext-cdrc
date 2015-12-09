@@ -28,7 +28,6 @@ from pylons import cache
 from pylons import config
 from subprocess import check_output, CalledProcessError
 from ckan.lib.app_globals import app_globals, set_app_global
-from ckanext.cdrc import helpers
 
 NONALPHANUMERIC = re.compile(r'[^a-z0-9_-]')
 DASHES = re.compile(r'[-_]+')
@@ -305,8 +304,7 @@ def package_create(context, data_dict):
     :returns: TODO
 
     """
-    if not helpers.is_admin_in_org_or_group(data_dict['owner_org']):
-        data_dict['private'] = u'True'
+    check_access('package_create', context, data_dict)
     group_names = []
     if data_dict.get('tags'):
         group_names += [t['name'].lower() for t in data_dict['tags']]

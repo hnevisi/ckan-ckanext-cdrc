@@ -12,6 +12,7 @@ import ckan.plugins.toolkit as toolkit
 from ckan.logic import get_action, check_access
 from ckan.logic import auth as ckan_auth
 from ckan.logic import action as ckan_action
+from ckanext.cdrc import helpers
 
 @toolkit.auth_allow_anonymous_access
 def resource_download(context, data_dict):
@@ -54,3 +55,17 @@ def notice_update(context, data_dict):
 def member_edit(context, data_dict):
     return ckan_auth.create.package_create(context, {'owner_org': 'consumer-data-research-centre'})
 
+
+def package_update(context, data_dict):
+    if data_dict and data_dict.get('private', '') == u'False' and not helpers.is_admin_in_org_or_group('consumer-data-research-centre'):
+        return {'success': False,
+                'msg': 'You do not have the permission of making datasets public.'}
+    ret = ckan_auth.update.package_update(context, data_dict)
+    return ret
+
+
+def package_create(context, data_dict):
+    if data_dict and data_dict.get('private', '') == u'False' and not helpers.is_admin_in_org_or_group('consumer-data-research-centre'):
+        return {'success': False,
+                'msg': 'You do not have the permission of making datasets public.'}
+    return ckan_auth.create.package_create(context, data_dict)
