@@ -212,6 +212,8 @@ def refresh_site_statistics(context, data_dict):
 def get_ga_account_ids(context, data_dict):
     """ Return the code for google analytic account.
     """
+    if config.get('debug'):
+        return []
     return [('tracking_{0}'.format(i), gaid) for i, gaid in enumerate(aslist(config.get('cdrc.google_analytics.id', [])))]
 
 
