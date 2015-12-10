@@ -18,3 +18,7 @@ def is_admin_in_org_or_group(group_id):
         .filter(model.Member.group_id == group_id) \
         .filter(model.Member.table_id == c.userobj.id)
     return len(query.all()) != 0
+
+
+def is_cdrc_admin():
+    return is_admin_in_org_or_group('consumer-data-research-centre')

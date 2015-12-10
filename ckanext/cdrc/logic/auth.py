@@ -57,15 +57,15 @@ def member_edit(context, data_dict):
 
 
 def package_update(context, data_dict):
-    if data_dict and data_dict.get('private', '') == u'False' and not helpers.is_admin_in_org_or_group('consumer-data-research-centre'):
+    if (data_dict and data_dict.get('private', '') == u'True') or helpers.is_cdrc_admin():
         return {'success': False,
-                'msg': 'You do not have the permission of making datasets public.'}
+                'msg': 'You do not have the permission of publishing datasets or editing published dataset.'}
     ret = ckan_auth.update.package_update(context, data_dict)
     return ret
 
 
 def package_create(context, data_dict):
-    if data_dict and data_dict.get('private', '') == u'False' and not helpers.is_admin_in_org_or_group('consumer-data-research-centre'):
+    if (data_dict and data_dict.get('private', '') == u'True') or helpers.is_cdrc_admin():
         return {'success': False,
-                'msg': 'You do not have the permission of making datasets public.'}
+                'msg': 'You do not have the permission of publishing datasets or editing published dataset.'}
     return ckan_auth.create.package_create(context, data_dict)

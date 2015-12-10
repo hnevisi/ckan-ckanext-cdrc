@@ -12,7 +12,9 @@ import ckan.model as model
 import ckan.lib.fanstatic_resources as fanstatic_resources
 from ckanext.cdrc.logic import auth
 from ckanext.cdrc.logic import action
+from ckanext.cdrc import helpers
 from ckan.logic import get_action as ckan_get_action
+from ckan.lib.app_globals import set_app_global
 
 from ckan.common import _, g, c
 
@@ -34,6 +36,7 @@ class CdrcPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IActions)
     plugins.implements(plugins.IFacets, inherit=True)
     plugins.implements(plugins.IPackageController, inherit=True)
+    plugins.implements(plugins.IMiddleware)
 
     # IConfigurer
     def update_config(self, config_):
@@ -78,6 +81,13 @@ class CdrcPlugin(plugins.SingletonPlugin):
         config_['ckan.site_notice'] = dedent('''
             There is a problem
         ''')
+
+
+    def make_middleware(self, app, config):
+        def helper_register(environ, start_response):
+            set_app_global('ckanext_cdrc_helper', helpers)
+            return app(environ, start_response)
+        return helper_register
 
     def update_config_schema(self, schema):
         schema['ckan.site_notice'] = [unicode]
