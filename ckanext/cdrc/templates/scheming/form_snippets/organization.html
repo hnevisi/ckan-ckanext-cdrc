@@ -37,7 +37,7 @@
       <div class="controls">
         
         <select id="field-private disable" name="private" {% if not app_globals.ckanext_cdrc_helper.is_cdrc_admin() %}disabled{%endif%}>
-          {% for option in [('True', _('Internal')), ('False', _('Everyone'))] %}
+          {% for option in [('True', _('Private')), ('False', _('Public'))] %}
           <option value="{{ option[0] }}" {% if option[0] == data.private|trim %}selected="selected"{% endif %}>{{ option[1] }}</option>
           {% endfor %}
         </select>

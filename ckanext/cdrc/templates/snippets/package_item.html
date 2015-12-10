@@ -1,4 +1,13 @@
 {% ckan_extends %}
+
+{% block heading_private %}
+  {% if package.private %}
+    <span class="dataset-private label label-inverse">
+      <i class="icon-lock"></i>
+      {{ _('Private') }}
+    </span>
+  {% endif %}
+{% endblock %}
 {% block heading_title %}
   {{ super() }}
   {% for grp in package.groups if grp.type == 'accesslevel' %}

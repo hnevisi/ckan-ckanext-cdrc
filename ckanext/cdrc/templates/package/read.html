@@ -1,8 +1,5 @@
 {% ckan_extends %}
 
-{% block page_heading %}
-{% endblock %}
-
 {% block package_tags %}
   {{ super() }}
   {% for res in pkg.resources %}
@@ -10,4 +7,22 @@
       {% snippet 'package/snippets/geojson_preview.html', res=res %}
     {% endif %}
   {% endfor %}
+{% endblock %}
+
+{% block package_description %}
+  {% if pkg.private %}
+    <span class="dataset-private label label-inverse pull-right">
+      <i class="icon-lock"></i>
+      {{ _('Private') }}
+    </span>
+  {% endif %}
+  {% block package_notes %}
+    {% if pkg.notes %}
+      <div class="notes embedded-content">
+        {{ h.render_markdown(pkg.notes) }}
+      </div>
+    {% endif %}
+  {% endblock %}
+  {# FIXME why is this here? seems wrong #}
+  <span class="insert-comment-thread"></span>
 {% endblock %}

@@ -329,3 +329,7 @@ def package_create(context, data_dict):
         data_dict['groups'] = groups
     pkg_dict = ckan_action.create.package_create(context, data_dict)
     return pkg_dict
+
+
+# TODO package_update logic should be adapted so that any change in tags will
+# reflected in group associating
