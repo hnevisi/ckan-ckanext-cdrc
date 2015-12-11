@@ -14,6 +14,7 @@ from sqlalchemy import func
 from sqlalchemy import or_
 from paste.deploy.converters import asbool, aslist
 
+from mock import patch
 from ckan.logic import action as ckan_action
 from ckan.logic import check_access
 from ckan.logic.action.get import _unpick_search
@@ -299,17 +300,27 @@ def group_list_authz(context, data_dict):
     return [{'id': g[0], 'display_name': g[1]} for g in sorted(list(glist), key=lambda g: g[1].lower())]
 
 
+def always_true(*arg, **kwargs):
+    return True
+
+
+# patching the function as the original package_create auth logic will need the
+# user to have permission on all the groups which will be headache for
+# managing. Now only user will be promoted to have permission when creating
+# packages.
+@patch('ckan.authz.has_user_permission_for_group_or_org', new=always_true)
 def package_create(context, data_dict):
     """ Wrapping around the original package create and add parsers for product/topic/geography info.
     :returns: TODO
 
     """
     check_access('package_create', context, data_dict)
+    data_dict['private'] = u'True'
     group_names = []
     if data_dict.get('tags'):
         group_names += [t['name'].lower() for t in data_dict['tags']]
     elif data_dict.get('tag_string'):
-        group_names += [t.lower() for t in data_dict['tag_string'].split(',')]
+        group_names += [namify(t) for t in data_dict['tag_string'].split(',')]
 
     if data_dict.get('product_info'):
         product_title = data_dict['product_info']
@@ -321,10 +332,10 @@ def package_create(context, data_dict):
                 'title': product_title,
                 'type': 'product'
             })
-        group_names += product
+        group_names += [product_name]
 
     if group_names:
-        grpu_names = list(set([g['name'] for g in data_dict.get('groups', [])] + group_names))
+        group_names = list(set([g['name'] for g in data_dict.get('groups', [])] + group_names))
         groups = [{'name': g} for g in group_list(context, {'groups': group_names})]
         data_dict['groups'] = groups
     pkg_dict = ckan_action.create.package_create(context, data_dict)
