@@ -4,5 +4,7 @@
 {% block content_primary_nav %}
   {{ h.build_nav_icon('organization_edit', _('Edit'), id=c.group_dict.name) }}
   {{ h.build_nav_icon('organization_members', _('Members'), id=c.group_dict.name) }}
-  {{ h.build_nav_icon('organization_bulk_process', _('Sandbox'), id=c.group_dict.name, q='capacity:private') }}
+  {{ h.build_nav_icon('organization_bulk_process', _('Bulk Process'), id=c.group_dict.name) }}
+  {{ h.build_nav_icon('organization_open_dataset_review', _('Open Dataset Review'), id=c.group_dict.name) }}
+  {{ h.build_nav_icon('organization_nonopen_dataset_review', _('Non-open Dataset Review'), id=c.group_dict.name) }}
 {% endblock %}

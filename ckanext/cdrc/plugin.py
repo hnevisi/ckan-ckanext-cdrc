@@ -126,6 +126,14 @@ class CdrcPlugin(plugins.SingletonPlugin):
         map.connect('blog', '/blog', controller='ckanext.cdrc.controllers.blog:CDRCBlogController', action='blog_proxy')
         map.connect('national', '/national', controller='ckanext.cdrc.controllers.singlegroup:SingleGroupController', action='read_national')
         map.connect('regional', '/regional', controller='ckanext.cdrc.controllers.singlegroup:SingleGroupController', action='read_regional')
+        with SubMapper(map, controller='ckanext.cdrc.controllers.organization_admin:CDRCOrgAdminController') as m:
+            m.connect('organization_open_dataset_review',
+                      '/organization/open_dataset_review/{id}',
+                      action='open_dataset_review', ckan_icon='check')
+            m.connect('organization_nonopen_dataset_review',
+                      '/organization/nonopen_dataset_review/{id}',
+                      action='nonopen_dataset_review', ckan_icon='legal')
+
         return map
 
     def before_search(self, data_dict):
