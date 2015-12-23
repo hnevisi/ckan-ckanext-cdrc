@@ -68,3 +68,37 @@ def package_update(context, data_dict):
         return {'success': False,
                 'msg': 'You do not have the permission of publishing datasets or editing published dataset.'}
     return ckan_auth.update.package_update(context, data_dict)
+
+def bulk_pass(context, data_dict):
+    """TODO: Docstring for package_admin.
+
+    :context: TODO
+    :data_dict: TODO
+    :returns: TODO
+
+    """
+    return {'success': helpers.is_cdrc_admin()}
+
+
+
+def bulk_reject(context, data_dict):
+    """TODO: Docstring for package_admin.
+
+    :context: TODO
+    :data_dict: TODO
+    :returns: TODO
+
+    """
+    return {'success': helpers.is_cdrc_admin()}
+
+
+
+def bulk_approve(context, data_dict):
+    """TODO: Docstring for package_admin.
+
+    :context: TODO
+    :data_dict: TODO
+    :returns: TODO
+
+    """
+    return {'success': helpers.is_cdrc_admin()}

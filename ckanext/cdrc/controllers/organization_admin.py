@@ -175,7 +175,7 @@ class CDRCOrgAdminController(GroupController):
 
         self._setup_template_variables(context, {'id': id},
                                        group_type=group_type)
-    def open_dataset_review(self, id):
+    def format_review(self, id):
         ''' Allow bulk processing of datasets for an organization.  Make
         private/public or delete. For organization admins.'''
 
@@ -208,18 +208,18 @@ class CDRCOrgAdminController(GroupController):
             abort(401, _('Unauthorized to read group %s') % id)
 
         #use different form names so that ie7 can be detected
-        form_names = set(["bulk_action.public", "bulk_action.delete",
-                          "bulk_action.private"])
+        form_names = set(["bulk_action.approve", "bulk_action.delete",
+                          "bulk_action.pass", "bulk_action.reject"])
         actions_in_form = set(request.params.keys())
         actions = form_names.intersection(actions_in_form)
         # If no action then just show the datasets
         if not actions:
             # unicode format (decoded from utf8)
             limit = 500
-            self._read(id, limit, group_type, 'capacity:private groups:open')
+            self._read(id, limit, group_type, 'capacity:private (groups:open AND -groups:disclosure-control AND -groups:rejected)')
             c.packages = c.page.items
-            return render(self._bulk_process_template(group_type),
-                          extra_vars={'group_type': group_type})
+            return render('organization/dataset_review.html',
+                          extra_vars={'group_type': group_type, 'review': 'format'})
 
         #ie7 puts all buttons in form params but puts submitted one twice
         for key, value in dict(request.params.dict_of_lists()).items():
@@ -238,9 +238,10 @@ class CDRCOrgAdminController(GroupController):
                 datasets.append(param[8:])
 
         action_functions = {
-            'private': 'bulk_update_private',
-            'public': 'bulk_update_public',
+            'approve': 'bulk_approve',
             'delete': 'bulk_update_delete',
+            'reject': 'bulk_reject',
+            'pass': 'bulk_pass',
         }
 
         data_dict = {'datasets': datasets, 'org_id': c.group_dict['id']}
@@ -250,9 +251,11 @@ class CDRCOrgAdminController(GroupController):
         except NotAuthorized:
             abort(401, _('Not authorized to perform bulk update'))
         base.redirect(h.url_for(controller='ckanext.cdrc.controllers.organization_admin:CDRCOrgAdminController',
-                                action='open_dataset_review',
+                                action='format_review',
                                 id=id))
-    def nonopen_dataset_review(self, id):
+
+
+    def disclosure_review(self, id):
         ''' Allow bulk processing of datasets for an organization.  Make
         private/public or delete. For organization admins.'''
 
@@ -285,18 +288,18 @@ class CDRCOrgAdminController(GroupController):
             abort(401, _('Unauthorized to read group %s') % id)
 
         #use different form names so that ie7 can be detected
-        form_names = set(["bulk_action.public", "bulk_action.delete",
-                          "bulk_action.private"])
+        form_names = set(["bulk_action.approve", "bulk_action.delete",
+                          "bulk_action.reject"])
         actions_in_form = set(request.params.keys())
         actions = form_names.intersection(actions_in_form)
         # If no action then just show the datasets
         if not actions:
             # unicode format (decoded from utf8)
             limit = 500
-            self._read(id, limit, group_type, 'capacity:private AND (groups:secure OR groups:safeguarded)')
+            self._read(id, limit, group_type, 'capacity:private AND (groups:secure OR groups:safeguarded OR groups:disclosure-control) AND -groups:rejected')
             c.packages = c.page.items
-            return render(self._bulk_process_template(group_type),
-                          extra_vars={'group_type': group_type})
+            return render('organization/dataset_review.html',
+                          extra_vars={'group_type': group_type, 'review': 'disclosure'})
 
         #ie7 puts all buttons in form params but puts submitted one twice
         for key, value in dict(request.params.dict_of_lists()).items():
@@ -315,8 +318,8 @@ class CDRCOrgAdminController(GroupController):
                 datasets.append(param[8:])
 
         action_functions = {
-            'private': 'bulk_update_private',
-            'public': 'bulk_update_public',
+            'approve': 'bulk_approve',
+            'reject': 'bulk_reject',
             'delete': 'bulk_update_delete',
         }
 
@@ -327,5 +330,5 @@ class CDRCOrgAdminController(GroupController):
         except NotAuthorized:
             abort(401, _('Not authorized to perform bulk update'))
         base.redirect(h.url_for(controller='ckanext.cdrc.controllers.organization_admin:CDRCOrgAdminController',
-                                action='nonopen_dataset_review',
+                                action='disclosure_review',
                                 id=id))

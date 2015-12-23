@@ -103,6 +103,11 @@ class CdrcPlugin(plugins.SingletonPlugin):
             'notice_update': action.notice_update,
             'group_list_authz': action.group_list_authz,
             'package_create': action.package_create,
+            'package_update': action.package_update,
+            'package_group_removeall': action.package_group_removeall,
+            'bulk_reject': action.bulk_reject,
+            'bulk_pass': action.bulk_pass,
+            'bulk_approve': action.bulk_approve
         }
 
     def get_auth_functions(self):
@@ -115,7 +120,10 @@ class CdrcPlugin(plugins.SingletonPlugin):
             'member_delete': auth.member_edit,
             'user_list': auth.user_list,
             'package_update': auth.package_update,
-            'package_create': auth.package_create
+            'package_create': auth.package_create,
+            'bulk_pass': auth.bulk_pass,
+            'bulk_approve': auth.bulk_approve,
+            'bulk_reject': auth.bulk_reject
         }
 
     def after_map(self, map):
@@ -127,12 +135,12 @@ class CdrcPlugin(plugins.SingletonPlugin):
         map.connect('national', '/national', controller='ckanext.cdrc.controllers.singlegroup:SingleGroupController', action='read_national')
         map.connect('regional', '/regional', controller='ckanext.cdrc.controllers.singlegroup:SingleGroupController', action='read_regional')
         with SubMapper(map, controller='ckanext.cdrc.controllers.organization_admin:CDRCOrgAdminController') as m:
-            m.connect('organization_open_dataset_review',
-                      '/organization/open_dataset_review/{id}',
-                      action='open_dataset_review', ckan_icon='check')
-            m.connect('organization_nonopen_dataset_review',
-                      '/organization/nonopen_dataset_review/{id}',
-                      action='nonopen_dataset_review', ckan_icon='legal')
+            m.connect('organization_format_review',
+                      '/organization/format_review/{id}',
+                      action='format_review', ckan_icon='check')
+            m.connect('organization_disclosure_review',
+                      '/organization/disclosure_review/{id}',
+                      action='disclosure_review', ckan_icon='legal')
 
         return map
 

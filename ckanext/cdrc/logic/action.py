@@ -341,6 +341,111 @@ def package_create(context, data_dict):
     pkg_dict = ckan_action.create.package_create(context, data_dict)
     return pkg_dict
 
+@patch('ckan.authz.has_user_permission_for_group_or_org', new=always_true)
+def package_update(context, data_dict):
+    """ Wrapping around the original package create and add parsers for product/topic/geography info.
+    :returns: TODO
 
-# TODO package_update logic should be adapted so that any change in tags will
-# reflected in group associating
+    """
+    check_access('package_create', context, data_dict)
+    data_dict['private'] = u'True'
+    get_action('package_group_removeall')(context, data_dict)
+
+    group_names = []
+    if data_dict.get('tags'):
+        group_names += [t['name'].lower() for t in data_dict['tags']]
+    elif data_dict.get('tag_string'):
+        group_names += [namify(t) for t in data_dict['tag_string'].split(',')]
+
+    if data_dict.get('product_info'):
+        product_title = data_dict['product_info']
+        product_name = namify(product_title)
+        product = group_list(context, {'type': 'product', 'groups': [product_name]})
+        if len(product) == 0:
+            ckan_action.create.group_create(context, {
+                'name': product_name,
+                'title': product_title,
+                'type': 'product'
+            })
+        group_names += [product_name]
+
+    if group_names:
+        group_names = list(set([g['name'] for g in data_dict.get('groups', [])] + group_names))
+        groups = [{'name': g} for g in group_list(context, {'groups': group_names})]
+        data_dict['groups'] = groups
+    pkg_dict = ckan_action.update.package_update(context, data_dict)
+    return pkg_dict
+
+
+def bulk_approve(context, data_dict):
+    """TODO: Docstring for bulk_update_reject.
+    :returns: TODO
+
+    """
+    check_access('bulk_approve', context, data_dict)
+    dataset_ids = data_dict['datasets']
+    for did in dataset_ids:
+        get_action('member_delete')(context,{
+            'id': 'disclosure-control',
+            'object': did,
+            'object_type': 'package',
+        })
+        get_action('member_delete')(context,{
+            'id': 'rejected',
+            'object': did,
+            'object_type': 'package',
+        })
+    get_action('bulk_update_public')(context, data_dict)
+
+
+def bulk_reject(context, data_dict):
+    """TODO: Docstring for bulk_update_reject.
+    :returns: TODO
+
+    """
+    check_access('bulk_reject', context, data_dict)
+    dataset_ids = data_dict['datasets']
+    for did in dataset_ids:
+        get_action('member_create')(context,{
+            'id': 'rejected',
+            'object': did,
+            'object_type': 'package',
+            'capacity': 'public'
+        })
+        get_action('member_delete')(context,{
+            'id': 'disclosure-control',
+            'object': did,
+            'object_type': 'package',
+        })
+
+
+def bulk_pass(context, data_dict):
+    """TODO: Docstring for bulk_update_reject.
+    :returns: TODO
+
+    """
+    check_access('bulk_pass', context, data_dict)
+    dataset_ids = data_dict['datasets']
+    for did in dataset_ids:
+        get_action('member_create')(context,{
+            'id': 'disclosure-control',
+            'object': did,
+            'object_type': 'package',
+            'capacity': 'public'
+        })
+        get_action('member_delete')(context,{
+            'id': 'rejected',
+            'object': did,
+            'object_type': 'package',
+        })
+
+
+def package_group_removeall(context, data_dict):
+    check_access('package_create', context, data_dict)
+    pkg = get_action('package_show')(context, {'id': data_dict['id']})
+    for grp in pkg['groups']:
+        get_action('member_delete')(context,{
+            'id': grp['id'],
+            'object': pkg['id'],
+            'object_type': 'package',
+        })
