@@ -36,7 +36,7 @@ class CdrcPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IActions)
     plugins.implements(plugins.IFacets, inherit=True)
     plugins.implements(plugins.IPackageController, inherit=True)
-    plugins.implements(plugins.IMiddleware)
+    plugins.implements(plugins.ITemplateHelpers)
 
     # IConfigurer
     def update_config(self, config_):
@@ -83,11 +83,10 @@ class CdrcPlugin(plugins.SingletonPlugin):
         ''')
 
 
-    def make_middleware(self, app, config):
-        def helper_register(environ, start_response):
-            set_app_global('ckanext_cdrc_helper', helpers)
-            return app(environ, start_response)
-        return helper_register
+    def get_helpers(self):
+        return {
+            'is_cdrc_admin': helpers.is_cdrc_admin,
+        }
 
     def update_config_schema(self, schema):
         schema['ckan.site_notice'] = [unicode]
