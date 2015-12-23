@@ -3,7 +3,7 @@ import ckan.model as model
 from ckan.common import (
     _, ungettext, g, c, request, session, json, OrderedDict
 )
-def is_admin_in_org_or_group(group_id):
+def is_admin_in_org_or_group(group_id=None, group_name=None):
     ''' Check if user is in a group or organization '''
     # we need a user
     if not c.userobj:
@@ -11,6 +11,8 @@ def is_admin_in_org_or_group(group_id):
     # sysadmins can do anything
     if c.userobj.sysadmin:
         return True
+    if not group_id:
+        group_id = model.Group.get(group_name).id
     query = model.Session.query(model.Member) \
         .filter(model.Member.state == 'active') \
         .filter(model.Member.table_name == 'user') \
