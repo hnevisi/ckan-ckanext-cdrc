@@ -1,18 +1,20 @@
 this.ckan.module('embedded-datashine', function ($, _) {
   $(document).ready(function(){
-    var tileName = ",c11_ew_-QS302EW0002-QS302EW0001-wd-standard_dev-0.470440000-0.052875400-oa-standard_dev-0.465285000-0.088207400-cb-RdYlBu-8-0";
+    // var tileName = ",c11_ew_-QS302EW0002-QS302EW0001-wd-standard_dev-0.470440000-0.052875400-oa-standard_dev-0.465285000-0.088207400-cb-RdYlBu-8-0";
+    var tileName = "http://maps.cdrc.ac.uk/tiles/buildingage_ew2";
     layerData = new ol.layer.Tile({
       title: "",
       source: new ol.source.XYZ({
-        url: "http://datashine.org.uk/tiler/" + tileName + "/{z}/{x}/{y}.png",
+        // url: "http://datashine.org.uk/tiler/" + tileName + "/{z}/{x}/{y}.png",
+        url: tileName + "/{z}/{x}/{y}.png",
         crossOrigin: 'null',
         attributions: [
           // new ol.Attribution({ 'html': '<br />Census data: National Statistics, licensed under the Open Government Licence v.3.0.<br />' }),
           // new ol.Attribution({ 'html': 'DataShine was created by Oliver O&apos;Brien and James Cheshire at UCL CASA/UCL Geography.<br />' }),
-          new ol.Attribution({ 'html': 'This map shows the % of people who are deemed as in "good health" as recorded by the 2011 census. <br />' }),
+          new ol.Attribution({ 'html': 'This map shows the modal building age grouping for residential properties in each area based on VOA data. <br />' }),
           new ol.Attribution({ 'html': 'The CDRC are interested in how these patterns vary geographically, and how these outcomes relate to consumption.  <br />' }),
-          new ol.Attribution({ 'html': 'To search and download census data click <a href="https://data.cdrc.ac.uk/dataset?q=census+data" style="text-decoration: underline;">here</a>, or to browse more maps click <a href="http://maps.cdrc.ac.uk" style="text-decoration: underline;">here</a>. <br />' }),
-          new ol.Attribution({ 'html': 'Contains National Statistics data Crown copyright and database right 2015; <br /> Contains Ordnance Survey data Crown copyright and database right 2015.' }),
+          new ol.Attribution({ 'html': 'To search and download the building age data click <a href="https://data.cdrc.ac.uk/dataset?q=house+ages" style="text-decoration: underline;">here</a>, or to browse more maps click <a href="http://maps.cdrc.ac.uk" style="text-decoration: underline;">here</a>. <br />' }),
+          new ol.Attribution({ 'html': 'Contains Valuation Office Agency data Crown copyright and database right 2015.' }),
           new ol.Attribution({ 'html': '<br /><br /><br />' }),
         ]
       })
