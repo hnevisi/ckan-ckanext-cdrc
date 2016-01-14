@@ -30,7 +30,7 @@
           {% endif %}
         </a>
       {% if res.url and h.is_url(res.url) %}
-        <a class="btn btn-mini btn-info resource-url-analytics" href="{{ res.url }}" target="_blank">
+      <a class="btn btn-mini btn-info resource-url-analytics" href="{{ res.url }}" target="_blank" onclick="ga('send', 'event', 'Resource', 'Download', 'Resource Download | {{ pkg.title or pkg.name }} | {{ h.resource_display_name(res)}}')">
           <i class="icon-download"></i>
           {{ _('Download') }}
         </a>
