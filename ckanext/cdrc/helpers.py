@@ -1,4 +1,17 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+""" Helper functions for CDRC Data.
 
+File: helpers.py
+Author: Wen Li
+Email: spacelis@gmail.com
+GitHub: http://github.com/spacelis
+Description:
+
+
+"""
+# TODO: write code...
+from pylons import config
 import ckan.model as model
 from ckan.common import (
     _, ungettext, g, c, request, session, json, OrderedDict
@@ -24,3 +37,13 @@ def is_admin_in_org_or_group(group_id=None, group_name=None):
 
 def is_cdrc_admin():
     return is_admin_in_org_or_group('consumer-data-research-centre')
+
+
+def get_ga_account_ids():
+    """ Return the code for google analytic account.
+    """
+    if config.get('debug'):
+        return []
+    return [('tracking_{0}'.format(i), gaid) for i, gaid in enumerate(aslist(config.get('cdrc.google_analytics.id', [])))]
+
+

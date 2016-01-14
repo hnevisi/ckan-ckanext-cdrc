@@ -86,6 +86,7 @@ class CdrcPlugin(plugins.SingletonPlugin):
     def get_helpers(self):
         return {
             'is_cdrc_admin': helpers.is_cdrc_admin,
+            'get_ga_account_ids': helpers.get_ga_account_ids
         }
 
     def update_config_schema(self, schema):
@@ -96,7 +97,6 @@ class CdrcPlugin(plugins.SingletonPlugin):
         return {
             'get_site_statistics': action.get_site_statistics,
             'refresh_site_statistics': action.refresh_site_statistics,
-            'get_ga_account_ids': action.get_ga_account_ids,
             'resource_clean': action.resource_clean,
             'notice_show': action.notice_show,
             'notice_update': action.notice_update,
