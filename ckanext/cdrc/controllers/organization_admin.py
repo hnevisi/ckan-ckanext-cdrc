@@ -25,10 +25,6 @@ import ckan.lib.search as search
 
 class CDRCOrgAdminController(GroupController):
 
-    def doc_show(name='open_dataset_guidelines'):
-        return render('doc/')
-
-
     def _read(self, id, limit, group_type, q=None):
         ''' This is common code used by both read and bulk_process'''
         context = {'model': model, 'session': model.Session,
