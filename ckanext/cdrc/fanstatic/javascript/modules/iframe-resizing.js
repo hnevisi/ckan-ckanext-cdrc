@@ -1,3 +1,3 @@
-this.ckan.module('embedded-datashine', function ($, _) {
-  $('#blog-cdrc-data').iFrameResize({});
+this.ckan.module('iframe-resize', function ($, _) {
+  $('iframe').iFrameResize({});
 });
