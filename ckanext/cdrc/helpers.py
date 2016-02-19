@@ -13,9 +13,11 @@ Description:
 # TODO: write code...
 from pylons import config
 import ckan.model as model
+from paste.deploy.converters import aslist
 from ckan.common import (
     _, ungettext, g, c, request, session, json, OrderedDict
 )
+
 def is_admin_in_org_or_group(group_id=None, group_name=None):
     ''' Check if user is in a group or organization '''
     # we need a user
