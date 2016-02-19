@@ -2,6 +2,8 @@ import logging
 from textwrap import dedent
 from routes.mapper import SubMapper
 
+from zope.interface import implements as zimpl
+from repoze.who.interfaces import IAuthenticator
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
 from ckan.logic import auth as ckan_auth
@@ -37,6 +39,8 @@ class CdrcPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IFacets, inherit=True)
     plugins.implements(plugins.IPackageController, inherit=True)
     plugins.implements(plugins.ITemplateHelpers)
+    zimpl(IAuthenticator)
+
 
     # IConfigurer
     def update_config(self, config_):
@@ -82,6 +86,27 @@ class CdrcPlugin(plugins.SingletonPlugin):
             There is a problem
         ''')
 
+
+    def authenticate(self, environ, identity):
+        if not ('login' in identity and 'password' in identity):
+            return None
+
+        login = identity['login']
+        try:
+            user = model.user.User.by_email(login)[0]
+        except (TypeError, IndexError):
+            user = model.user.User.by_name(login)
+
+        if user is None:
+            log.debug('Login failed - user %r not found', login)
+        elif not user.is_active():
+            log.debug('Login as %r failed - user isn\'t active', login)
+        elif not user.validate_password(identity['password']):
+            log.debug('Login as %r failed - password not valid', login)
+        else:
+            return user.name
+
+        return None
 
     def get_helpers(self):
         return {
