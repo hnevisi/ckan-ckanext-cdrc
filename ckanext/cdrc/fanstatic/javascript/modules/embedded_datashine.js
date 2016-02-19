@@ -1,7 +1,7 @@
 this.ckan.module('embedded-datashine', function ($, _) {
   $(document).ready(function(){
     // var tileName = ",c11_ew_-QS302EW0002-QS302EW0001-wd-standard_dev-0.470440000-0.052875400-oa-standard_dev-0.465285000-0.088207400-cb-RdYlBu-8-0";
-    var tileName = "http://maps.cdrc.ac.uk/tiles/buildingage_ew2";
+    var tileName = "http://maps.cdrc.ac.uk/tiles/ttwm_br_v2";
     layerData = new ol.layer.Tile({
       title: "",
       source: new ol.source.XYZ({
@@ -11,10 +11,10 @@ this.ckan.module('embedded-datashine', function ($, _) {
         attributions: [
           // new ol.Attribution({ 'html': '<br />Census data: National Statistics, licensed under the Open Government Licence v.3.0.<br />' }),
           // new ol.Attribution({ 'html': 'DataShine was created by Oliver O&apos;Brien and James Cheshire at UCL CASA/UCL Geography.<br />' }),
-          new ol.Attribution({ 'html': 'This map shows the modal building age grouping for residential properties in each area based on VOA data. <br />' }),
+          new ol.Attribution({ 'html': 'This map shows the most popular means people used for travelling to work. <br />' }),
           new ol.Attribution({ 'html': 'The CDRC are interested in how these patterns vary geographically, and how these outcomes relate to consumption.  <br />' }),
-          new ol.Attribution({ 'html': 'To search and download the building age data click <a href="https://data.cdrc.ac.uk/dataset?q=house+ages" style="text-decoration: underline;">here</a>, or to browse more maps click <a href="http://maps.cdrc.ac.uk" style="text-decoration: underline;">here</a>. <br />' }),
-          new ol.Attribution({ 'html': 'Contains Valuation Office Agency data Crown copyright and database right 2015.' }),
+          new ol.Attribution({ 'html': 'To search and download the travel to work data click <a href="https://data.cdrc.ac.uk/dataset?q=travel+to+work" style="text-decoration: underline;">here</a>, or to browse more maps click <a href="$
+          new ol.Attribution({ 'html': 'Contains ONS, NRS, NISRA data Crown copyright and database right 2015.' }),
           new ol.Attribution({ 'html': '<br /><br /><br />' }),
         ]
       })
@@ -22,14 +22,14 @@ this.ckan.module('embedded-datashine', function ($, _) {
     buildingLayer = new ol.layer.Tile({
       title: "",
       source: new ol.source.XYZ({
-        url: "http://datashine.org.uk/tiler/" + "shine_urbanmask_dark" + "/{z}/{x}/{y}.png",
+        url: "http://datashine.org.uk/tiles/" + "shine_urbanmask_dark" + "/{z}/{x}/{y}.png",
         crossOrigin: 'null',
       })
     });
     labelLayer = new ol.layer.Tile({
       title: "",
       source: new ol.source.XYZ({
-        url: "http://datashine.org.uk/tiler/" + "shine_labels_cdrc" + "/{z}/{x}/{y}.png",
+        url: "http://datashine.org.uk/tiles/" + "shine_labels_cdrc" + "/{z}/{x}/{y}.png",
         crossOrigin: 'null',
       })
     });
