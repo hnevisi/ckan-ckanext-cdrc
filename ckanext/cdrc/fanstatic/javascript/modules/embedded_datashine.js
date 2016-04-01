@@ -1,7 +1,7 @@
 this.ckan.module('embedded-datashine', function ($, _) {
   $(document).ready(function(){
     // var tileName = ",c11_ew_-QS302EW0002-QS302EW0001-wd-standard_dev-0.470440000-0.052875400-oa-standard_dev-0.465285000-0.088207400-cb-RdYlBu-8-0";
-    var tileName = "http://maps.cdrc.ac.uk/tiles/imd1015change_11l";
+    var tileName = "http://maps.cdrc.ac.uk/tiles/industry";
     layerData = new ol.layer.Tile({
       title: "",
       source: new ol.source.XYZ({
@@ -9,10 +9,8 @@ this.ckan.module('embedded-datashine', function ($, _) {
         url: tileName + "/{z}/{x}/{y}.png",
         crossOrigin: 'null',
         attributions: [
-          new ol.Attribution({ 'html': 'This map shows the change of index of multiple deprivation ranks from 2010 to 2015. <br />' }),
-          new ol.Attribution({ 'html': 'Bluer areas are becoming less deprived at a faster rate than redder areas. <br />' }),
-          new ol.Attribution({ 'html': 'A decrease may still indicate a less deprived area in absolute terms. The 2010 rank is based on a fitting to 2011 LSOAs performed by Public Health England. <br />' }),
-          new ol.Attribution({ 'html': 'To search and download the IMD data click <a href="https://data.cdrc.ac.uk/dataset?q=index+of+deprivation+2010+2015" style="text-decoration: underline;">here</a>, or to browse more maps click <a h$
+          new ol.Attribution({ 'html': 'This map shows the top industry of employment among the residents. <br />' }),
+          new ol.Attribution({ 'html': 'To search and download the data in the map click <a href="https://data.cdrc.ac.uk/dataset/top-industry-of-employment" style="text-decoration: underline;">here</a>, or to browse more maps click <a $
           new ol.Attribution({ 'html': 'Contains data from gov.uk. Crown copyright and database right 2015. <br />' }),
           new ol.Attribution({ 'html': 'The CDRC are interested in how these patterns vary geographically, and how these outcomes relate to consumption.  <br />' }),
           new ol.Attribution({ 'html': '<br /><br /><br />' }),
