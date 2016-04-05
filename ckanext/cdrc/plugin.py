@@ -165,7 +165,10 @@ class CdrcPlugin(plugins.SingletonPlugin):
             m.connect('organization_disclosure_review',
                       '/organization/disclosure_review/{id}',
                       action='disclosure_review', ckan_icon='legal')
-
+            m.connect('organization_admin',
+                      '/cdrc_admin',
+                      action='cdrc_admin')
+        map.redirect('/user/me', '/cdrc_admin')
         return map
 
     def before_search(self, data_dict):

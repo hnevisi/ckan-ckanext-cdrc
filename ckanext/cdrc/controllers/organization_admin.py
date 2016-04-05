@@ -21,6 +21,7 @@ from ckan.lib.base import BaseController
 from ckan.controllers.group import GroupController
 from ckan import authz
 import ckan.lib.search as search
+from ckanext.cdrc.helpers import is_cdrc_admin
 
 
 class CDRCOrgAdminController(GroupController):
@@ -328,3 +329,15 @@ class CDRCOrgAdminController(GroupController):
         base.redirect(h.url_for(controller='ckanext.cdrc.controllers.organization_admin:CDRCOrgAdminController',
                                 action='disclosure_review',
                                 id=id))
+    def cdrc_admin(self):
+        """TODO: Docstring for org_admin.
+        :returns: TODO
+
+        """
+        if not c.user:
+            h.redirect_to(locale=locale, controller='user', action='login',
+                          id=None)
+        if is_cdrc_admin():
+            h.redirect_to('/organization/format_review/consumer-data-research-centre')
+        else:
+            h.redirect_to('/dashboard')
