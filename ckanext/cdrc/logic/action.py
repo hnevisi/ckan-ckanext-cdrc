@@ -106,8 +106,6 @@ def group_list(context, data_dict):
 
     action = 'organization_show' if is_org else 'group_show'
 
-    g_list = []
-
 
     # The cache may leak private group information?
     @cache.region('short_term', 'action_group_show')
@@ -115,8 +113,14 @@ def group_list(context, data_dict):
         data_dict['id'] = group_id
         return get_action(action)(context, data_dict)
 
-    for group in groups:
-        g_list.append(group_show_cached(action, group.id))
+    @cache.region('short_term', 'action_group_show_list')
+    def group_show_list_cached(action, group_ids):
+        g_list = []
+        for group in group_ids:
+            g_list.append(group_show_cached(action, group))
+        return g_list
+
+    g_list = group_show_list_cached(action, [g.id for g in groups])
 
 
     g_list = sorted(g_list, key=lambda x: x[sort_info[0][0]],
@@ -388,6 +392,7 @@ def bulk_approve(context, data_dict):
             'object_type': 'package',
         })
     get_action('bulk_update_public')(context, data_dict)
+    #FIXME bulk_update_public seems not implemented
 
 
 def bulk_reject(context, data_dict):
