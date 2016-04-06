@@ -392,7 +392,6 @@ def bulk_approve(context, data_dict):
             'object_type': 'package',
         })
     get_action('bulk_update_public')(context, data_dict)
-    #FIXME bulk_update_public seems not implemented
 
 
 def bulk_reject(context, data_dict):
