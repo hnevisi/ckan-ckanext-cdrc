@@ -130,13 +130,13 @@
     {
       "field_name": "author",
       "validators": "ignore_missing",
-      "label": "Author",
+      "label": "Creator",
       "form_placeholder": "Joe Bloggs"
     },
     {
       "field_name": "author_email",
       "validators": "ignore_missing",
-      "label": "Author Email",
+      "label": "Creator Email",
       "form_placeholder": "joe@example.com",
       "display_snippet": "email.html",
       "display_email_name_field": "author"
@@ -144,17 +144,31 @@
     {
       "field_name": "maintainer",
       "validators": "ignore_missing",
-      "label": "Maintainer",
+      "label": "Publisher",
       "form_placeholder": "Joe Bloggs",
       "preset": "text"
     },
     {
       "field_name": "maintainer_email",
       "validators": "ignore_missing",
-      "label": "Maintainer Email",
+      "label": "Publisher Email",
       "form_placeholder": "joe@example.com",
       "display_snippet": "email.html",
       "display_email_name_field": "maintainer"
+    },
+    {
+      "field_name": "pub_year",
+      "validators": "ignore_missing",
+      "label": "Publication Year",
+      "form_placeholder": "2011",
+      "preset": "text"
+    },
+    {
+      "field_name": "doi",
+      "validators": "ignore_missing",
+      "label": "DOI",
+      "form_placeholder": "10.20390/xxxx",
+      "preset": "text"
     },
     {
       "field_name": "geography_url",
