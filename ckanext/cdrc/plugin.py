@@ -19,6 +19,7 @@ from ckan.logic import get_action as ckan_get_action
 from ckan.lib.app_globals import set_app_global
 
 from ckan.common import _, g, c
+from ckan.lib.navl.validators import (ignore_missing, not_missing, ignore_empty)
 
 log = logging.getLogger('ckanext.cdrc')
 
@@ -83,9 +84,8 @@ class CdrcPlugin(plugins.SingletonPlugin):
             develops.
         ''')
         config_['ckan.site_notice'] = dedent('''
-            There is a problem
+            Sorry, the system is down.
         ''')
-
 
     def authenticate(self, environ, identity):
         if not ('login' in identity and 'password' in identity):
@@ -115,8 +115,14 @@ class CdrcPlugin(plugins.SingletonPlugin):
         }
 
     def update_config_schema(self, schema):
-        schema['ckan.site_notice'] = [unicode]
-        return schema
+        cdrc_schema = {
+            'cdrc.mom.tile_url': [unicode],
+            'cdrc.mom.title': [unicode],
+            'cdrc.mom.description': [unicode],
+            'cdrc.mom.map_link': [unicode],
+            'ckan.site_notice':  [ignore_missing, unicode]
+        }
+        return dict(schema, **cdrc_schema)
 
     def get_actions(self):
         return {
@@ -131,7 +137,8 @@ class CdrcPlugin(plugins.SingletonPlugin):
             'package_group_removeall': action.package_group_removeall,
             'bulk_reject': action.bulk_reject,
             'bulk_pass': action.bulk_pass,
-            'bulk_approve': action.bulk_approve
+            'bulk_approve': action.bulk_approve,
+            'momconfig_show': action.momconfig_show
         }
 
     def get_auth_functions(self):
@@ -155,6 +162,7 @@ class CdrcPlugin(plugins.SingletonPlugin):
 
     def before_map(self, map):
         map.connect('/testing/assertfalse', controller='ckanext.cdrc.plugin:CDRCExtController', action='assertfalse')
+        map.connect('/cdrc-admin/config', controller='ckanext.cdrc.controllers.cdrc_admin:CDRCAdminController', action='config')
         map.connect('blog', '/blog', controller='ckanext.cdrc.controllers.blog:CDRCBlogController', action='blog_proxy')
         map.connect('national', '/national', controller='ckanext.cdrc.controllers.singlegroup:SingleGroupController', action='read_national')
         map.connect('regional', '/regional', controller='ckanext.cdrc.controllers.singlegroup:SingleGroupController', action='read_regional')

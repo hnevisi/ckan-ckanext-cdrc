@@ -16,6 +16,7 @@ from paste.deploy.converters import asbool, aslist
 
 from mock import patch
 from ckan.logic import action as ckan_action
+from ckan.logic import side_effect_free
 from ckan.logic import check_access
 from ckan.logic.action.get import _unpick_search
 from ckan.logic.action.patch import group_patch as ckan_group_patch
@@ -445,3 +446,14 @@ def package_group_removeall(context, data_dict):
             'object': pkg['id'],
             'object_type': 'package',
         })
+
+
+P_TAG = re.compile('<p>')
+P_ENDTAG = re.compile('</p>')
+
+@side_effect_free
+def momconfig_show(context, data_dict):
+    momconfig_key = ['title', 'tile_url', 'description', 'map_link']
+    momconfig = {k: config.get('cdrc.mom.' + k) for k in momconfig_key}
+    momconfig['description'] = [l.strip() for l in P_ENDTAG.sub('', P_TAG.sub('', h.render_markdown(momconfig['description']))).split('\n') if l]
+    return momconfig
