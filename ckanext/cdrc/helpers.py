@@ -38,7 +38,7 @@ def is_admin_in_org_or_group(group_id=None, group_name=None):
 
 
 def is_cdrc_admin():
-    return is_admin_in_org_or_group('consumer-data-research-centre')
+    return is_admin_in_org_or_group(group_name='consumer-data-research-centre')
 
 
 def get_ga_account_ids():
