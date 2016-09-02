@@ -7,7 +7,7 @@
 {% block primary_content_inner %}
   {% for code in stat_codes %}
     <p>
-      <a href="/webadmin/stat_csv/{{code}}">{{stat_items[code]['title']}}</a>
+      <a href="/webadmin/stat_csv/{{code}}" class="btn btn-info">Download</a> {{stat_items[code]['title']}}
     </p>
   {% endfor %}
 
