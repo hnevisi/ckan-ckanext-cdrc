@@ -32,6 +32,28 @@ def sql_to_csv_response(sql, headers=None, name=None):
     return csv_iter()
 
 
+stat_items = {
+    'dpm':     {'title': 'Downloads per Month',
+                'headers': ['yearmonth', 'downloads'],
+                'sql': ''' select to_char(access_timestamp, 'YYYY-MM') as yearmonth, count(*) as downloads from tracking_raw where tracking_type = 'download' group by yearmonth order by yearmonth desc '''},
+    'urpm':    {'title': 'User Registrations per Month',
+                'headers': ['yearmonth', 'user_reg_numbers'],
+                'sql': ''' select to_char(created, 'YYYY-MM') as yearmonth, count(id) as reg_users from "user" group by yearmonth order by yearmonth desc '''                                               },
+    'uaedu':   {'title': 'Users Allowing Email Dataset Update',
+                'headers': ['fullname', 'email'],
+                'sql': ''' select fullname, email from "user" as u right join user_extra as m on u.id = m.user_id where m.key = 'extra_dataset_update' '''                                                  },
+    'uaeeu':   {'title': 'Users Allowing Email Event Update',
+                'headers': ['fullname', 'email'],
+                'sql': ''' select fullname, email from "user" as u right join user_extra as m on u.id = m.user_id where m.key = 'extra_event_update' '''                                                    },
+    'ups':     {'title': 'Users per Private Secotor',
+                'headers': ['private_sector', 'number_of_users'],
+                'sql': ''' select "value" as "sector", count(id) from user_extra where "key"='extra_private_sector' group by "sector" '''                                                                   },
+    'tun':     {'title': 'Total Number of Users',
+                'headers': ['total_number_of_users'],
+                'sql': ''' select count(id) - 4 as reg_users from "user" '''                                                                                                                                },
+}
+
+
 class WebAdminController(base.BaseController):
     def __before__(self, action, **params):
         super(WebAdminController, self).__before__(action, **params)
@@ -96,37 +118,8 @@ class WebAdminController(base.BaseController):
         return base.render('webadmin/config.html',
                            extra_vars=vars)
 
-    def stat_csv(self, name):
+    def stat_csv(self, code):
         ''' Downloads per Month
         '''
-        downloads_per_month_sql = '''
-            select to_char(access_timestamp, 'YYYY-MM') as yearmonth, count(*) as downloads from tracking_raw where tracking_type = 'download' group by yearmonth order by yearmonth desc
-        '''
-        user_reg_per_month_sql = '''
-            select to_char(created, 'YYYY-MM') as yearmonth, count(id) as reg_users from "user" group by yearmonth order by yearmonth desc
-        '''
-        user_allowing_email_dataset_update = '''
-            select fullname, email from "user" as u right join user_extra as m on u.id = m.user_id where m.key = 'extra_dataset_update'
-        '''
-        user_allowing_email_event_update = '''
-            select fullname, email from "user" as u right join user_extra as m on u.id = m.user_id where m.key = 'extra_event_update'
-        '''
-        user_per_private_secotor = '''
-            select "value" as "sector", count(id) from user_extra where "key"='extra_private_sector' group by "sector"
-        '''
-        total_user = '''
-            select count(id) - 4 as reg_users from "user"
-        '''
-        if name == 'dpm':
-            return sql_to_csv_response(downloads_per_month_sql, ['yearmonth', 'downloads'], 'downloads_per_month.csv')
-        elif name == 'urpm':
-            return sql_to_csv_response(user_reg_per_month_sql, ['yearmonth', 'user_reg_number'], 'user_reg_per_month.csv')
-        elif name == 'uaedu':
-            return sql_to_csv_response(user_allowing_email_dataset_update, ['fullname', 'email'], 'user_allowing_email_dataset_update.csv')
-        elif name == 'uaeeu':
-            return sql_to_csv_response(user_allowing_email_event_update, ['fullname', 'email'], 'user_allowing_email_event_update.csv')
-        elif name == 'ups':
-            return sql_to_csv_response(user_per_private_secotor, ['private_sector', 'user_number'], 'user_per_private_secotor.csv')
-        elif name == 'tun':
-            return sql_to_csv_response(total_user, ['total_user'], 'total_user.csv')
-
+        stat_config = stat_items[code]
+        return sql_to_csv_response(stat_config['sql'], stat_config['headers'], stat_config['title'] + '.csv')

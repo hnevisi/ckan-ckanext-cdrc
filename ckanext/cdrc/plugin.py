@@ -178,7 +178,7 @@ class CdrcPlugin(plugins.SingletonPlugin):
                       action='cdrc_admin')
         with SubMapper(map, controller='ckanext.cdrc.controllers.webadmin:WebAdminController') as m:
             m.connect('/webadmin/config', action='config')
-            m.connect('/webadmin/stat_csv/{name}', action='stat_csv')
+            m.connect('/webadmin/stat_csv/{code}', action='stat_csv')
         map.redirect('/user/me', '/cdrc_admin')
         return map
 
