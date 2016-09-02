@@ -28,7 +28,9 @@ def sql_to_csv_response(sql, headers=None, name=None):
     def csv_iter():
         yield ','.join(['"{}"'.format(i) for i in headers]) + '\n'
         for r in res:
-            yield ','.join([unicode(i).encode('utf-8') for i in r]) + '\n'
+            yield ','.join(['"{}"'.format(unicode(i).encode('utf-8'))
+                            if not isinstance(i, long) else str(i)
+                            for i in r]) + '\n'
     return csv_iter()
 
 
