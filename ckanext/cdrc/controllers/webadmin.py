@@ -28,7 +28,7 @@ def sql_to_csv_response(sql, headers=None, name=None):
     def csv_iter():
         yield ','.join(['"{}"'.format(i) for i in headers]) + '\n'
         for r in res:
-            yield ','.join([str(i) for i in r]) + '\n'
+            yield ','.join([unicode(i).encode('utf-8') for i in r]) + '\n'
     return csv_iter()
 
 
@@ -123,3 +123,7 @@ class WebAdminController(base.BaseController):
         '''
         stat_config = stat_items[code]
         return sql_to_csv_response(stat_config['sql'], stat_config['headers'], stat_config['title'] + '.csv')
+
+    def stat_csv_view(self):
+        stat_codes = list(stat_items.keys())
+        return base.render('webadmin/stat_view.html', extra_vars={'stat_codes': stat_codes, 'stat_items': stat_items})
