@@ -9,11 +9,27 @@ import ckan.logic as logic
 import ckan.plugins as plugins
 from ckan.controllers.home import CACHE_PARAMETERS
 from ckanext.cdrc import helpers
+from ckan.common import response
 
 
 c = base.c
 request = base.request
 _ = base._
+
+
+
+def sql_to_csv_response(sql, headers=None, name=None):
+    response.headers['Content-Type'] = 'text/csv'
+    response.status = 200
+    if name:
+        response.headers['Content-Disposition'] = 'attachment;filename={}'.format(name)
+
+    res = model.Session.execute(sql)
+    def csv_iter():
+        yield ','.join(['"{}"'.format(i) for i in headers]) + '\n'
+        for r in res:
+            yield ','.join([str(i) for i in r]) + '\n'
+    return csv_iter()
 
 
 class WebAdminController(base.BaseController):
@@ -80,13 +96,37 @@ class WebAdminController(base.BaseController):
         return base.render('webadmin/config.html',
                            extra_vars=vars)
 
-    def downloads_per_month(self):
-        #now pass the list of sysadmins
+    def stat_csv(self, name):
+        ''' Downloads per Month
+        '''
         downloads_per_month_sql = '''
             select to_char(access_timestamp, 'YYYY-MM') as yearmonth, count(*) as downloads from tracking_raw where tracking_type = 'download' group by yearmonth order by yearmonth desc
         '''
-        model = context['model']
-        result = model.Session.execute(downloads_per_month_sql)
-        assert False
-
+        user_reg_per_month_sql = '''
+            select to_char(created, 'YYYY-MM') as yearmonth, count(id) as reg_users from "user" group by yearmonth order by yearmonth desc
+        '''
+        user_allowing_email_dataset_update = '''
+            select fullname, email from "user" as u right join user_extra as m on u.id = m.user_id where m.key = 'extra_dataset_update'
+        '''
+        user_allowing_email_event_update = '''
+            select fullname, email from "user" as u right join user_extra as m on u.id = m.user_id where m.key = 'extra_event_update'
+        '''
+        user_per_private_secotor = '''
+            select "value" as "sector", count(id) from user_extra where "key"='extra_private_sector' group by "sector"
+        '''
+        total_user = '''
+            select count(id) - 4 as reg_users from "user"
+        '''
+        if name == 'dpm':
+            return sql_to_csv_response(downloads_per_month_sql, ['yearmonth', 'downloads'], 'downloads_per_month.csv')
+        elif name == 'urpm':
+            return sql_to_csv_response(user_reg_per_month_sql, ['yearmonth', 'user_reg_number'], 'user_reg_per_month.csv')
+        elif name == 'uaedu':
+            return sql_to_csv_response(user_allowing_email_dataset_update, ['fullname', 'email'], 'user_allowing_email_dataset_update.csv')
+        elif name == 'uaeeu':
+            return sql_to_csv_response(user_allowing_email_event_update, ['fullname', 'email'], 'user_allowing_email_event_update.csv')
+        elif name == 'ups':
+            return sql_to_csv_response(user_per_private_secotor, ['private_sector', 'user_number'], 'user_per_private_secotor.csv')
+        elif name == 'tun':
+            return sql_to_csv_response(total_user, ['total_user'], 'total_user.csv')
 
