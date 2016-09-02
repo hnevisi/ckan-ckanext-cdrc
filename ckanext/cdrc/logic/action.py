@@ -258,9 +258,11 @@ def notice_show(context, data_dict):
     """ return the stored notice
     """
     try:
-        notice = json.loads(app_globals.site_notice)
-        if 'text' in notice and len(notice['text']) > 0:
-            h.flash(notice['text'], notice['type'])
+        model = context['model']
+        notice = model.get_system_info('cdrc.site_notice.text')
+        notice_type = model.get_system_info('cdrc.site_notice.type')
+        if len(notice) > 0 and len(notice_type) > 0:
+            h.flash(notice, notice_type)
     except:
         pass
     return ''
@@ -270,13 +272,9 @@ def notice_update(context, data_dict):
     """ return the stored notice
     """
     check_access('notice_update', context, data_dict)
-    notice = {
-        'text': data_dict.get('text', ''),
-        'type': data_dict.get('type', 'alert-error')
-    }
     model = context['model']
-    model.set_system_info('ckan.site_notice', json.dumps(notice))
-    set_app_global('ckan.site_notice', json.dumps(notice))
+    model.set_system_info('cdrc.site_notice.text', data_dict.get('text', ''))
+    model.set_system_info('cdrc.site_notice.type', data_dict.get('type', 'alert-error'))
     return notice
 
 def group_list_authz(context, data_dict):

@@ -79,6 +79,8 @@ def bulk_pass(context, data_dict):
     """
     return {'success': helpers.is_cdrc_admin()}
 
+def config_option_update(context, data_dict):
+    return {'success': helpers.is_cdrc_admin()}
 
 
 def bulk_reject(context, data_dict):

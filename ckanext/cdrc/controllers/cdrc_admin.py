@@ -8,16 +8,12 @@ import ckan.model as model
 import ckan.logic as logic
 import ckan.plugins as plugins
 from ckan.controllers.home import CACHE_PARAMETERS
+from ckanext.cdrc import helpers
 
 
 c = base.c
 request = base.request
 _ = base._
-
-
-def get_sysadmins():
-    q = model.Session.query(model.User).filter(model.User.sysadmin==True)
-    return q.all()
 
 
 class CDRCAdminController(base.BaseController):
@@ -26,18 +22,26 @@ class CDRCAdminController(base.BaseController):
         context = {'model': model,
                    'user': c.user, 'auth_user_obj': c.userobj}
         try:
-            logic.check_access('sysadmin', context, {})
+            if not helpers.is_cdrc_admin():
+                raise logic.NotAuthorized()
         except logic.NotAuthorized:
-            base.abort(401, _('Need to be system administrator to administer'))
+            base.abort(401, _('Need to be CDRC website administrator to administer'))
         c.revision_change_state_allowed = True
 
     def _get_config_form_items(self):
         # Styles for use in the form.select() macro.
+        notice_types = [
+            {'text': 'Warning', 'value': 'alert-error'},
+            {'text': 'Information', 'value': 'alert-info'},
+            {'text': 'Other', 'value': 'alert-success'},
+        ]
         items = [
             {'name': 'cdrc.mom.title', 'control': 'input', 'label': _('MoM Title'), 'placeholder': ''},
             {'name': 'cdrc.mom.description', 'control': 'markdown', 'label': _('MoM Description'), 'placeholder': ''},
             {'name': 'cdrc.mom.tile_url', 'control': 'input', 'label': _('MoM Tile URL'), 'placeholder': ''},
             {'name': 'cdrc.mom.map_link', 'control': 'input', 'label': _('CDRC Maps Link'), 'placeholder': ''},
+            {'name': 'cdrc.site_notice.text', 'control': 'input', 'label': _('Website Notice'), 'placeholder': ''},
+            {'name': 'cdrc.site_notice.type', 'control': 'select', 'options': notice_types, 'label': _('Notice Type'), 'placeholder': ''},
         ]
         return items
 
@@ -100,9 +104,7 @@ class CDRCAdminController(base.BaseController):
         return base.render('cdrcadmin/config.html',
                            extra_vars=vars)
 
-    def index(self):
+    def user_emails(self):
         #now pass the list of sysadmins
-        c.sysadmins = [a.name for a in get_sysadmins()]
-
-        return base.render('cdrcadmin/index.html')
+        pass
 

@@ -83,9 +83,8 @@ class CdrcPlugin(plugins.SingletonPlugin):
             with new, novel and policy-relevant datasets as our work programme
             develops.
         ''')
-        config_['ckan.site_notice'] = dedent('''
-            Sorry, the system is down.
-        ''')
+        config_['cdrc.site_notice.text'] = ''
+        config_['cdrc.site_notice.type'] = ''
 
     def authenticate(self, environ, identity):
         if not ('login' in identity and 'password' in identity):
@@ -120,7 +119,8 @@ class CdrcPlugin(plugins.SingletonPlugin):
             'cdrc.mom.title': [unicode],
             'cdrc.mom.description': [unicode],
             'cdrc.mom.map_link': [unicode],
-            'ckan.site_notice':  [ignore_missing, unicode]
+            'cdrc.site_notice.text':  [ignore_missing, unicode],
+            'cdrc.site_notice.type':  [ignore_missing, unicode]
         }
         return dict(schema, **cdrc_schema)
 
@@ -154,7 +154,8 @@ class CdrcPlugin(plugins.SingletonPlugin):
             'package_create': auth.package_create,
             'bulk_pass': auth.bulk_pass,
             'bulk_approve': auth.bulk_approve,
-            'bulk_reject': auth.bulk_reject
+            'bulk_reject': auth.bulk_reject,
+            'config_option_update': auth.config_option_update
         }
 
     def after_map(self, map):
