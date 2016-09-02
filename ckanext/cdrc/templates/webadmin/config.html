@@ -24,17 +24,16 @@
   <div class="module module-narrow module-shallow">
     <h2 class="module-heading">
       <i class="icon-info-sign"></i>
-      {{ _('CKAN config options') }}
+      {{ _('CDRC Data Website Options') }}
     </h2>
     <div class="module-content">
       {% block admin_form_help %}
-      {% set about_url = h.url_for(controller='home', action='about') %}
-      {% set home_url = h.url_for(controller='home', action='index') %}
-      {% set docs_url = "http://docs.ckan.org/en/{0}/theming".format(g.ckan_doc_version) %}
       {% trans %}
         <p><strong>MoM Title:</strong> This is the title shown floating on the map.</p>
         <p><strong>MoM URL:</strong> This is the URL patterns for the map tiles.</p>
         <p><strong>MoM Description:</strong> This is the description shown when the "i" button is clicked.</p>
+        <p><strong>Notice Text</strong> The notice text will be shown at the top of every page to give a site-wise warning/info message. When the text is set empty, the message will not show.</p>
+        <p><strong>Notice Type</strong> The warning messages will shown in red, infomation messages will show in blue and other information will shown in green.</p>
       {% endtrans %}
       {% endblock %}
     </div>
