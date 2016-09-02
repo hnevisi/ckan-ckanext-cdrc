@@ -163,7 +163,6 @@ class CdrcPlugin(plugins.SingletonPlugin):
 
     def before_map(self, map):
         map.connect('/testing/assertfalse', controller='ckanext.cdrc.plugin:CDRCExtController', action='assertfalse')
-        map.connect('/cdrc-admin/config', controller='ckanext.cdrc.controllers.cdrc_admin:CDRCAdminController', action='config')
         map.connect('blog', '/blog', controller='ckanext.cdrc.controllers.blog:CDRCBlogController', action='blog_proxy')
         map.connect('national', '/national', controller='ckanext.cdrc.controllers.singlegroup:SingleGroupController', action='read_national')
         map.connect('regional', '/regional', controller='ckanext.cdrc.controllers.singlegroup:SingleGroupController', action='read_regional')
@@ -177,6 +176,8 @@ class CdrcPlugin(plugins.SingletonPlugin):
             m.connect('organization_admin',
                       '/cdrc_admin',
                       action='cdrc_admin')
+        with SubMapper(map, controller='ckanext.cdrc.controllers.webadmin:WebAdminController') as m:
+            m.connect('/webadmin/config', action='config')
         map.redirect('/user/me', '/cdrc_admin')
         return map
 

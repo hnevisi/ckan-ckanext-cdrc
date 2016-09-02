@@ -16,9 +16,9 @@ request = base.request
 _ = base._
 
 
-class CDRCAdminController(base.BaseController):
+class WebAdminController(base.BaseController):
     def __before__(self, action, **params):
-        super(CDRCAdminController, self).__before__(action, **params)
+        super(WebAdminController, self).__before__(action, **params)
         context = {'model': model,
                    'user': c.user, 'auth_user_obj': c.userobj}
         try:
@@ -45,30 +45,6 @@ class CDRCAdminController(base.BaseController):
         ]
         return items
 
-    def reset_config(self):
-        '''FIXME: This method is probably not doing what people would expect.
-           It will reset the configuration to values cached when CKAN started.
-           If these were coming from the database during startup, that's the
-           ones that will get applied on reset, not the ones in the ini file.
-           Only after restarting the server and having CKAN reset the values
-           from the ini file (as the db ones are not there anymore) will these
-           be used.
-        '''
-
-        if 'cancel' in request.params:
-            h.redirect_to(controller='ckanext.cdrc.controllers.cdrc_admin:CDRCAdminController', action='config')
-
-        if request.method == 'POST':
-            # remove sys info items
-            for item in self._get_config_form_items():
-                name = item['name']
-                model.delete_system_info(name)
-            # reset to values in config
-            app_globals.reset()
-            h.redirect_to(controller='ckanext.cdrc.controllers.cdrc_admin:CDRCAdminController', action='config')
-
-        return base.render('admin/confirm_reset.html')
-
     def config(self):
 
         items = self._get_config_form_items()
@@ -91,9 +67,9 @@ class CDRCAdminController(base.BaseController):
                 error_summary = e.error_summary
                 vars = {'data': data, 'errors': errors,
                         'error_summary': error_summary, 'form_items': items}
-                return base.render('cdrcadmin/config.html', extra_vars=vars)
+                return base.render('webadmin/config.html', extra_vars=vars)
 
-            h.redirect_to(controller='ckanext.cdrc.controllers.cdrc_admin:CDRCAdminController', action='config')
+            h.redirect_to(controller='ckanext.cdrc.controllers.webadmin:WebAdminController', action='config')
 
         schema = logic.schema.update_configuration_schema()
         data = {}
@@ -101,10 +77,16 @@ class CDRCAdminController(base.BaseController):
             data[key] = config.get(key)
 
         vars = {'data': data, 'errors': {}, 'form_items': items}
-        return base.render('cdrcadmin/config.html',
+        return base.render('webadmin/config.html',
                            extra_vars=vars)
 
-    def user_emails(self):
+    def downloads_per_month(self):
         #now pass the list of sysadmins
-        pass
+        downloads_per_month_sql = '''
+            select to_char(access_timestamp, 'YYYY-MM') as yearmonth, count(*) as downloads from tracking_raw where tracking_type = 'download' group by yearmonth order by yearmonth desc
+        '''
+        model = context['model']
+        result = model.Session.execute(downloads_per_month_sql)
+        assert False
+
 
