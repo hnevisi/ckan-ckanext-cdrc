@@ -155,7 +155,8 @@ class CdrcPlugin(plugins.SingletonPlugin):
             'bulk_pass': auth.bulk_pass,
             'bulk_approve': auth.bulk_approve,
             'bulk_reject': auth.bulk_reject,
-            'config_option_update': auth.config_option_update
+            'config_option_update': auth.config_option_update,
+            'user_show': auth.user_show
         }
 
     def after_map(self, map):
