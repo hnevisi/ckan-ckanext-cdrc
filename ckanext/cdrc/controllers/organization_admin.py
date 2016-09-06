@@ -213,7 +213,7 @@ class CDRCOrgAdminController(GroupController):
         if not actions:
             # unicode format (decoded from utf8)
             limit = 500
-            self._read(id, limit, group_type, 'capacity:private (groups:open AND -groups:disclosure-control AND -groups:rejected)')
+            self._read(id, limit, group_type, 'capacity:private (groups:* AND -groups:secure AND -groups:safeguarded AND -groups:disclosure-control AND -groups:rejected)')
             c.packages = c.page.items
             return render('organization/dataset_review.html',
                           extra_vars={'group_type': group_type, 'review': 'format'})
