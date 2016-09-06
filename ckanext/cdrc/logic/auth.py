@@ -7,13 +7,14 @@ Description: CDRC auth plugin
 """
 
 
-from ckan.logic import authz
+from ckan.logic import authz, NotFound
 import ckan.logic as logic
 import ckan.logic.auth as logic_auth
 import ckan.plugins.toolkit as toolkit
 from ckan.logic import get_action, check_access
 from ckan.logic import auth as ckan_auth
 from ckan.logic import action as ckan_action
+from ckan.common import _
 from ckanext.cdrc import helpers
 
 @toolkit.auth_allow_anonymous_access
@@ -107,26 +108,12 @@ def bulk_approve(context, data_dict):
     """
     return {'success': helpers.is_cdrc_admin()}
 
-
+@logic.auth_allow_anonymous_access
 def user_show(context, data_dict):
     """ Make sure only users themselves can view their own infomation.
     """
-    user = context['user']
+    if 'for_view' in context and context['for_view']:
+        if context['auth_user_obj'] is None:
+            return {'success': False, 'msg': 'Only login users can see the page'}
 
-    try:
-        user_obj = logic_auth.get_user_object(context, data_dict)
-    except NotFound:
-        return {'success': False, 'msg': _('User not found')}
-
-    if not user:
-        return {'success': False,
-                'msg': _('Have to be logged in to edit user')}
-
-    if user == user_obj.name:
-        # Allow users to update their own user accounts.
-        return {'success': True}
-    else:
-        # Don't allow users to update other users' accounts.
-        return {'success': False,
-                'msg': _('User %s not authorized to edit user %s') %
-                        (user, user_obj.id)}
+    return {'success': True}
