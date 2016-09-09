@@ -1,0 +1,18 @@
+{% ckan_extends %}
+
+{% block package_tags %}
+  {{ super() }}
+  {% for res in pkg.resources %}
+    {% if res.name == 'preview.geojson' %}
+      {% snippet 'package/snippets/geojson_preview.html', res=res %}
+    {% endif %}
+  {% endfor %}
+{% endblock %}
+
+{% block package_notes %}
+  {% if pkg.notes %}
+    <div class="notes embedded-content">
+      {{ h.render_markdown(pkg.notes) }}
+    </div>
+  {% endif %}
+{% endblock %}
