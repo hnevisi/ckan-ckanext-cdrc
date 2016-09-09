@@ -1,0 +1,14 @@
+{% ckan_extends %}
+
+{% block nums %}
+<div class="nums">
+  <dl>
+    <dt>{{ _('Users') }}</dt>
+    <dd>{{ h.SI_number_span(h.get_user_count()) }}</dd>
+  </dl>
+  <dl>
+    <dt>{{ _('Datasets') }}</dt>
+    <dd>{{ h.SI_number_span(organization.package_count) }}</dd>
+  </dl>
+</div>
+{% endblock %}

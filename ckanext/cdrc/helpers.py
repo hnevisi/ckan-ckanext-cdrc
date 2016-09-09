@@ -49,3 +49,13 @@ def get_ga_account_ids():
     return [('tracking_{0}'.format(i), gaid) for i, gaid in enumerate(aslist(config.get('cdrc.google_analytics.id', [])))]
 
 
+def get_user_count(group_id=None):
+    if group_id:
+        query = model.Session.query(model.Member) \
+            .filter(model.Member.state == 'active') \
+            .filter(model.Member.table_name == 'user') \
+            .filter(model.Member.group_id == group_id)
+        return query.count()
+    else:
+        query = model.Session.query(model.User)
+        return query.count() - 2

@@ -110,7 +110,8 @@ class CdrcPlugin(plugins.SingletonPlugin):
     def get_helpers(self):
         return {
             'is_cdrc_admin': helpers.is_cdrc_admin,
-            'get_ga_account_ids': helpers.get_ga_account_ids
+            'get_ga_account_ids': helpers.get_ga_account_ids,
+            'get_user_count': helpers.get_user_count
         }
 
     def update_config_schema(self, schema):
