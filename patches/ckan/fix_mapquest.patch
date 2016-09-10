@@ -1,5 +1,5 @@
---- ckanext/reclineview/theme/public/vendor/recline/recline.js	2016-09-09 14:13:50.194990182 +0100
-+++ ckanext/reclineview/theme/public/vendor/recline/recline.js.new	2016-09-09 14:13:35.258188363 +0100
+--- a/ckanext/reclineview/theme/public/vendor/recline/recline.js	2016-09-09 14:13:50.194990182 +0100
++++ a/ckanext/reclineview/theme/public/vendor/recline/recline.js	2016-09-09 14:13:35.258188363 +0100
 @@ -2283,10 +2283,15 @@
      var self = this;
      this.map = new L.Map(this.$map.get(0));
