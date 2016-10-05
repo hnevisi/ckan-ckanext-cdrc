@@ -9,8 +9,6 @@ this.ckan.module('embedded-datashine', function ($, _) {
     //   description: ["aaa", "bbb"]
     // }
 
-      // var tileName = ",c11_ew_-QS302EW0002-QS302EW0001-wd-standard_dev-0.470440000-0.052875400-oa-standard_dev-0.465285000-0.088207400-cb-RdYlBu-8-0";
-      var tileName = "http://maps.cdrc.ac.uk/tiles/popchg_11_14_gblsoa";
       var descriptionLines = momconfig.description.map(function(d){return new ol.Attribution({"html": d + '<br/>'})});
       descriptionLines.push(new ol.Attribution({"html": "<br/><br/>"}))
       $('#map-of-the-month-title').html(momconfig.title);
@@ -18,7 +16,6 @@ this.ckan.module('embedded-datashine', function ($, _) {
       layerData = new ol.layer.Tile({
         title: "",
         source: new ol.source.XYZ({
-          // url: "http://datashine.org.uk/tiler/" + tileName + "/{z}/{x}/{y}.png",
           url: momconfig.tile_url,
           crossOrigin: 'null',
           attributions: descriptionLines
@@ -27,14 +24,14 @@ this.ckan.module('embedded-datashine', function ($, _) {
       buildingLayer = new ol.layer.Tile({
         title: "",
         source: new ol.source.XYZ({
-          url: "http://datashine.org.uk/tiles/" + "shine_urbanmask_dark" + "/{z}/{x}/{y}.png",
+          url: "https://maps.cdrc.ac.uk/tiles/shine_urbanmask_dark/{z}/{x}/{y}.png",
           crossOrigin: 'null',
         })
       });
       labelLayer = new ol.layer.Tile({
         title: "",
         source: new ol.source.XYZ({
-          url: "http://datashine.org.uk/tiles/" + "shine_labels_cdrc" + "/{z}/{x}/{y}.png",
+          url: "https://maps.cdrc.ac.uk/tiles/shine_labels_cdrc/{z}/{x}/{y}.png",
           crossOrigin: 'null',
         })
       });
