@@ -1,5 +1,7 @@
+import json
 import logging
 from textwrap import dedent
+from collections import defaultdict
 from routes.mapper import SubMapper
 
 from zope.interface import implements as zimpl
@@ -186,26 +188,19 @@ class CdrcPlugin(plugins.SingletonPlugin):
         return map
 
     def before_search(self, data_dict):
-        if 'fq' in data_dict:
-            data_dict['fq'] = data_dict['fq'].replace('topic:', 'groups:').replace('product:', 'groups:').replace('lad:', 'groups:').replace('accesslevel:', 'groups:')
-        if 'q' in data_dict:
-            data_dict['q'] = data_dict['q'].replace('topic:', 'groups:').replace('product:', 'groups:').replace('lad:', 'groups:').replace('accesslevel:', 'groups:')
         return data_dict
 
     def after_search(self, result, params):
-        if 'groups' in result['facets']:
-            group_facet = result['facets']['groups']
-            context = {'model': model, 'session': model.Session,
-                       'user': c.user or c.author, 'auth_user_obj': c.userobj}
-            for facet in ['topic', 'product', 'lad', 'accesslevel']:
-                groups = action.group_list(context, {'groups': group_facet.keys(),
-                                              'type': facet,
-                                              'all_fields': True})
-                result['search_facets'].update({
-                    facet: {'items': [{'display_name': grp['display_name'], 'name': grp['name'], 'count': group_facet[grp['name']]}
-                                      for grp in groups if grp['name'] in group_facet],
-                            'title': facet}})
         return result
+
+    def before_index(self, pkg_dict):
+        groups = json.loads(pkg_dict['data_dict'])['groups']
+        customized_groups = defaultdict(list)
+        for g in groups:
+            if g['type'] in ['accesslevel', 'lad', 'topic', 'product']:
+                customized_groups[g['type']].append(g['name'])
+        pkg_dict.update(customized_groups)
+        return pkg_dict
 
     def dataset_facets(self, facets_dict, package_type):
         del facets_dict['organization']
