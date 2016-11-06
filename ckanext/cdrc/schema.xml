@@ -102,10 +102,10 @@ schema. In this case the version should be set to the next CKAN version number.
     <field name="ratings_average" type="float" indexed="true" stored="false" />
     <field name="tags" type="string" indexed="true" stored="true" multiValued="true"/>
     <field name="groups" type="string" indexed="true" stored="true" multiValued="true"/>
-    <field name="accesslevel" type="string" indexed="true" stored="true" multiValued="true"/>
+    <field name="accesslevel" type="string" indexed="true" stored="true" multiValued="false"/>
     <field name="topic" type="string" indexed="true" stored="true" multiValued="true"/>
     <field name="lad" type="string" indexed="true" stored="true" multiValued="false"/>
-    <field name="lad" type="string" indexed="true" stored="true" multiValued="product"/>
+    <field name="product" type="string" indexed="true" stored="true" multiValued="false"/>
     <field name="organization" type="string" indexed="true" stored="true" multiValued="false"/>
 
     <field name="capacity" type="string" indexed="true" stored="true" multiValued="false"/>
