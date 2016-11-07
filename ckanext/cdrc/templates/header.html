@@ -109,9 +109,7 @@
             <ul class="nav nav-tabs" style="margin-right: 0px">
               {% block header_site_navigation_tabs %}
                 <li><a href="https://www.cdrc.ac.uk" target='_blank'>CDRC</a></li>
-                {{ h.build_nav_main(
-                  ('search', _('Datasets')),
-                ) }}
+                <li><a href="/dataset?sort=accesslevel%20desc">Datasets</a></li>
                 <li><a href="https://maps.cdrc.ac.uk" target='_blank'>Maps</a></li>
                 <li><a href="https://www.cdrc.ac.uk/about-cdrc/meet-the-team/" target='_blank'>Team</a></li>
                 {{ h.build_nav_main(
