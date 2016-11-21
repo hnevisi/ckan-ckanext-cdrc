@@ -273,8 +273,10 @@ def notice_update(context, data_dict):
     """
     check_access('notice_update', context, data_dict)
     model = context['model']
-    model.set_system_info('cdrc.site_notice.text', data_dict.get('text', ''))
-    model.set_system_info('cdrc.site_notice.type', data_dict.get('type', 'alert-error'))
+    notice = data_dict.get('text', '')
+    notice_type = data_dict.get('type', 'alert-error')
+    model.set_system_info('cdrc.site_notice.text', notice)
+    model.set_system_info('cdrc.site_notice.type', notice_type)
     return notice
 
 def group_list_authz(context, data_dict):
