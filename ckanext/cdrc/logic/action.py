@@ -346,7 +346,6 @@ def package_update(context, data_dict):
     """
     check_access('package_create', context, data_dict)
     data_dict['private'] = u'True'
-    get_action('package_group_removeall')(context, data_dict)
 
     group_names = []
     if data_dict.get('tags'):
