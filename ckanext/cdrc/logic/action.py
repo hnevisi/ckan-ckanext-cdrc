@@ -348,7 +348,7 @@ def package_update(context, data_dict):
     data_dict['private'] = u'True'
     pkg = get_action('package_show')(context, {'id': data_dict['id']})
 
-    group_names = [g['name'] for g in pkg['groups'] if g['name'] != pkg['product_info']]
+    group_names = [g['name'] for g in pkg['groups'] if g['name'] != pkg.get('product_info', '')]
     if data_dict.get('tags'):
         group_names += [t['name'].lower() for t in data_dict['tags']]
     elif data_dict.get('tag_string'):
