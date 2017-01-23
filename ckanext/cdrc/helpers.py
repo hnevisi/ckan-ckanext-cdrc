@@ -14,6 +14,7 @@ Description:
 from pylons import config
 import ckan.model as model
 from paste.deploy.converters import aslist
+from ckanext.cdrc.controllers.lad import LadController
 from ckan.common import (
     _, ungettext, g, c, request, session, json, OrderedDict
 )
@@ -59,3 +60,25 @@ def get_user_count(group_id=None):
     else:
         query = model.Session.query(model.User)
         return query.count() - 2
+
+
+def get_group_type_name(gtype):
+    """ Return the type name of the type
+
+    :gtype: TODO
+    :returns: TODO
+
+    """
+    return LadController.type_names[gtype]
+
+
+def group_typed_action(action, group_type, prefix='lad'):
+    """ Replace the action name with the one specific to the group type
+
+    :action: TODO
+    :group_type: TODO
+    :prefix: TODO
+    :returns: TODO
+
+    """
+    return re.sub('^'+prefix, group_type, action)

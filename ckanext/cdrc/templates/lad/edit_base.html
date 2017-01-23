@@ -1,28 +1,27 @@
 {% extends "page.html" %}
 
 {% set lad = c.group_dict %}
-{% set group_controller = 'ckanext.cdrc.controllers.lad:LadController' %}
+{% set typename = h.get_group_type_name(group_type) %}
 
-{% block subtitle %}{{ c.group_dict.display_name }} - {{ _('Local Authority Districts') }}{% endblock %}
+{% block subtitle %}{{ c.group_dict.display_name }} - {{ _(typename['long']) }}{% endblock %}
 
 {% block breadcrumb_content %}
-  <li>{% link_for _('LADs'), controller=group_controller, action='index' %}</li>
+  <li>{% link_for _(typename['long']), named_route=group_type + '_index' %}</li>
   {% block breadcrumb_content_inner %}
-    <li>{% link_for lad.display_name|truncate(35), controller=group_controller, action='read', id=lad.name %}</li>
-    <li class="active">{% link_for _('Manage'), controller=group_controller, action='edit', id=lad.name %}</li>
+    <li>{% link_for lad.display_name|truncate(35), named_route=group_type + '_read', id=lad.name %}</li>
+    <li class="active">{% link_for _('Manage'), named_route=group_type + '_edit', id=lad.name %}</li>
   {% endblock %}
 {% endblock %}
 
 {% block content_action %}
-  {% if lad and h.check_access('lad_update', {'id': lad.id}) %}
-    {% link_for _('View'), controller=group_controller, action='read', id=lad.name, class_='btn', icon='eye-open' %}
+  {% if lad and h.check_access(group_type + '_update', {'id': lad.id}) %}
+    {% link_for _('View'), named_route=group_type + '_read', id=lad.name, class_='btn', icon='eye-open' %}
   {% endif %}
 {% endblock %}
 
 {% block content_primary_nav %}
-  {{ h.build_nav_icon('lad_edit', _('Edit'), id=c.group_dict.name) }}
-  {{ h.build_nav_icon('lad_bulk_process', _('Datasets'), id=c.group_dict.name) }}
-  {{ h.build_nav_icon('lad_members', _('Members'), id=c.group_dict.name) }}
+  {{ h.build_nav_icon(group_type + '_edit', _('Edit'), id=c.group_dict.name) }}
+  {{ h.build_nav_icon(group_type + '_members', _('Members'), id=c.group_dict.name) }}
 {% endblock %}
 
 {% block secondary_content %}

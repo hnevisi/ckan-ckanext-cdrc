@@ -38,11 +38,11 @@ Example:
   {% set text_query_none = _('No products found for "{query}"') %}
   {% set text_no_query = ungettext('{number} products found', '{number} products found', count) %}
   {% set text_no_query_none = _('No products found') %}
-{% elif type == 'lad' %}
-  {% set text_query = ungettext('{number} LAD found for "{query}"', '{number} LADs found for "{query}"', count) %}
-  {% set text_query_none = _('No LADs found for "{query}"') %}
-  {% set text_no_query = ungettext('{number} LAD found', '{number} LADs found', count) %}
-  {% set text_no_query_none = _('No LADs found') %}
+{% elif type in 'lad' %}
+  {% set text_query = ungettext('{number} region found for "{query}"', '{number} regions found for "{query}"', count) %}
+  {% set text_query_none = _('No regions found for "{query}"') %}
+  {% set text_no_query = ungettext('{number} region found', '{number} regions found', count) %}
+  {% set text_no_query_none = _('No regions found') %}
 {%- endif -%}
 
 {% if query %}

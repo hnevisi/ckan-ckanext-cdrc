@@ -8,14 +8,13 @@ Example:
   {% snippet "lad/snippets/info.html", org=org %}
 
 #}
-{% set group_controller='ckanext.cdrc.controllers.lad:LadController' %}
 
 {% if lad and h.check_access('lad_update', {'id':lad.id }) %}
   <section class="module module-narrow package-info">
-    <h2 class="module-heading"><i class="icon-sitemap"></i> {{ _("Edit Lad") }}</h2>
+    <h2 class="module-heading"><i class="icon-sitemap"></i> {{ _("Edit " + typename['short']) }}</h2>
     <ul class="unstyled nav nav-simple">
       <li class="nav-item{% if action == 'edit' %} active{% endif %}">
-        {% link_for _("Edit"), controller=group_controller, action='edit', id=lad.name %}
+        {% link_for _("Edit"), named_route=group_type + '_edit', id=lad.name %}
       </li>
     </ul>
   </section>

@@ -1,6 +1,7 @@
 {% extends "lad/base_form_page.html" %}
 
+{% set typename = h.get_group_type_name(group_type) %}
 {% block subtitle %}{{ _('Edit') }} - {{ super() }}{% endblock %}
 
 {% block page_heading_class %}hide-heading{% endblock %}
-{% block page_heading %}{{ _('Edit LAD') }}{% endblock %}
+{% block page_heading %}{{ _('Edit ' + typename['short']) }}{% endblock %}

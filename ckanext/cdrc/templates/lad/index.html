@@ -1,25 +1,24 @@
 {% extends "page.html" %}
 
-{% set group_controller='ckanext.cdrc.controllers.lad:LadController' %}
+{% set typename=h.get_group_type_name(group_type) %}
 
-{% block subtitle %}{{ _('Local Authority District') }}{% endblock %}
+{% block subtitle %}{{ _(typename['long']) }}{% endblock %}
 
 {% block breadcrumb_content %}
-  <li class="active">{% link_for _('LAD'), controller=group_controller, action='index' %}</li>
+  <li class="active">{% link_for _(typename['short']), named_route=group_type + '_index' %}</li>
 {% endblock %}
-
 {% block page_header %}{% endblock %}
 
 {% block page_primary_action %}
-  {% if h.check_access('lad_create') %}
-    {% link_for _('Add LAD'), controller=group_controller, action='new', class_='btn btn-primary', icon='plus-sign-alt' %}
+  {% if h.check_access(group_type + '_create') %}
+    {% link_for _('Add ' + typename['short']), named_route=group_type + '_new', class_='btn btn-primary', icon='plus-sign-alt' %}
   {% endif %}
 {% endblock %}
 
 {% block primary_content_inner %}
-  <h1 class="hide-heading">{% block page_heading %}{{ _('LAD') }}{% endblock %}</h1>
+  <h1 class="hide-heading">{% block page_heading %}{{ _(typename['short']) }}{% endblock %}</h1>
   {% block lads_search_form %}
-    {% snippet 'snippets/search_form.html', form_id='lad-search-form', type='lad', query=c.q, sorting_selected=c.sort_by_selected, count=c.page.item_count, placeholder=_('Search LADs...'), show_empty=request.params, no_bottom_border=true if c.page.items %}
+    {% snippet 'snippets/search_form.html', form_id='lad-search-form', type='lad', query=c.q, sorting_selected=c.sort_by_selected, count=c.page.item_count, placeholder=_('Search ' + typename['short'] + '...'), show_empty=request.params, no_bottom_border=true if c.page.items %}
   {% endblock %}
   {% block lad_list %}
     {% if c.page.items or request.params %}
@@ -28,9 +27,9 @@
       {% endif %}
     {% else %}
       <p class="empty">
-        {{ _('There are currently no LADs for this site') }}.
+        {{ _('There are currently no ' + typename['short'] + ' for this site') }}.
         {% if h.check_access('lad_create') %}
-          {% link_for _('How about creating one?'), controller=group_controller, action='new' %}</a>.
+          {% link_for _('How about creating one?'), named_route=group_type + '_new' %}</a>.
         {% endif %}
       </p>
     {% endif %}
@@ -41,5 +40,5 @@
 {% endblock %}
 
 {% block secondary_content %}
-  {% snippet "lad/snippets/helper.html" %}
+  {% snippet "lad/snippets/helper.html", typename=typename %}
 {% endblock %}

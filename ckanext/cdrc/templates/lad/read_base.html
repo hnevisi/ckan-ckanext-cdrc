@@ -1,23 +1,23 @@
 {% extends "page.html" %}
 
-{% set group_controller='ckanext.cdrc.controllers.lad:LadController' %}
-{% block subtitle %}{{ c.group_dict.display_name }} - {{ _('Local Authority Districts') }}{% endblock %}
+{% set typename=h.get_group_type_name(group_type) %}
+{% block subtitle %}{{ c.group_dict.display_name }} - {{ _(typename['long']) }}{% endblock %}
 
 {% block breadcrumb_content %}
-  <li>{% link_for _('LADs'), controller=group_controller, action='index' %}</li>
-  <li class="active">{% link_for c.group_dict.display_name|truncate(35), controller=group_controller, action='read', id=c.group_dict.name %}</li>
+  <li>{% link_for _(typename['short']), named_route=group_type + '_index' %}</li>
+  <li class="active">{% link_for c.group_dict.display_name|truncate(35), named_route=group_type + '_read', id=c.group_dict.name %}</li>
 {% endblock %}
 
 {% block content_action %}
-  {% if h.check_access('lad_update', {'id': c.group_dict.id}) %}
-    {% link_for _('Manage'), controller=group_controller, action='edit', id=c.group_dict.name, class_='btn', icon='wrench' %}
+  {% if h.check_access(group_type + '_update', {'id': c.group_dict.id}) %}
+    {% link_for _('Manage'), named_route=group_type + '_edit', id=c.group_dict.name, class_='btn', icon='wrench' %}
   {% endif %}
 {% endblock %}
 
 {% block content_primary_nav %}
-  {{ h.build_nav_icon('lad_read', _('Datasets'), id=c.group_dict.name) }}
-  {{ h.build_nav_icon('lad_activity', _('Activity Stream'), id=c.group_dict.name) }}
-  {{ h.build_nav_icon('lad_about', _('About'), id=c.group_dict.name) }}
+  {{ h.build_nav_icon(group_type + '_read', _('Datasets'), id=c.group_dict.name) }}
+  {{ h.build_nav_icon(group_type + '_activity', _('Activity Stream'), id=c.group_dict.name, offset=0) }}
+  {{ h.build_nav_icon(group_type + '_about', _('About'), id=c.group_dict.name) }}
 {% endblock %}
 
 {% block secondary_content %}

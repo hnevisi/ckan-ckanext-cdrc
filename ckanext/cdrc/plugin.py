@@ -1,3 +1,4 @@
+import re
 import json
 import logging
 from textwrap import dedent
@@ -19,6 +20,7 @@ from ckanext.cdrc.logic import action
 from ckanext.cdrc import helpers
 from ckan.logic import get_action as ckan_get_action
 from ckan.lib.app_globals import set_app_global
+from ckanext.cdrc.controllers.lad import LadController
 
 from ckan.common import _, g, c
 from ckan.lib.navl.validators import (ignore_missing, not_missing, ignore_empty)
@@ -113,7 +115,8 @@ class CdrcPlugin(plugins.SingletonPlugin):
         return {
             'is_cdrc_admin': helpers.is_cdrc_admin,
             'get_ga_account_ids': helpers.get_ga_account_ids,
-            'get_user_count': helpers.get_user_count
+            'get_user_count': helpers.get_user_count,
+            'get_group_type_name': helpers.get_group_type_name
         }
 
     def update_config_schema(self, schema):
@@ -231,7 +234,7 @@ class CdrcPlugin(plugins.SingletonPlugin):
         return pkg_dict
 
 
-def mapper_mixin(map, group_type, controller):
+def mapper_mixin(map, group_type, controller=None):
     """ Mixin for group types
 
     :map: TODO
@@ -246,28 +249,8 @@ def mapper_mixin(map, group_type, controller):
                 conditions=GET)
 
     with SubMapper(map, controller=controller) as m:
-        m.connect('%ss_index' % (group_type,), '/%s' % (group_type), action='index')
-        m.connect('/%s/list' % (group_type,), action='list')
-        m.connect('/%s/new' % (group_type,), action='new')
-        m.connect('/%s/{action}/{id}' % (group_type,),
-                  requirements=dict(action='|'.join([
-                    'delete',
-                    'admins',
-                    'member_new',
-                    'member_delete',
-                    'history'
-                    ])))
-        m.connect('%s_activity' % (group_type,), '/%s/activity/{id}' % (group_type,),
-                  action='activity', ckan_icon='time')
-        m.connect('%s_read' % (group_type,), '/%s/{id}' % (group_type,), action='read')
         m.connect('%s_about' % (group_type,), '/%s/about/{id}' % (group_type,),
                   action='about', ckan_icon='info-sign')
-        m.connect('%s_read' % (group_type,), '/%s/{id}' % (group_type,), action='read',
-                  ckan_icon='sitemap')
-        m.connect('%s_edit' % (group_type,), '/%s/edit/{id}' % (group_type,),
-                  action='edit', ckan_icon='edit')
-        m.connect('%s_members' % (group_type,), '/%s/members/{id}' % (group_type,),
-                  action='members', ckan_icon='group')
         m.connect('%s_bulk_process' % (group_type,),
                   '/%s/bulk_process/{id}' % (group_type,),
                   action='bulk_process', ckan_icon='sitemap')
@@ -438,24 +421,32 @@ class CdrcLadPlugin(plugins.SingletonPlugin, DefaultGroupForm):
         return False
 
     def group_types(self):
-        return ['lad']
+        return LadController.group_types
 
     def after_map(self, map):
-        mapper_mixin(map, 'lad', 'ckanext.cdrc.controllers.lad:LadController')
+        for gt in self.group_types():
+            mapper_mixin(map, gt, 'ckanext.cdrc.controllers.lad:LadController')
+        import sys, pprint; print >>sys.stderr, map.__class__
         return map
 
     def before_map(self, map):
         return map
 
     def get_auth_functions(self):
-        return {
+        auth_tmpl = {
             'lad_create': lambda c, d: ckan_auth.create.group_create(c, dict(d, type='group')),
             'lad_update': auth.group_edit,
             'lad_delete': ckan_auth.delete.group_delete,
         }
+        auths = {}
+        for gt in self.group_types():
+            auths.update(
+                {re.sub('^lad', gt, k): v for k, v in auth_tmpl.items()}
+            )
+        return auths
 
     def get_actions(self):
-        return {
+        action_tmpl = {
             'lad_list': action.group_list,
             'lad_show': ckan_action.get.group_show,
             'lad_activity_list_html': ckan_action.get.group_activity_list_html,
@@ -464,6 +455,12 @@ class CdrcLadPlugin(plugins.SingletonPlugin, DefaultGroupForm):
             'lad_patch': action.group_patch,
             'lad_delete': ckan_action.delete.group_delete,
         }
+        actions = {}
+        for gt in self.group_types():
+            actions.update(
+                {re.sub('^lad', gt, k): v for k, v in action_tmpl.items()}
+            )
+        return actions
 
     def group_controller(self):
         """TODO: Docstring for group_controller.
