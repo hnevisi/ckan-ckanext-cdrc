@@ -27,7 +27,7 @@ class DefaultGroupController(group.GroupController):
                    'with_private': False}
 
         q = c.q = request.params.get('q', '')
-        data_dict = {'all_fields': True, 'q': q, 'type': group_type or 'group'}
+        data_dict = {'all_fields': True, 'q': q, 'type': group_type or 'group', 'hide_empty': True}
         sort_by = c.sort_by_selected = request.params.get('sort')
         if sort_by:
             data_dict['sort'] = sort_by

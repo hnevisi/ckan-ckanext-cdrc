@@ -58,6 +58,7 @@ def group_list(context, data_dict):
     lite_list = data_dict.get('lite_list', False)
 
     sort = data_dict.get('sort', 'name')
+    hide_empty = data_dict.get('hide_empty', False)
     q = data_dict.get('q')
 
     # order_by deprecated in ckan 1.8
@@ -130,6 +131,8 @@ def group_list(context, data_dict):
     if not all_fields:
         g_list = [group[ref_group_by] for group in g_list]
 
+    if hide_empty:
+        g_list = [g for g in g_list if g['package_count'] > 0]
     return g_list
 
 
@@ -190,8 +193,8 @@ def refresh_site_statistics(context, data_dict):
 
     mappings = [
         ('topic_count', len(group_list(context, {'type': 'topic'})), SI_NUMBER_UNITS),
-        ('product_count', len(group_list(context, {'type': 'product'})), SI_NUMBER_UNITS),
-        ('lad_count', len(group_list(context, {'type': 'lad'})), SI_NUMBER_UNITS),
+        ('product_count', len(group_list(context, {'type': 'product', 'hide_empty': True})), SI_NUMBER_UNITS),
+        ('lad_count', len(group_list(context, {'type': 'lad', 'hide_empty': True})), SI_NUMBER_UNITS),
         ('dataset_count', get_action('package_search')({}, {"rows": 1})['count'], SI_NUMBER_UNITS),
         ('resource_size', storage_use(), FILESIZE_UNITS),
         ('downloads', number_of_downloads(context['session']), SI_NUMBER_UNITS)
