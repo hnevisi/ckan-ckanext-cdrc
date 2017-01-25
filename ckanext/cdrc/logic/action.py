@@ -357,6 +357,11 @@ def package_update(context, data_dict):
     if data_dict.get('product_info'):
         product_title = data_dict['product_info']
         product_name = namify(product_title)
+        cur_product = None
+        cur_product_names = group_list(context, {'type': 'product', 'groups': group_names})
+        if len(cur_product_names) > 0:
+            cur_product = cur_product_names[0]
+
         product = group_list(context, {'type': 'product', 'groups': [product_name]})
         if len(product) == 0:
             ckan_action.create.group_create(context, {
@@ -364,6 +369,9 @@ def package_update(context, data_dict):
                 'title': product_title,
                 'type': 'product'
             })
+            if cur_product is not None:
+                group_names.remove(cur_product)
+
         group_names += [product_name]
 
     if group_names:
