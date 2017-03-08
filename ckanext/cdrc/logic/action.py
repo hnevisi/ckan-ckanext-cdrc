@@ -351,19 +351,22 @@ def package_update(context, data_dict):
     data_dict['private'] = u'True'
     pkg = get_action('package_show')(context, {'id': data_dict['id']})
 
-    group_names = [g['name'] for g in pkg['groups'] if g['name'] != pkg.get('product_info', '')]
+    group_names = [g['name'] for g in pkg['groups']]
     if data_dict.get('tags'):
         group_names += [t['name'].lower() for t in data_dict['tags']]
     elif data_dict.get('tag_string'):
         group_names += [namify(t) for t in data_dict['tag_string'].split(',')]
 
     if data_dict.get('product_info'):
-        product_title = data_dict['product_info']
-        product_name = namify(product_title)
         cur_product = None
         cur_product_names = group_list(context, {'type': 'product', 'groups': group_names})
         if len(cur_product_names) > 0:
             cur_product = cur_product_names[0]
+
+        product_title = data_dict['product_info']
+        product_name = namify(product_title)
+        if cur_product and cur_product != product_name:
+            group_names.remove(cur_product)
 
         product = group_list(context, {'type': 'product', 'groups': [product_name]})
         if len(product) == 0:
@@ -372,8 +375,6 @@ def package_update(context, data_dict):
                 'title': product_title,
                 'type': 'product'
             })
-            if cur_product is not None:
-                group_names.remove(cur_product)
 
         group_names += [product_name]
 
