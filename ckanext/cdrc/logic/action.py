@@ -30,6 +30,7 @@ from pylons import cache
 from pylons import config
 from subprocess import check_output, CalledProcessError
 from ckan.lib.app_globals import app_globals, set_app_global
+from ckanext.cdrc.lib.activity_stream import record_pkg_activity
 
 NONALPHANUMERIC = re.compile(r'[^a-z0-9_-]')
 DASHES = re.compile(r'[-_]+')
@@ -304,6 +305,8 @@ def always_true(*arg, **kwargs):
     return True
 
 
+
+
 # patching the function as the original package_create auth logic will need the
 # user to have permission on all the groups which will be headache for
 # managing. Now only user will be promoted to have permission when creating
@@ -339,7 +342,11 @@ def package_create(context, data_dict):
         groups = [{'name': g} for g in group_list(context, {'groups': group_names})]
         data_dict['groups'] = groups
     pkg_dict = ckan_action.create.package_create(context, data_dict)
+
+    record_pkg_activity(context, pkg_dict, 'new package')
+
     return pkg_dict
+
 
 @patch('ckan.authz.has_user_permission_for_group_or_org', new=always_true)
 def package_update(context, data_dict):
@@ -383,6 +390,9 @@ def package_update(context, data_dict):
         groups = [{'name': g} for g in group_list(context, {'groups': group_names})]
         data_dict['groups'] = groups
     pkg_dict = ckan_action.update.package_update(context, data_dict)
+
+    record_pkg_activity(context, pkg_dict, 'changed package')
+
     return pkg_dict
 
 
@@ -404,6 +414,7 @@ def bulk_approve(context, data_dict):
             'object': did,
             'object_type': 'package',
         })
+        record_pkg_activity(context, get_action('package_show')(context, {'id': did}), 'approved package')
     get_action('bulk_update_public')(context, data_dict)
 
 
@@ -426,6 +437,7 @@ def bulk_reject(context, data_dict):
             'object': did,
             'object_type': 'package',
         })
+        record_pkg_activity(context, get_action('package_show')(context, {'id': did}), 'rejected package')
 
 
 def bulk_pass(context, data_dict):
@@ -447,6 +459,7 @@ def bulk_pass(context, data_dict):
             'object': did,
             'object_type': 'package',
         })
+        record_pkg_activity(context, get_action('package_show')(context, {'id': did}), 'raised package')
 
 
 def package_group_removeall(context, data_dict):

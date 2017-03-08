@@ -6012,6 +6012,12 @@ dt {
 fieldset > legend {
   font-family: 'museo', serif;
 }
+.activity .item.raised-package .icon {
+  background-color: #B95252;
+}
+.activity .item.approved-package .icon {
+  background-color: #69A67A;
+}
 .break-word {
   -ms-word-break: break-all;
   word-break: break-all;
