@@ -129,11 +129,12 @@ def group_list(context, data_dict):
     g_list = sorted(g_list, key=lambda x: x[sort_info[0][0]],
         reverse=sort_info[0][1] == 'desc')
 
+    if hide_empty:
+        g_list = [g for g in g_list if g['package_count'] > 0]
+
     if not all_fields:
         g_list = [group[ref_group_by] for group in g_list]
 
-    if hide_empty:
-        g_list = [g for g in g_list if g['package_count'] > 0]
     return g_list
 
 
