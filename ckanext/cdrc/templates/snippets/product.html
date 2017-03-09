@@ -28,7 +28,7 @@ Example:
       {% block image %}
         <div class="image">
           <a href="{{ url }}">
-            <img src="{{ product.image_display_url or h.url_for_static('/base/images/placeholder-group.png') }}" width="200" alt="{{ product.name }}" />
+            <img src="{{ product.image_display_url or h.url_for_static('/images/product_default_logo.png') }}" width="200" alt="{{ product.name }}" />
           </a>
         </div>
       {% endblock %}

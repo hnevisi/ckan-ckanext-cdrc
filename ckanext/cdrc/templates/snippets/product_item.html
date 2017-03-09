@@ -4,7 +4,7 @@
     {% set url=h.url_for(controller=group_controller, action='read', id=product.name) %}
     {% set truncate=truncate or 0 %}
     <a class="module-image" href="{{ url }}">
-      <img src="{{ product.image_display_url or h.url_for_static('/base/images/placeholder-group.png') }}" alt="{{ product.name }}" />
+      <img src="{{ product.image_display_url or h.url_for_static('/images/product_default_logo.png') }}" alt="{{ product.name }}" />
     </a>
     <h3 class="media-heading"><a href={{ url }}>{{ product.title or product.name }}</a></h3>
     {% if product.description %}
