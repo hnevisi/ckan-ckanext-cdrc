@@ -18,7 +18,7 @@ Example:
   {% block item_inner %}
   {% block image %}
     <center>
-    <img src="{{ group.image_display_url or h.url_for_static('/base/images/placeholder-group.png') }}" alt="{{ group.name }}" class="media-image">
+    <img src="{{ group.image_display_url or h.url_for_static('/base/images/placeholder-group.png' if group.type != 'product' else '/images/product_default_logo.png') }}" alt="{{ group.name }}" class="media-image">
     </center>
   {% endblock %}
   {% block title %}
