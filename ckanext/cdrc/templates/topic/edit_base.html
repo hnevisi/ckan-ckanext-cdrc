@@ -21,7 +21,7 @@
 
 {% block content_primary_nav %}
   {{ h.build_nav_icon('topic_edit', _('Edit'), id=c.group_dict.name) }}
-  {{ h.build_nav_icon('topic_bulk_process', _('Datasets'), id=c.group_dict.name) }}
+  {# {{ h.build_nav_icon('topic_bulk_process', _('Datasets'), id=c.group_dict.name) }} #}
   {{ h.build_nav_icon('topic_members', _('Members'), id=c.group_dict.name) }}
 {% endblock %}
 
