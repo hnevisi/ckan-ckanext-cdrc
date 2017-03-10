@@ -146,7 +146,8 @@
       "validators": "ignore_missing",
       "label": "Maintainer",
       "form_placeholder": "Joe Bloggs",
-      "preset": "text"
+      "preset": "text",
+      "help_text": "Your input will be masked with CDRC on the public page."
     },
     {
       "field_name": "maintainer_email",
@@ -154,7 +155,8 @@
       "label": "Maintainer Email",
       "form_placeholder": "joe@example.com",
       "display_snippet": "email.html",
-      "display_email_name_field": "maintainer"
+      "display_email_name_field": "maintainer",
+      "help_text": "Your input will be masked with CDRC on the public page."
     },
     {
       "field_name": "publisher",
