@@ -14,4 +14,13 @@
     {# <a href="{{ h.url_for(controller='ckanext.cdrc.controllers.accesslevel:AccessLevelController', action='about', id=grp.name) }}" class="label label-{{ grp.name }}" data-accesslevel="{{ grp.name }}">{{ grp.title }}</a> #}
     <span class="label label-{{ grp.name }}" data-accesslevel="{{ grp.name }}">{{ grp.title }}</span>
   {% endfor %}
+
+{% endblock %}
+{% block heading_meta %}
+  {{ super() }}
+  <span
+    class="date pull-right"
+    style="color: grey; font-weight: normal; font-size: 13px; font-family: 'Verdana', 'Helvetica Neue', Helvetica, Arial, sans-serif" 
+    title="Created: {{ h.render_datetime(package.metadata_created, with_hours=True) }}
+Modified: {{ h.render_datetime(package.metadata_modified, with_hours=True) }}">{{ h.time_ago_from_timestamp(package.metadata_created) }}</span>
 {% endblock %}
