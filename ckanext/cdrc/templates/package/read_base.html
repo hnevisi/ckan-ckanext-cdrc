@@ -23,7 +23,7 @@
   {% endblock %}
 
   {% block package_creator %}
-    {% if pkg.creator_id %}
+    {% if pkg.creator_id and h.is_cdrc_admin() %}
     <div class="module module-narrow module-shallow context-info">
         <h2 class="module-heading"><i class="icon-cloud-upload"></i> {{ _('Uploaded by') }}</h2>
       <section class="module-content">
