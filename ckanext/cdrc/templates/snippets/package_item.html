@@ -18,9 +18,10 @@
 {% endblock %}
 {% block heading_meta %}
   {{ super() }}
+  {% if h.is_cdrc_admin() %}
   <span
-    class="date pull-right"
-    style="color: grey; font-weight: normal; font-size: 13px; font-family: 'Verdana', 'Helvetica Neue', Helvetica, Arial, sans-serif" 
+    class="dataset-timestamp date pull-right"
     title="Created: {{ h.render_datetime(package.metadata_created, with_hours=True) }}
-Modified: {{ h.render_datetime(package.metadata_modified, with_hours=True) }}">{{ h.time_ago_from_timestamp(package.metadata_created) }}</span>
+Modified: {{ h.render_datetime(package.metadata_modified, with_hours=True) }}">Created {{ h.time_ago_from_timestamp(package.metadata_created) }}</span>
+  {% endif %}
 {% endblock %}

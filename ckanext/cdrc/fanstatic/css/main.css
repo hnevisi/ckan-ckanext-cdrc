@@ -6018,6 +6018,12 @@ fieldset > legend {
 .activity .item.approved-package .icon {
   background-color: #69A67A;
 }
+.dataset-timestamp {
+  font-family: 'Verdana', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: grey;
+  font-weight: normal;
+  font-size: 13px;
+}
 .break-word {
   -ms-word-break: break-all;
   word-break: break-all;
