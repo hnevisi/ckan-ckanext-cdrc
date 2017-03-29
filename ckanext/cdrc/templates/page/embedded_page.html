@@ -1,0 +1,21 @@
+{% extends "page.html" %}
+
+
+{% block page_header %}{% endblock %}
+
+{% block page_primary_action %}
+{% endblock %}
+
+{% block primary %}
+<iframe id="embedded-page" src="{{ src_url }}" frameborder="0" scrolling="no"
+    style="width: 100%; height: 2000px; border-radius:5px;">
+  </iframe>
+{% endblock %}
+
+{% block secondary %}
+{% endblock %}
+
+{% block scripts %}
+  {{ super() }}
+  {% resource 'cdrc/iframe-resizer' %}
+{% endblock %}

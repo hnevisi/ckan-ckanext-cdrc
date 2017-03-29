@@ -1,0 +1,32 @@
+{% extends "page.html" %}
+
+{% block subtitle %}{{ _(subtitle) }}{% endblock %}
+
+{% set page_controller='ckanext.cdrc.controllers.page:CDRCPageController' %}
+
+{% block breadcrumb_content %}
+  <li class="active">{% link_for _(subtitle), controller=page_controller, action='index' %}</li>
+{% endblock %}
+
+{% block page_header %}{% endblock %}
+
+{% block page_primary_action %}
+{% endblock %}
+
+{% block primary %}
+  <div style="padding: 15px">
+    <ul class="media-grid-list" data-module="media-grid">
+      {% for p in pkg_list %}
+      <li class="media-item" style="display: inline-block; height: 100px">
+        <h3 class="media-heading">{{p.title}}</h3>
+        <p>{{ p.description }}</p>
+        <a class="media-view" href="{% url_for controller=page_controller, action='page_list', pkg_id=p.pkg_id %}"><span>{{p.title}}</span></a>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+{% resource 'cdrc/mixitup' %}
+{% endblock %}
+
+{% block secondary %}
+{% endblock %}

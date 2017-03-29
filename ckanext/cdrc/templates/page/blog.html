@@ -1,0 +1,8 @@
+{% extends "page/embedded_page.html" %}
+
+{% block subtitle %}{{ _('Blog') }}{% endblock %}
+
+{% block breadcrumb_content %}
+  <li class="active">{% link_for _('Blog'), controller='ckanext.cdrc.controllers.blog:CDRCBlogController', action='blog_proxy' %}</li>
+{% endblock %}
+

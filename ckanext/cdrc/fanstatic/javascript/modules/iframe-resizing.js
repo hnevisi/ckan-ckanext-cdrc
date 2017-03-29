@@ -1,3 +1,3 @@
 this.ckan.module('iframe-resize', function ($, _) {
-  $('iframe').iFrameResize({});
+  $('iframe#embedded-page').iFrameResize({});
 });

@@ -9,8 +9,10 @@
  */
 
 
-;(function(window) {
+;(function(undefined) {
 	'use strict';
+
+	if(typeof window === 'undefined') return; // don't run for server side render
 
 	var
 		count                 = 0,
@@ -48,6 +50,7 @@
 			scrolling                 : false,
 			sizeHeight                : true,
 			sizeWidth                 : false,
+			warningTimeout            : 5000,
 			tolerance                 : 0,
 			widthCalculationMethod    : 'scroll',
 			closedCallback            : function(){},
@@ -58,7 +61,7 @@
 		};
 
 	function addEventListener(obj,evt,func){
-		/* istanbul ignore else */
+		/* istanbul ignore else */ // Not testable in PhantonJS
 		if ('addEventListener' in window){
 			obj.addEventListener(evt,func, false);
 		} else if ('attachEvent' in window){//IE
@@ -66,7 +69,15 @@
 		}
 	}
 
-	/* istanbul ignore next */
+	function removeEventListener(el,evt,func){
+		/* istanbul ignore else */ // Not testable in phantonJS
+		if ('removeEventListener' in window){
+			el.removeEventListener(evt,func, false);
+		} else if ('detachEvent' in window){ //IE
+			el.detachEvent('on'+evt,func);
+		}
+	}
+
 	function setupRequestAnimationFrame(){
 		var
 			vendors = ['moz', 'webkit', 'o', 'ms'],
@@ -82,11 +93,10 @@
 		}
 	}
 
-	/* istanbul ignore next */
 	function getMyID(iframeId){
 		var retStr = 'Host page: '+iframeId;
 
-		if (window.top!==window.self){
+		if (window.top !== window.self){
 			if (window.parentIFrame && window.parentIFrame.getId){
 				retStr = window.parentIFrame.getId()+': '+iframeId;
 			} else {
@@ -97,32 +107,26 @@
 		return retStr;
 	}
 
-	/* istanbul ignore next */
 	function formatLogHeader(iframeId){
 		return msgId + '[' + getMyID(iframeId) + ']';
 	}
 
-	/* istanbul ignore next */
 	function isLogEnabled(iframeId){
 		return settings[iframeId] ? settings[iframeId].log : logEnabled;
 	}
 
-	/* istanbul ignore next */
 	function log(iframeId,msg){
 		output('log',iframeId,msg,isLogEnabled(iframeId));
 	}
 
-	/* istanbul ignore next */
 	function info(iframeId,msg){
 		output('info',iframeId,msg,isLogEnabled(iframeId));
 	}
 
-	/* istanbul ignore next */
 	function warn(iframeId,msg){
 		output('warn',iframeId,msg,true);
 	}
 
-	/* istanbul ignore next */
 	function output(type,iframeId,msg,enabled){
 		if (true === enabled && 'object' === typeof window.console){
 			console[type](formatLogHeader(iframeId),msg);
@@ -139,7 +143,7 @@
 			ensureInRange('Height');
 			ensureInRange('Width');
 
-			syncResize(resize,messageData,'resetPage');
+			syncResize(resize,messageData,'init');
 		}
 
 		function processMsg(){
@@ -156,24 +160,24 @@
 
 		function ensureInRange(Dimension){
 			var
-				max  = Number(settings[iframeId]['max'+Dimension]),
-				min  = Number(settings[iframeId]['min'+Dimension]),
+				max  = Number(settings[iframeId]['max' + Dimension]),
+				min  = Number(settings[iframeId]['min' + Dimension]),
 				dimension = Dimension.toLowerCase(),
 				size = Number(messageData[dimension]);
 
-			log(iframeId,'Checking '+dimension+' is in range '+min+'-'+max);
+			log(iframeId,'Checking ' + dimension + ' is in range ' + min + '-' + max);
 
 			if (size<min) {
 				size=min;
-				log(iframeId,'Set '+dimension+' to min value');
+				log(iframeId,'Set ' + dimension + ' to min value');
 			}
 
 			if (size>max) {
 				size=max;
-				log(iframeId,'Set '+dimension+' to max value');
+				log(iframeId,'Set ' + dimension + ' to max value');
 			}
 
-			messageData[dimension]=''+size;
+			messageData[dimension] = '' + size;
 		}
 
 
@@ -208,7 +212,6 @@
 				origin      = event.origin,
 				checkOrigin = settings[iframeId].checkOrigin;
 
-			/* istanbul ignore if */
 			if (checkOrigin && (''+origin !== 'null') && !checkAllowedOrigin()) {
 				throw new Error(
 					'Unexpected message received from: ' + origin +
@@ -230,7 +233,6 @@
 			//the message format would break backwards compatibity.
 			var retCode = messageData.type in {'true':1,'false':1,'undefined':1};
 
-			/* istanbul ignore if */
 			if (retCode){
 				log(iframeId,'Ignoring init message from meta parent page');
 			}
@@ -251,10 +253,78 @@
 			log(iframeId,'--');
 		}
 
+		function getPageInfo(){
+			var
+				bodyPosition   = document.body.getBoundingClientRect(),
+				iFramePosition = messageData.iframe.getBoundingClientRect();
+
+			return JSON.stringify({
+				iframeHeight: iFramePosition.height,
+				iframeWidth:  iFramePosition.width,
+				clientHeight: Math.max(document.documentElement.clientHeight, window.innerHeight || 0),
+				clientWidth:  Math.max(document.documentElement.clientWidth,  window.innerWidth  || 0),
+				offsetTop:    parseInt(iFramePosition.top  - bodyPosition.top,  10),
+				offsetLeft:   parseInt(iFramePosition.left - bodyPosition.left, 10),
+				scrollTop:    window.pageYOffset,
+				scrollLeft:   window.pageXOffset
+			});
+		}
+
+		function sendPageInfoToIframe(iframe,iframeId){
+			function debouncedTrigger(){
+				trigger(
+					'Send Page Info',
+					'pageInfo:' + getPageInfo(),
+					iframe,
+					iframeId
+				);
+			}
+
+			debouce(debouncedTrigger,32);
+		}
+
+
+		function startPageInfoMonitor(){
+			function setListener(type,func){
+				function sendPageInfo(){
+					if (settings[id]){
+						sendPageInfoToIframe(settings[id].iframe,id);
+					} else {
+						stop();
+					}
+				}
+
+				['scroll','resize'].forEach(function(evt){
+					log(id, type +  evt + ' listener for sendPageInfo');
+					func(window,evt,sendPageInfo);
+				});
+			}
+
+			function stop(){
+				setListener('Remove ', removeEventListener);
+			}
+
+			function start(){
+				setListener('Add ', addEventListener);
+			}
+
+			var id = iframeId; //Create locally scoped copy of iFrame ID
+
+			start();
+
+			settings[id].stopPageInfo = stop;
+		}
+
+		function stopPageInfoMonitor(){
+			if (settings[iframeId] && settings[iframeId].stopPageInfo){
+				settings[iframeId].stopPageInfo();
+				delete settings[iframeId].stopPageInfo;
+			}
+		}
+
 		function checkIFrameExists(){
 			var retBool = true;
 
-			/* istanbul ignore if */
 			if (null === messageData.iframe) {
 				warn(iframeId,'IFrame ('+messageData.id+') not found');
 				retBool = false;
@@ -274,7 +344,7 @@
 		}
 
 		function scrollRequestFromChild(addOffset){
-			/* istanbul ignore next */
+			/* istanbul ignore next */  //Not testable in Karma
 			function reposition(){
 				pagePosition = newPosition;
 				scrollTo();
@@ -289,7 +359,6 @@
 			}
 
 			function scrollParent(){
-				/* istanbul ignore else */
 				if (window.parentIFrame){
 					window.parentIFrame['scrollTo'+(addOffset?'Offset':'')](newPosition.x,newPosition.y);
 				} else {
@@ -303,8 +372,7 @@
 
 			log(iframeId,'Reposition requested from iFrame (offset x:'+offset.x+' y:'+offset.y+')');
 
-			/* istanbul ignore else */
-			if(window.top!==window.self){
+			if(window.top !== window.self){
 				scrollParent();
 			} else {
 				reposition();
@@ -312,7 +380,6 @@
 		}
 
 		function scrollTo(){
-			/* istanbul ignore else */
 			if (false !== callback('scrollCallback',pagePosition)){
 				setPagePosition(iframeId);
 			} else {
@@ -335,11 +402,10 @@
 			}
 
 			function jumpToParent(){
-				/* istanbul ignore else */
 				if (window.parentIFrame){
 					window.parentIFrame.moveToAnchor(hash);
 				} else {
-					console.log(iframeId,'In page link #'+hash+' not found and window.parentIFrame not found');
+					log(iframeId,'In page link #'+hash+' not found and window.parentIFrame not found');
 				}
 			}
 
@@ -348,13 +414,12 @@
 				hashData = decodeURIComponent(hash),
 				target   = document.getElementById(hashData) || document.getElementsByName(hashData)[0];
 
-			/* istanbul ignore else */
 			if (target){
 				jumpToTarget();
 			} else if(window.top!==window.self){
 				jumpToParent();
 			} else {
-				consolelog(iframeId,'In page link #'+hash+' not found');
+				log(iframeId,'In page link #'+hash+' not found');
 			}
 		}
 
@@ -379,6 +444,13 @@
 			case 'scrollToOffset':
 				scrollRequestFromChild(true);
 				break;
+			case 'pageInfo':
+				sendPageInfoToIframe(settings[iframeId].iframe,iframeId);
+				startPageInfoMonitor();
+				break;
+			case 'pageInfoStop':
+				stopPageInfoMonitor();
+				break;
 			case 'inPageLink':
 				findTarget(getMsgBody(9));
 				break;
@@ -399,7 +471,6 @@
 		function hasSettings(iframeId){
 			var retBool = true;
 
-			/* istanbul ignore if */
 			if (!settings[iframeId]){
 				retBool = false;
 				warn(messageData.type + ' No settings for ' + iframeId + '. Message was: ' + msg);
@@ -429,6 +500,8 @@
 			messageData = processMsg();
 			iframeId    = logId = messageData.id;
 
+			clearTimeout(settings[iframeId].msgTimeout);
+
 			if (!isMessageFromMetaParent() && hasSettings(iframeId)){
 				log(iframeId,'Received: '+msg);
 
@@ -437,7 +510,6 @@
 				}
 			}
 		} else {
-			/* istanbul ignore next */
 			info(iframeId,'Ignored: '+msg);
 		}
 
@@ -452,7 +524,6 @@
 		if(settings[iframeId]){
 			func = settings[iframeId][funcName];
 
-			/* istanbul ignore else */
 			if( 'function' === typeof func){
 				retVal = func(val);
 			} else {
@@ -467,7 +538,7 @@
 		var iframeId = iframe.id;
 
 		log(iframeId,'Removing iFrame: '+iframeId);
-		iframe.parentNode.removeChild(iframe);
+		if (iframe.parentNode) { iframe.parentNode.removeChild(iframe); }
 		chkCallback(iframeId,'closedCallback',iframeId);
 		log(iframeId,'--');
 		delete settings[iframeId];
@@ -522,7 +593,7 @@
 			//So if we detect that set up an event to check for
 			//when iFrame becomes visible.
 
-			/* istanbul ignore if */
+			/* istanbul ignore next */  //Not testable in PhantomJS
 			if (!hiddenCheckEnabled && '0' === messageData[dimension]){
 				hiddenCheckEnabled = true;
 				log(iframeId,'Hidden iFrame detected, creating visibility listener');
@@ -544,6 +615,7 @@
 	}
 
 	function syncResize(func,messageData,doNotSync){
+		/* istanbul ignore if */  //Not testable in PhantomJS
 		if(doNotSync!==messageData.type && requestAnimationFrame){
 			log(messageData.id,'Requesting animation frame');
 			requestAnimationFrame(func);
@@ -552,29 +624,45 @@
 		}
 	}
 
-	function trigger(calleeMsg,msg,iframe,id){
+	function trigger(calleeMsg, msg, iframe, id, noResponseWarning) {
 		function postMessageToIFrame(){
-			log(id,'[' + calleeMsg + '] Sending msg to iframe['+id+'] ('+msg+')');
+			var target = settings[id].targetOrigin;
+			log(id,'[' + calleeMsg + '] Sending msg to iframe['+id+'] ('+msg+') targetOrigin: '+target);
 			iframe.contentWindow.postMessage( msgId + msg, target );
 		}
 
-		/* istanbul ignore next */
 		function iFrameNotFound(){
-			info(id,'[' + calleeMsg + '] IFrame('+id+') not found');
-			if(settings[id]) {
-				delete settings[id];
+			warn(id,'[' + calleeMsg + '] IFrame('+id+') not found');
+		}
+
+		function chkAndSend(){
+			if(iframe && 'contentWindow' in iframe && (null !== iframe.contentWindow)){ //Null test for PhantomJS
+				postMessageToIFrame();
+			} else {
+				iFrameNotFound();
 			}
 		}
 
-		id = id || iframe.id;
-		var target = settings[id].targetOrigin;
+		function warnOnNoResponse() {
 
-		/* istanbul ignore else */
-		if(iframe && 'contentWindow' in iframe){
-			postMessageToIFrame();
-		} else {
-			iFrameNotFound();
+			function warning() {
+				warn(id, 'No response from iFrame. Check iFrameResizer.contentWindow.js has been loaded in iFrame');
+			}
+
+			if (!!noResponseWarning) {
+				settings[id].msgTimeout = setTimeout(warning, settings[id].warningTimeout);
+
+			}
 		}
+
+
+		id = id || iframe.id;
+
+		if(settings[id]) {
+			chkAndSend();
+			warnOnNoResponse();
+		}
+
 	}
 
 	function createOutgoingMsg(iframeId){
@@ -619,10 +707,18 @@
 			addStyle('minWidth');
 		}
 
+		function newId(){
+			var id = ((options && options.id) || defaults.id + count++);
+			if  (null !== document.getElementById(id)){
+				id = id + count++;
+			}
+			return id;
+		}
+
 		function ensureHasId(iframeId){
 			logId=iframeId;
 			if (''===iframeId){
-				iframe.id = iframeId = (options.id || defaults.id) + count++;
+				iframe.id = iframeId =  newId();
 				logEnabled = (options || {}).log;
 				logId=iframeId;
 				log(iframeId,'Added missing iframe ID: '+ iframeId +' (' + iframe.src + ')');
@@ -635,7 +731,16 @@
 		function setScrolling(){
 			log(iframeId,'IFrame scrolling ' + (settings[iframeId].scrolling ? 'enabled' : 'disabled') + ' for ' + iframeId);
 			iframe.style.overflow = false === settings[iframeId].scrolling ? 'hidden' : 'auto';
-			iframe.scrolling      = false === settings[iframeId].scrolling ? 'no' : 'yes';
+			switch(settings[iframeId].scrolling) {
+				case true:
+					iframe.scrolling = 'yes';
+					break;
+				case false:
+					iframe.scrolling = 'no';
+					break;
+				default:
+					iframe.scrolling = settings[iframeId].scrolling;
+			}
 		}
 
 		//The V1 iFrame script expects an int, where as in V2 expects a CSS
@@ -670,12 +775,12 @@
 					resize       : trigger.bind(null,'Window resize', 'resize', settings[iframeId].iframe),
 
 					moveToAnchor : function(anchor){
-						trigger('Move to anchor','inPageLink:'+anchor, settings[iframeId].iframe,iframeId);
+						trigger('Move to anchor','moveToAnchor:'+anchor, settings[iframeId].iframe,iframeId);
 					},
 
 					sendMessage  : function(message){
 						message = JSON.stringify(message);
-						trigger('Send Message','message:'+message, settings[iframeId].iframe,iframeId);
+						trigger('Send Message','message:'+message, settings[iframeId].iframe, iframeId);
 					}
 				};
 			}
@@ -686,12 +791,12 @@
 		//event listener also catches the page changing in the iFrame.
 		function init(msg){
 			function iFrameLoaded(){
-				trigger('iFrame.onload',msg,iframe);
+				trigger('iFrame.onload', msg, iframe, undefined , true);
 				checkReset();
 			}
 
 			addEventListener(iframe,'load',iFrameLoaded);
-			trigger('init',msg,iframe);
+			trigger('init', msg, iframe, undefined, true);
 		}
 
 		function checkOptions(options){
@@ -732,7 +837,6 @@
 
 		var iframeId = ensureHasId(iframe.id);
 
-		/* istanbul ignore else */
 		if (!beenHere()){
 			processOptions(options);
 			setScrolling();
@@ -754,11 +858,7 @@
 		}
 	}
 
-	function isVisible(el) {
-		return (null !== el.offsetParent);
-	}
-
-	/* istanbul ignore next */
+	/* istanbul ignore next */  //Not testable in PhantomJS
 	function fixHiddenIFrames(){
 		function checkIFrames(){
 			function checkIFrame(settingId){
@@ -766,8 +866,12 @@
 					return '0px' === settings[settingId].iframe.style[dimension];
 				}
 
+				function isVisible(el) {
+					return (null !== el.offsetParent);
+				}
+
 				if (isVisible(settings[settingId].iframe) && (chkDimension('height') || chkDimension('width'))){
-					trigger('Visibility change', 'resize', settings[settingId].iframe,settingId);
+					trigger('Visibility change', 'resize', settings[settingId].iframe, settingId);
 				}
 			}
 
@@ -804,41 +908,43 @@
 		if (MutationObserver) createMutationObserver();
 	}
 
-	function setupEventListeners(){
-		function resizeIFrames(event){
-			function resize(){
-				sendTriggerMsg('Window '+event,'resize');
-			}
 
-			log('window','Trigger event: '+event);
+	function resizeIFrames(event){
+		function resize(){
+			sendTriggerMsg('Window '+event,'resize');
+		}
+
+		log('window','Trigger event: '+event);
+		debouce(resize,16);
+	}
+
+	/* istanbul ignore next */  //Not testable in PhantomJS
+	function tabVisible() {
+		function resize(){
+			sendTriggerMsg('Tab Visable','resize');
+		}
+
+		if('hidden' !== document.visibilityState) {
+			log('document','Trigger event: Visiblity change');
 			debouce(resize,16);
 		}
+	}
 
-		function tabVisible() {
-			function resize(){
-				sendTriggerMsg('Tab Visable','resize');
-			}
-
-			if('hidden' !== document.visibilityState) {
-				log('document','Trigger event: Visiblity change');
-				debouce(resize,16);
-			}
+	function sendTriggerMsg(eventName,event){
+		function isIFrameResizeEnabled(iframeId) {
+			return	'parent' === settings[iframeId].resizeFrom &&
+					settings[iframeId].autoResize &&
+					!settings[iframeId].firstRun;
 		}
 
-		function sendTriggerMsg(eventName,event){
-			function isIFrameResizeEnabled(iframeId) {
-				return	'parent' === settings[iframeId].resizeFrom &&
-						settings[iframeId].autoResize &&
-						!settings[iframeId].firstRun;
-			}
-
-			for (var iframeId in settings){
-				if(isIFrameResizeEnabled(iframeId)){
-					trigger(eventName,event,document.getElementById(iframeId),iframeId);
-				}
+		for (var iframeId in settings){
+			if(isIFrameResizeEnabled(iframeId)){
+				trigger(eventName, event, document.getElementById(iframeId), iframeId);
 			}
 		}
+	}
 
+	function setupEventListeners(){
 		addEventListener(window,'message',iFrameListener);
 
 		addEventListener(window,'resize', function(){resizeIFrames('resize');});
@@ -852,13 +958,24 @@
 
 	function factory(){
 		function init(options,element){
-			if(!element.tagName) {
-				throw new TypeError('Object is not a valid DOM element');
-			} else if ('IFRAME' !== element.tagName.toUpperCase()) {
-				throw new TypeError('Expected <IFRAME> tag, found <'+element.tagName+'>');
-			} else {
+			function chkType(){
+				if(!element.tagName) {
+					throw new TypeError('Object is not a valid DOM element');
+				} else if ('IFRAME' !== element.tagName.toUpperCase()) {
+					throw new TypeError('Expected <IFRAME> tag, found <'+element.tagName+'>');
+				}
+			}
+
+			if(element) {
+				chkType();
 				setupIFrame(element, options);
 				iFrames.push(element);
+			}
+		}
+
+		function warnDeprecatedOptions(options) {
+			if (options && options.enablePublicMethods) {
+				warn('enablePublicMethods option has been removed, public methods are now always available in the iFrame');
 			}
 		}
 
@@ -869,6 +986,8 @@
 
 		return function iFrameResizeF(options,target){
 			iFrames = []; //Only return iFrames past in on this call
+
+			warnDeprecatedOptions(options);
 
 			switch (typeof(target)){
 			case 'undefined':
@@ -890,16 +1009,21 @@
 	}
 
 	function createJQueryPublicMethod($){
-		$.fn.iFrameResize = function $iFrameResizeF(options) {
-			return this.filter('iframe').each(function (index, element) {
-				setupIFrame(element, options);
-			}).end();
-		};
+		if (!$.fn) {
+			info('','Unable to bind to jQuery, it is not fully loaded.');
+		} else if (!$.fn.iFrameResize){
+			$.fn.iFrameResize = function $iFrameResizeF(options) {
+				function init(index, element) {
+					setupIFrame(element, options);
+				}
+
+				return this.filter('iframe').each(init).end();
+			};
+		}
 	}
 
-	if (window.jQuery) { createJQueryPublicMethod(jQuery); }
+	if (window.jQuery) { createJQueryPublicMethod(window.jQuery); }
 
-	/* istanbul ignore else */
 	if (typeof define === 'function' && define.amd) {
 		define([],factory);
 	} else if (typeof module === 'object' && typeof module.exports === 'object') { //Node for browserfy
@@ -908,4 +1032,4 @@
 		window.iFrameResize = window.iFrameResize || factory();
 	}
 
-})(window || {});
+})();

@@ -4,4 +4,5 @@
  */
 this.ckan.module('media-grid', function ($, _) {
   $('#group-list').mixItUp({selectors:{target: '.media-item'}, animation:{enable: false}})
+  $('#media-grid-list').mixItUp({selectors:{target: '.media-item'}, animation:{enable: false}})
 });
