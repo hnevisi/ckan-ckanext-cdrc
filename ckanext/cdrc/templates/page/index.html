@@ -1,11 +1,11 @@
 {% extends "page.html" %}
 
-{% block subtitle %}{{ _(subtitle) }}{% endblock %}
+{% block subtitle %}{{ _(pkg_tag.title()) }}{% endblock %}
 
 {% set page_controller='ckanext.cdrc.controllers.page:CDRCPageController' %}
 
 {% block breadcrumb_content %}
-  <li class="active">{% link_for _(subtitle), controller=page_controller, action='index' %}</li>
+  <li class="active">{% link_for _(pkg_tag.title()), controller=page_controller, action='index', pkg_tag=pkg_tag %}</li>
 {% endblock %}
 
 {% block page_header %}{% endblock %}
@@ -20,7 +20,7 @@
       <li class="media-item" style="display: inline-block; height: 100px">
         <h3 class="media-heading">{{p.title}}</h3>
         <p>{{ p.description }}</p>
-        <a class="media-view" href="{% url_for controller=page_controller, action='page_list', pkg_id=p.pkg_id %}"><span>{{p.title}}</span></a>
+        <a class="media-view" href="{% url_for controller=page_controller, action='page_list', pkg_id=p.pkg_id, pkg_tag=pkg_tag %}"><span>{{p.title}}</span></a>
       </li>
       {% endfor %}
     </ul>

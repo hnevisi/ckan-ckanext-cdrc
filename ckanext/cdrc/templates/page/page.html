@@ -1,11 +1,11 @@
 {% extends "page/embedded_page.html" %}
 
-{% block subtitle %}{{ _(subtitle) }}{% endblock %}
+{% block subtitle %}{{ _(pkg_tag.title()) }}{% endblock %}
 
 {% set page_controller='ckanext.cdrc.controllers.page:CDRCPageController' %}
 
 {% block breadcrumb_content %}
-  <li>{% link_for _('Praticals'), controller=page_controller, action='index' %}</li>
-  <li>{% link_for pkg_name, controller=page_controller, action='page_list', pkg_id=pkg_id %}</li>
-  <li class="active">{% link_for _(subtitle), controller=page_controller, action='page_show', pkg_id=pkg_id, page_id=page_id %}</li>
+  <li>{% link_for _(pkg_tag.title()), controller=page_controller, action='index', pkg_tag=pkg_tag %}</li>
+  <li>{% link_for pkg_name, controller=page_controller, action='page_list', pkg_id=pkg_id, pkg_tag=pkg_tag %}</li>
+  <li class="active">{% link_for _(subtitle), controller=page_controller, action='page_show', pkg_id=pkg_id, page_id=page_id, pkg_tag=pkg_tag %}</li>
 {% endblock %}

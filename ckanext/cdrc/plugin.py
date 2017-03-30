@@ -171,13 +171,13 @@ class CdrcPlugin(plugins.SingletonPlugin):
     def before_map(self, map):
         map.connect('/testing/assertfalse', controller='ckanext.cdrc.plugin:CDRCExtController', action='assertfalse')
         map.connect('blog', '/blog', controller='ckanext.cdrc.controllers.page:CDRCBlogController', action='blog_proxy')
-        map.connect('practical', '/practical', controller='ckanext.cdrc.controllers.page:CDRCPageController', action='index')
+        map.connect('practical', '/practical', controller='ckanext.cdrc.controllers.page:CDRCPageController', action='index', pkg_tag='practical')
         map.connect('dataset', '/dataset?q=&sort=accesslevel+desc', controller='package', action='search')
         map.connect('national', '/national', controller='ckanext.cdrc.controllers.singlegroup:SingleGroupController', action='read_national')
         map.connect('regional', '/regional', controller='ckanext.cdrc.controllers.singlegroup:SingleGroupController', action='read_regional')
         with SubMapper(map, controller='ckanext.cdrc.controllers.page:CDRCPageController') as m:
-            m.connect('/practical/{pkg_id}/{page_id}', action='page_show')
-            m.connect('/practical/{pkg_id}', action='page_list')
+            m.connect('/{pkg_tag}/{pkg_id}/{page_id}', action='page_show', requirements={'pkg_tag': 'practical'})
+            m.connect('/{pkg_tag}/{pkg_id}', action='page_list', requirements={'pkg_tag': 'practical'})
         with SubMapper(map, controller='ckanext.cdrc.controllers.organization_admin:CDRCOrgAdminController') as m:
             m.connect('organization_format_review',
                       '/organization/format_review/{id}',

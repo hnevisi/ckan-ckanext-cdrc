@@ -5,6 +5,7 @@ Email: spacelis@gmail.com
 Github: http://github.com/spacelis
 Description:
     A blog controller that wrapping a wp in a page.
+    A page controller to show HTML resources in datasets with a special tag as a sub-website.
 """
 
 
@@ -41,38 +42,52 @@ class CDRCPageController(BaseController):
         pkgs = logic.get_action('package_search')(context, {'fq': 'tags:' + pkg_tag})
         return pkgs
 
-    def page_list(self, pkg_id, pkg_tag='Practical'):
+    def page_list(self, pkg_id, pkg_tag='Practical', content='HTML'):
         pkg = self._get_pkg(pkg_id)
-        assert pkg is not None
+        if pkg is None:
+            abort(404)
         page_list = [{
             'title': r['name'],
             'description': r['description'],
             'id': r['id'],
             'package_id': pkg['name']
-        } for r in pkg['resources']]
-        return render("page/page_list.html", extra_vars={'page_list': page_list, 'subtitle': pkg['title'], 'pkg_id': pkg['name']})
+        } for r in pkg['resources'] if r['format'] == content]
+        return render("page/page_list.html", extra_vars={
+            'page_list': page_list,
+            'subtitle': pkg['title'],
+            'pkg_id': pkg['name'],
+            'pkg_tag': pkg_tag
+        })
 
     def index(self, pkg_tag='Practical'):
         found = self._get_pkg_list()
-        assert found['count'] > 0
+        if not (found['count'] > 0):
+            abort(404)
 
         pkg_list = [{
             'title': p['title'],
             'description': p['notes'],
             'pkg_id': p['name'],
         } for p in found['results']]
-        return render("page/index.html", extra_vars={'pkg_list': pkg_list, 'subtitle': pkg_tag})
+        return render("page/index.html", extra_vars={
+            'pkg_list': pkg_list,
+            'subtitle': pkg_tag,
+            'pkg_tag': pkg_tag
+        })
 
-    def page_show(self, pkg_id, page_id):
+    def page_show(self, pkg_id, page_id, pkg_tag='Practical'):
         pkg = self._get_pkg(pkg_id)
-        assert pkg is not None
+        if pkg is None:
+            abort(404)
         resource = [r for r in pkg['resources'] if r['id'] == page_id]
-        assert len(resource) > 0
+        if not len(resource) > 0:
+            abort(404)
         res = resource[0]
         return render("page/page.html", extra_vars={
             'src_url': '//' + res['url'].split('://', 1)[1],
             'pkg_id': pkg['name'],
             'page_id': res['id'],
             'subtitle': res['name'],
-                'pkg_name': pkg['title']
+            'pkg_name': pkg['title'],
+            'pkg_tag': pkg_tag
         })
