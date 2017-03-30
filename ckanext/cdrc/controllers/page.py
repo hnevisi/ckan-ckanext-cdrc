@@ -25,6 +25,10 @@ class CDRCBlogController(BaseController):
 
 class CDRCPageController(BaseController):
 
+    logos = {
+        'practical': '/images/practical-logo.png'
+    }
+
     def _get_pkg(self, pkg_id, pkg_tag='Practical'):
         """ Return the pkg dict if it has the given tag"""
         context = {'model': model, 'session': model.Session,
@@ -56,7 +60,8 @@ class CDRCPageController(BaseController):
             'page_list': page_list,
             'subtitle': pkg['title'],
             'pkg_id': pkg['name'],
-            'pkg_tag': pkg_tag
+            'pkg_tag': pkg_tag,
+            'image_url': CDRCPageController.logos.get(pkg_tag)
         })
 
     def index(self, pkg_tag='Practical'):
@@ -72,7 +77,8 @@ class CDRCPageController(BaseController):
         return render("page/index.html", extra_vars={
             'pkg_list': pkg_list,
             'subtitle': pkg_tag,
-            'pkg_tag': pkg_tag
+            'pkg_tag': pkg_tag,
+            'image_url': CDRCPageController.logos.get(pkg_tag)
         })
 
     def page_show(self, pkg_id, page_id, pkg_tag='Practical'):

@@ -17,8 +17,9 @@
   <div style="padding: 15px">
     <ul class="media-grid-list" data-module="media-grid">
       {% for p in pkg_list %}
-      <li class="media-item" style="display: inline-block; height: 100px">
-        <h3 class="media-heading">{{p.title}}</h3>
+      <li class="media-item" style="display: inline-block; min-height: 100px">
+        <center><img src="{{image_url}}" alt=""/></center>
+        <center><h3 class="media-heading">{{p.title}}</h3></center>
         <p>{{ p.description }}</p>
         <a class="media-view" href="{% url_for controller=page_controller, action='page_list', pkg_id=p.pkg_id, pkg_tag=pkg_tag %}"><span>{{p.title}}</span></a>
       </li>
