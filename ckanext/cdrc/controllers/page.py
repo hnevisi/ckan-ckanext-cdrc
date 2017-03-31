@@ -89,6 +89,21 @@ class CDRCPageController(BaseController):
         if not len(resource) > 0:
             abort(404)
         res = resource[0]
+        context = {'model': model, 'session': model.Session,
+                   'user': c.user}
+        try:
+            logic.check_access('resource_download', context, {'id': page_id})
+        except:
+            h.flash_error('Please login to continue...')
+            h.redirect_to(
+                controller='user', action='login',
+                id=None,
+                came_from=h.url_for(
+                    controller='ckanext.cdrc.controllers.page:CDRCPageController',
+                    action='page_show',
+                    pkg_id=pkg_id,
+                    page_id=page_id,
+                    pkg_tag=pkg_tag))
         return render("page/page.html", extra_vars={
             'src_url': '//' + res['url'].split('://', 1)[1],
             'pkg_id': pkg['name'],
