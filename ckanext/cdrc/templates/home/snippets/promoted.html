@@ -1,38 +1,33 @@
 {% set promoted_text = '''
-### London Output Area Classification
+## How to Use
 
-The London Output Area Classification (LOAC) was created by [Alex
-Singleton and Paul Longley](https://www.cdrc.ac.uk/hierarchy/senior-management/) in collaboration with the [Greater
-London Authority](http://www.london.gov.uk/). The recently published
-[article](dx.doi.org/10.1002/geo2.7) explores the geography of where
-Londoners live to identify 19 distinctive "tribes" that characterise
-neighbourhoods in the capital.
+Our data [products](/product) are organized into a range of [topics](/topic) concerning the characteristics, constraints and outcomes of consumption.
 
-Download Data: [CDRC 2011 LOAC Geodata
-Pack](https://data.cdrc.ac.uk/product/cdrc-2011-loac-geodata-pack)
-View LOAC Map: [CDRC Maps](http://maps.cdrc.ac.uk/#/geodemographics/loac11/default/BTTTFTT/12/-0.1375/51.5032/)
-Teaching Pack: [Creating a LOAC Map in R.](https://www.cdrc.ac.uk/training-capacity-building/training/)
+Many of our data products are available for a number of geographic extents. You can download datasets for [national](/national),
+[regional](/regional) and [local authority districts](/lad); and you can also view some of our data through our [maps interface](https://maps.cdrc.ac.uk).
+
+You may also use the search box to find datasets by keywords and refine the results using filters on the left pane on the search result page.
 ''' %}
 {% set promoted_img = '/images/London_LOAC.png' %}
 {% set promoted_url = 'http://maps.cdrc.ac.uk' %}
 
 <div class="box description" style="margin-bottom: 20px">
-  <div class="inner">
+  <div class="inner notes">
     <header>
-      <h2>A Focus On ...</h2>
-      <hr>
-      {{ h.render_markdown(promoted_text) }}
+      {# <h2>A Focus On ...</h2> #}
+      {# <hr> #}
     </header>
+    {{ h.render_markdown(promoted_text) }}
 
     {% block home_image %}
-      <section class="featured media-overlay hidden-phone">
-        <!-- <h2 class="media-heading">{% block home_image_caption %}{{ _("This is a featured section") }}{% endblock %}</h2> -->
-        {% block home_image_content %}
-          <a class="media-image" href="{{ promoted_url }}">
-            <img src="{{ h.url_for_static(promoted_img) }}" alt="Placeholder" width="420" height="220" />
-          </a>
-        {% endblock %}
-      </section>
+      {# <section class="featured media-overlay hidden-phone"> #}
+      {#   <!-- <h2 class="media-heading">{% block home_image_caption %}{{ _("This is a featured section") }}{% endblock %}</h2> --> #}
+      {#   {% block home_image_content %} #}
+      {#     <a class="media-image" href="{{ promoted_url }}"> #}
+      {#       <img src="{{ h.url_for_static(promoted_img) }}" alt="Placeholder" width="420" height="220" /> #}
+      {#     </a> #}
+      {#   {% endblock %} #}
+      {# </section> #}
     {% endblock %}
   </div>
 </div>

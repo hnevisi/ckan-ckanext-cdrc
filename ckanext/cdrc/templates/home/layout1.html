@@ -8,14 +8,14 @@
   <div class="container">
     <div class="row" style="margin-top: 20px">
       <div class="span5">
-        {% block stats %}
-          {% snippet 'home/snippets/stats.html' %}
-        {% endblock %}
         {% block welcome %}
           {% snippet 'home/snippets/welcome.html' %}
         {% endblock %}
         {% block promoted %}
           {% snippet 'home/snippets/promoted.html' %}
+        {% endblock %}
+        {% block stats %}
+          {% snippet 'home/snippets/stats.html' %}
         {% endblock %}
         {% block twitterbox %}
           {% snippet 'home/snippets/twitterbox.html' %}
@@ -28,21 +28,21 @@
         {% block latest %}
           {% snippet 'home/snippets/popular_datasets.html' %}
         {% endblock %}
-        <div class="row">
-          <div class="span4">
-            {% block def_service %}
-              {% snippet 'home/snippets/def_service.html' %}
-            {% endblock %}
-          </div>
-          <div class="span3">
-            {% block def_topic %}
-              {% snippet 'home/snippets/def_topic.html' %}
-            {% endblock %}
-          </div>
-        </div>
-        {% block def_geography %}
-          {% snippet 'home/snippets/def_geography.html' %}
-        {% endblock %}
+        {# <div class="row"> #}
+        {#   <div class="span4"> #}
+        {#     {% block def_service %} #}
+        {#       {% snippet 'home/snippets/def_service.html' %} #}
+        {#     {% endblock %} #}
+        {#   </div> #}
+        {#   <div class="span3"> #}
+        {#     {% block def_topic %} #}
+        {#       {% snippet 'home/snippets/def_topic.html' %} #}
+        {#     {% endblock %} #}
+        {#   </div> #}
+        {# </div> #}
+        {# {% block def_geography %} #}
+        {#   {% snippet 'home/snippets/def_geography.html' %} #}
+        {# {% endblock %} #}
       </div>
     </div>
   </div>

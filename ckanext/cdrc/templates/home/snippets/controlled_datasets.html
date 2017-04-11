@@ -1,14 +1,14 @@
-{% set packages = h.get_action('package_search', {'sort': 'metadata_modified desc', 'rows': 3, 'q': 'accesslevel:safeguarded OR accesslevel:secure'}).results %}
+{% set packages = h.get_action('package_search', {'sort': 'metadata_created desc', 'rows': 3, 'q': 'accesslevel:safeguarded OR accesslevel:secure'}).results %}
 <div class="box" style="margin-bottom: 20px">
   <div class="inner">
     <header>
-      <h2>Latest Secure/Safeguarded Datasets</h2>
+      <h2>Latest Secure/Safeguarded Service Data</h2>
     </header>
     <hr>
     {% snippet 'snippets/package_list.html', packages=packages %}
     <div class="row">
       <div style="float: right">
-        <a href="/dataset?q=accesslevel:safeguarded%20OR%20accesslevel:secure&sort=metadata_modified+desc" target="_blank">more...</a>
+        <a href="/dataset?q=accesslevel:safeguarded%20OR%20accesslevel:secure&sort=metadata_created+desc" target="_blank">more...</a>
       </div>
     </div>
   </div>

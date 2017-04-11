@@ -6,20 +6,24 @@
       {% if intro %}
         {{ h.render_markdown(intro) }}
       {% else %}
-        <h1 class="page-heading">{{ _("Welcome to CDRC Data") }}</h1>
-        <p>
-          We are an academic led, multi-institution laboratory which discovers, mines, analyses and synthesises consumer-related datasets from around the UK. The CDRC is an ESRC Data Investment.
+        <h2 class="page-heading">{{ _("Welcome to the CDRC Data Service") }}</h2>
+        <p class="notes">
+          This website provides a searchable catalogue of the data products held by the CDRC.
+          Our service has three tiers: <span class="label" data-accesslevel="open">Open</span>, <span class="label" data-accesslevel="safeguarded">Safeguarded</span> and <span class="label" data-accesslevel="secure">Secure</span>.
+          Where data are flagged as open you can register and download these today.
+          Access to data held in our Safeguarded and Secure service levels requires registration and application approval.
+          Further details can be found on our <a href="https://cdrc.ac.uk" target="_blank">main website</a>.
         </p>
       {% endif %}
     </header>
 
     {% block home_image %}
-      <section class="featured media-overlay hidden-phone">
-        <!-- <h2 class="media-heading">{% block home_image_caption %}{{ _("This is a featured section") }}{% endblock %}</h2> -->
-        {% block home_image_content %}
-          <img src="{{ h.url_for_static('/images/retail_image.png') }}" alt="Placeholder" width="420" height="220" />
-        {% endblock %}
-      </section>
+      <!-- <section class="featured media&#45;overlay hidden&#45;phone"> -->
+      <!--   <!&#45;&#45; <h2 class="media&#45;heading">{% block home_image_caption %}{{ _("This is a featured section") }}{% endblock %}</h2> &#45;&#45;> -->
+      <!--   {% block home_image_content %} -->
+      <!--     <img src="{{ h.url_for_static('/images/retail_image.png') }}" alt="Placeholder" width="420" height="220" /> -->
+      <!--   {% endblock %} -->
+      <!-- </section> -->
     {% endblock %}
   </div>
 </div>

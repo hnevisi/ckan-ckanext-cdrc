@@ -108,15 +108,7 @@
           <nav class="section navigation" style="margin-right: 0px">
             <ul class="nav nav-tabs" style="margin-right: 0px">
               {% block header_site_navigation_tabs %}
-                <li><a href="https://www.cdrc.ac.uk" target='_blank'>CDRC</a></li>
                 {{ h.build_nav_main(
-                  ('dataset', _('Datasets')),
-                ) }}
-                <li><a href="https://maps.cdrc.ac.uk" target='_blank'>Maps</a></li>
-                <li><a href="https://www.cdrc.ac.uk/about-cdrc/meet-the-team/" target='_blank'>Team</a></li>
-                {{ h.build_nav_main(
-                  ('practical', _('Practicals')),
-                  ('blog', _('Blog')),
                   ('topic_index', _('Topics')),
                   ('product_index', _('Products')),
                 ) }}
@@ -134,6 +126,14 @@
                     ) }}
                   </ul>
                 </li>
+                {{ h.build_nav_main(
+                  ('dataset', _('All Datasets')),
+                ) }}
+                <li><a href="https://maps.cdrc.ac.uk" target='_blank'>Maps</a></li>
+                {{ h.build_nav_main(
+                  ('practical', _('Practicals')),
+                ) }}
+                <li><a href="https://www.cdrc.ac.uk" target='_blank'>CDRC</a></li>
               {% endblock %}
             </ul>
           </nav>
