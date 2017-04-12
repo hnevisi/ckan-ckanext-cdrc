@@ -15,19 +15,16 @@
 {% endblock %}
 
 {% block primary %}
-  <div style="padding: 15px;">
-    <ul class="media-grid-list" data-module="media-grid">
+  <div style="padding: 15px">
+    <a href="{% url_for controller='package', action='read', id=pkg_id %}" target="_blank"><h1>{{ subtitle }} <span class="icon-play-circle"></span></h1></a>
+    <div> {{ h.render_markdown(description) }} </div>
+    <hr/>
+    <ul class="resource-list">
       {% for p in page_list %}
-      <li class="media-item" style="display: inline-block; min-height: 100px">
-        <center><img src="{{image_url}}" alt=""/></center>
-        <center><h3 class="media-heading">{{p.title}}</h3></center>
-        <p>{{ p.description }}</p>
-        <a class="media-view" href="{% url_for controller=page_controller, action='page_show', pkg_id=p.package_id, page_id=p.id, pkg_tag=pkg_tag %}"><span>{{p.title}}</span></a>
-      </li>
+        {% snippet 'page/snippets/page_item.html', p=p, pkg_tag=pkg_tag %}
       {% endfor %}
     </ul>
   </div>
-{% resource 'cdrc/mixitup' %}
 {% endblock %}
 
 {% block secondary %}

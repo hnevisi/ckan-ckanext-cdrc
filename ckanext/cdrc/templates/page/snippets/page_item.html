@@ -1,0 +1,17 @@
+{% set page_controller='ckanext.cdrc.controllers.page:CDRCPageController' %}
+<li class="resource-item" data-id="">
+  <a class="heading" href="{% url_for controller=page_controller, action='page_show', pkg_id=p.package_id, page_id=p.id, pkg_tag=pkg_tag %}"><span>{{p.name}}</span></a>
+
+  <div class="btn-group">
+    <a href="{{ p.url }}" class="btn btn-info btn-mini">
+      <i class="icon-download-alt"></i>
+      HTML
+    </a>
+    {% for fmt in p.downloads %}
+    <a href="{{ fmt.url }}" class="btn btn-info btn-mini">
+      <i class="icon-download-alt"></i>
+      {{ fmt.type }}
+    </a>
+    {% endfor %}
+  </div>
+</li>

@@ -8,7 +8,7 @@ Description:
     A page controller to show HTML resources in datasets with a special tag as a sub-website.
 """
 
-
+import yaml
 from ckan.common import OrderedDict, c, g, request, _
 import ckan.lib.helpers as h
 import ckan.model as model
@@ -21,6 +21,23 @@ from ckan.lib.base import BaseController
 class CDRCBlogController(BaseController):
     def blog_proxy(self):
         return render("page/blog.html", extra_vars={'src_url': h.url('/', locale='default', qualified=False) + '_blog/'})
+
+
+def link_downloads(res, downloads):
+    links = yaml.load(res['description'])
+    res['downloads'] = [
+        {'type': k,
+         'url': downloads.get(v, None)}
+        for k, v in links.items()
+    ]
+
+
+def make_page_items(resources):
+    page_list = [r for r in resources if r['format'] == 'HTML']
+    downloads = {r['name']: r['url'] for r in resources if r['format'] != 'HTML'}
+    for r in page_list:
+        link_downloads(r, downloads)
+    return page_list
 
 
 class CDRCPageController(BaseController):
@@ -47,20 +64,21 @@ class CDRCPageController(BaseController):
         return pkgs
 
     def page_list(self, pkg_id, pkg_tag='Practical', content='HTML'):
-        pkg = self._get_pkg(pkg_id)
-        if pkg is None:
+        try:
+            context = {'model': model, 'session': model.Session,
+                    'user': c.user}
+            logic.check_access('package_show', context, {'id': pkg_id})
+            pkg = self._get_pkg(pkg_id)
+            assert pkg is not None
+        except:
             abort(404)
-        page_list = [{
-            'title': r['name'],
-            'description': r['description'],
-            'id': r['id'],
-            'package_id': pkg['name']
-        } for r in pkg['resources'] if r['format'] == content]
+        page_list = make_page_items(pkg['resources'])
         return render("page/page_list.html", extra_vars={
             'page_list': page_list,
             'subtitle': pkg['title'],
             'pkg_id': pkg['name'],
             'pkg_tag': pkg_tag,
+            'description': pkg['notes'],
             'image_url': CDRCPageController.logos.get(pkg_tag)
         })
 
@@ -110,5 +128,6 @@ class CDRCPageController(BaseController):
             'page_id': res['id'],
             'subtitle': res['name'],
             'pkg_name': pkg['title'],
+            'notes': pkg['notes'],
             'pkg_tag': pkg_tag
         })
