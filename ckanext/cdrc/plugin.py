@@ -205,7 +205,7 @@ class CdrcPlugin(plugins.SingletonPlugin):
         groups = json.loads(pkg_dict['data_dict'])['groups']
         customized_groups = defaultdict(list)
         for g in groups:
-            if g['type'] in ['accesslevel', 'lad', 'topic', 'product']:
+            if g['type'] in ['accesslevel', 'topic', 'product'] + LadController.group_types:
                 customized_groups[g['type']].append(g['name'])
         pkg_dict.update(customized_groups)
         return pkg_dict
@@ -215,7 +215,7 @@ class CdrcPlugin(plugins.SingletonPlugin):
         del facets_dict['license_id']
         facets_dict['topic'] = toolkit._('Topics')
         facets_dict['product'] = toolkit._('Products')
-        facets_dict['lad'] = toolkit._('LADs')
+        facets_dict['lad'] = toolkit._('Regions')
         facets_dict['accesslevel'] = toolkit._('Access Levels')
         return facets_dict
 
@@ -226,8 +226,8 @@ class CdrcPlugin(plugins.SingletonPlugin):
             facets_dict['topic'] = toolkit._('Topics')
         if group_type != 'product':
             facets_dict['product'] = toolkit._('Products')
-        if group_type != 'lad':
-            facets_dict['lad'] = toolkit._('LADs')
+        if group_type not in LadController.group_types:
+            facets_dict['lad'] = toolkit._('Regions')
         if group_type != 'accesslevel':
             facets_dict['accesslevel'] = toolkit._('Access Levels')
         return facets_dict
@@ -431,7 +431,6 @@ class CdrcLadPlugin(plugins.SingletonPlugin, DefaultGroupForm):
     def after_map(self, map):
         for gt in self.group_types():
             mapper_mixin(map, gt, 'ckanext.cdrc.controllers.lad:LadController')
-        import sys, pprint; print >>sys.stderr, map.__class__
         return map
 
     def before_map(self, map):

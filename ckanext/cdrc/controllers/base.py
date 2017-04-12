@@ -27,7 +27,7 @@ class DefaultGroupController(group.GroupController):
                    'with_private': False}
 
         q = c.q = request.params.get('q', '')
-        data_dict = {'all_fields': True, 'q': q, 'type': group_type or 'group', 'hide_empty': True}
+        data_dict = {'all_fields': True, 'q': q, 'type': group_type or 'group', 'hide_empty': False}
         sort_by = c.sort_by_selected = request.params.get('sort')
         if sort_by:
             data_dict['sort'] = sort_by
@@ -43,11 +43,15 @@ class DefaultGroupController(group.GroupController):
             context['user_is_admin'] = c.userobj.sysadmin
 
         results = self._action('group_list')(context, data_dict)
+        if hasattr(self, 'pager_url'):
+            pager_url = self.pager_url
+        else:
+            pager_url = h.pager_url
 
         c.page = h.Page(
             collection=results,
             page = self._get_page_number(request.params),
-            url=h.pager_url,
+            url=pager_url,
             items_per_page=self.items_per_page()
         )
         return render(self._index_template(group_type),
