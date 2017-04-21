@@ -27,13 +27,21 @@ def link_attachment(res, attachments):
     try:
         links = yaml.load(res['description'])
         res['attachments'] = [
-            {'type': k,
+            {'anchor': k,
             'resource': None if v not in attachments else attachments[v]}
             for k, v in links.items()
         ]
     except:
         pass
     return res
+
+
+def get_extra_items(pkg):
+    try:
+        extra_res = yaml.load(pkg['notes'].split('\r\n\r\n++\r\n\r\n')[1])
+        return extra_res
+    except:
+        return []
 
 
 def make_page_items(resources):
@@ -45,6 +53,7 @@ def make_page_items(resources):
             for d in r['attachments']:
                 d['resource']['is_attachment'] = True
     return [r for r in resources if not r.get('is_attachment', False)]
+
 
 
 class CDRCPageController(BaseController):
@@ -79,13 +88,14 @@ class CDRCPageController(BaseController):
             assert pkg is not None
         except:
             abort(404)
-        page_list = make_page_items(pkg['resources'])
+        extra_items = get_extra_items(pkg)
+        page_list = make_page_items(pkg['resources']) + extra_items
         return render("page/page_list.html", extra_vars={
             'page_list': page_list,
             'subtitle': pkg['title'],
             'pkg_id': pkg['name'],
             'pkg_tag': pkg_tag,
-            'description': pkg['notes'],
+            'description': pkg['notes'].split('\r\n\r\n++\r\n\r\n')[0],
             'image_url': CDRCPageController.logos.get(pkg_tag)
         })
 
