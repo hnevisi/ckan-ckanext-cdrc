@@ -1,17 +1,25 @@
+
 {% set page_controller='ckanext.cdrc.controllers.page:CDRCPageController' %}
+
 <li class="resource-item" data-id="">
+  {% if p.format == 'HTML' %}
   <a class="heading" href="{% url_for controller=page_controller, action='page_show', pkg_id=p.package_id, page_id=p.id, pkg_tag=pkg_tag %}"><span>{{p.name}}</span></a>
+  {% else %}
+  <a class="heading" href="{% url_for controller='package', action='resource_download', id=p.package_id, resource_id=p.id %}"><span>{{p.name}}</span></a>
+  {% endif %}
 
   <div class="btn-group">
     <a href="{{ p.url }}" class="btn btn-info btn-mini">
       <i class="icon-download-alt"></i>
-      HTML
+      {{ p.format }}
     </a>
-    {% for fmt in p.downloads %}
-    <a href="{{ fmt.url }}" class="btn btn-info btn-mini">
+    {% if p.attachments %}
+    {% for attachment in p.attachments %}
+    <a href="{{ attachment.resource.url }}" class="btn btn-info btn-mini">
       <i class="icon-download-alt"></i>
-      {{ fmt.type }}
+      {{ attachment.resource.format }}
     </a>
     {% endfor %}
+    {% endif %}
   </div>
 </li>

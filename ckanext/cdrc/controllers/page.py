@@ -23,21 +23,28 @@ class CDRCBlogController(BaseController):
         return render("page/blog.html", extra_vars={'src_url': h.url('/', locale='default', qualified=False) + '_blog/'})
 
 
-def link_downloads(res, downloads):
-    links = yaml.load(res['description'])
-    res['downloads'] = [
-        {'type': k,
-         'url': downloads.get(v, None)}
-        for k, v in links.items()
-    ]
+def link_attachment(res, attachments):
+    try:
+        links = yaml.load(res['description'])
+        res['attachments'] = [
+            {'type': k,
+            'resource': None if v not in attachments else attachments[v]}
+            for k, v in links.items()
+        ]
+    except:
+        pass
+    return res
 
 
 def make_page_items(resources):
-    page_list = [r for r in resources if r['format'] == 'HTML']
-    downloads = {r['name']: r['url'] for r in resources if r['format'] != 'HTML'}
-    for r in page_list:
-        link_downloads(r, downloads)
-    return page_list
+    attachments = {r['name']: r for r in resources}
+    for r in resources:
+        link_attachment(r, attachments)
+    for r in resources:
+        if 'attachments' in r:
+            for d in r['attachments']:
+                d['resource']['is_attachment'] = True
+    return [r for r in resources if not r.get('is_attachment', False)]
 
 
 class CDRCPageController(BaseController):
