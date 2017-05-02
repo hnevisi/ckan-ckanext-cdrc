@@ -59,10 +59,10 @@ def make_page_items(resources):
 class CDRCPageController(BaseController):
 
     logos = {
-        'practical': '/images/practical-logo.png'
+        'tutorial': '/images/tutorial-logo.png'
     }
 
-    def _get_pkg(self, pkg_id, pkg_tag='Practical'):
+    def _get_pkg(self, pkg_id, pkg_tag='Tutorial'):
         """ Return the pkg dict if it has the given tag"""
         context = {'model': model, 'session': model.Session,
                    'user': c.user}
@@ -72,14 +72,14 @@ class CDRCPageController(BaseController):
         else:
             return None
 
-    def _get_pkg_list(self, pkg_tag='Practical'):
+    def _get_pkg_list(self, pkg_tag='Tutorial'):
         """ Return the pkg dict if it has the given tag"""
         context = {'model': model, 'session': model.Session,
                    'user': c.user}
         pkgs = logic.get_action('package_search')(context, {'fq': 'tags:' + pkg_tag})
         return pkgs
 
-    def page_list(self, pkg_id, pkg_tag='Practical', content='HTML'):
+    def page_list(self, pkg_id, pkg_tag='Tutorial', content='HTML'):
         try:
             context = {'model': model, 'session': model.Session,
                     'user': c.user}
@@ -99,7 +99,7 @@ class CDRCPageController(BaseController):
             'image_url': CDRCPageController.logos.get(pkg_tag)
         })
 
-    def index(self, pkg_tag='Practical'):
+    def index(self, pkg_tag='Tutorial'):
         found = self._get_pkg_list()
         if not (found['count'] > 0):
             abort(404)
@@ -116,7 +116,7 @@ class CDRCPageController(BaseController):
             'image_url': CDRCPageController.logos.get(pkg_tag)
         })
 
-    def page_show(self, pkg_id, page_id, pkg_tag='Practical'):
+    def page_show(self, pkg_id, page_id, pkg_tag='Tutorial'):
         pkg = self._get_pkg(pkg_id)
         if pkg is None:
             abort(404)
