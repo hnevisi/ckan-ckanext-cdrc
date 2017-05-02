@@ -20,7 +20,6 @@
       <li class="media-item" style="display: inline-block; min-height: 100px">
         <center><img src="{{image_url}}" alt=""/></center>
         <center><h3 class="media-heading">{{p.title}}</h3></center>
-        <p>{{ p.description | truncate(100) }}</p>
         <a class="media-view" href="{% url_for controller=page_controller, action='page_list', pkg_id=p.pkg_id, pkg_tag=pkg_tag %}"><span>{{p.title}}</span></a>
       </li>
       {% endfor %}
