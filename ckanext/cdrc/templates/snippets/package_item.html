@@ -1,4 +1,8 @@
 {% ckan_extends %}
+{% set created=h.render_datetime(package.metadata_created, with_hours=True)%}
+{% set created_rel=h.time_ago_from_timestamp(package.metadata_created)%}
+{% set modified=h.render_datetime(package.metadata_modified, with_hours=True)%}
+{% set modified_rel=h.time_ago_from_timestamp(package.metadata_modified)%}
 
 {% block heading_private %}
   {% if package.private %}
@@ -21,7 +25,7 @@
   {% if h.is_cdrc_admin() %}
   <span
     class="dataset-timestamp date pull-right"
-    title="Created: {{ h.render_datetime(package.metadata_created, with_hours=True) }}
-Modified: {{ h.render_datetime(package.metadata_modified, with_hours=True) }}">Created {{ h.time_ago_from_timestamp(package.metadata_created) }}</span>
+    title="Created: {{ created }}
+    Modified: {{ modified }}">{% if 'modified' in h.full_current_url() %}Modified {{ modified_rel }} {% else %} Created {{ created_rel }} {% endif %}</span>
   {% endif %}
 {% endblock %}
