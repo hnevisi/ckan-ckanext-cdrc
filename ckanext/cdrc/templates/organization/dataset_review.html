@@ -40,12 +40,6 @@
                           <i class="icon-remove"></i>
                           {{ _('Reject') }}
                         </button>
-                        {% if review == 'format' %}
-                        <button name="bulk_action.pass" value="private" class="btn" type="submit">
-                          <i class="icon-arrow-right" alt="Pass the dataset to disclosure reviewer."></i>
-                          {{ _('Pass') }}
-                        </button>
-                        {% endif %}
                       </div>
                       <div class="btn-group">
                         <button name="bulk_action.delete" value="delete" class="btn btn-danger" type="submit">

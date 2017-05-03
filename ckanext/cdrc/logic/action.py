@@ -404,7 +404,18 @@ def bulk_approve(context, data_dict):
     """
     check_access('bulk_approve', context, data_dict)
     dataset_ids = data_dict['datasets']
-    for did in dataset_ids:
+    stage = data_dict['stage']
+    assoc_groups = [[grp['name'] for grp in get_action('package_show')(context, {'id': i})['groups']]
+                    for i in dataset_ids]
+    open_datasets = [did for did, grps in zip(dataset_ids, assoc_groups) if 'open' in grps]
+    nonopen_datasets = [did for did, grps in zip(dataset_ids, assoc_groups) if 'open' not in grps]
+    if stage == 'format_review':
+        approved = open_datasets
+        raised = nonopen_datasets
+    elif stage == 'disclosure_review':
+        approved = open_datasets + nonopen_datasets
+        raised = []
+    for did in approved:
         get_action('member_delete')(context,{
             'id': 'disclosure-control',
             'object': did,
@@ -416,7 +427,21 @@ def bulk_approve(context, data_dict):
             'object_type': 'package',
         })
         record_pkg_activity(context, get_action('package_show')(context, {'id': did}), 'approved package')
-    get_action('bulk_update_public')(context, data_dict)
+    get_action('bulk_update_public')(context, dict(data_dict, datasets=approved))
+
+    for did in raised:
+        get_action('member_create')(context,{
+            'id': 'disclosure-control',
+            'object': did,
+            'object_type': 'package',
+            'capacity': 'public'
+        })
+        get_action('member_delete')(context,{
+            'id': 'rejected',
+            'object': did,
+            'object_type': 'package',
+        })
+        record_pkg_activity(context, get_action('package_show')(context, {'id': did}), 'raised package')
 
 
 def bulk_reject(context, data_dict):
@@ -439,28 +464,6 @@ def bulk_reject(context, data_dict):
             'object_type': 'package',
         })
         record_pkg_activity(context, get_action('package_show')(context, {'id': did}), 'rejected package')
-
-
-def bulk_pass(context, data_dict):
-    """TODO: Docstring for bulk_update_reject.
-    :returns: TODO
-
-    """
-    check_access('bulk_pass', context, data_dict)
-    dataset_ids = data_dict['datasets']
-    for did in dataset_ids:
-        get_action('member_create')(context,{
-            'id': 'disclosure-control',
-            'object': did,
-            'object_type': 'package',
-            'capacity': 'public'
-        })
-        get_action('member_delete')(context,{
-            'id': 'rejected',
-            'object': did,
-            'object_type': 'package',
-        })
-        record_pkg_activity(context, get_action('package_show')(context, {'id': did}), 'raised package')
 
 
 def package_group_removeall(context, data_dict):

@@ -142,7 +142,6 @@ class CdrcPlugin(plugins.SingletonPlugin):
             'package_update': action.package_update,
             'package_group_removeall': action.package_group_removeall,
             'bulk_reject': action.bulk_reject,
-            'bulk_pass': action.bulk_pass,
             'bulk_approve': action.bulk_approve,
             'momconfig_show': action.momconfig_show
         }
@@ -158,7 +157,6 @@ class CdrcPlugin(plugins.SingletonPlugin):
             'user_list': auth.user_list,
             'package_update': auth.package_update,
             'package_create': auth.package_create,
-            'bulk_pass': auth.bulk_pass,
             'bulk_approve': auth.bulk_approve,
             'bulk_reject': auth.bulk_reject,
             'config_option_update': auth.config_option_update,

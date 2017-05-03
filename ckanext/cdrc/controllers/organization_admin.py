@@ -206,7 +206,7 @@ class CDRCOrgAdminController(GroupController):
 
         #use different form names so that ie7 can be detected
         form_names = set(["bulk_action.approve", "bulk_action.delete",
-                          "bulk_action.pass", "bulk_action.reject"])
+                          "bulk_action.reject"])
         actions_in_form = set(request.params.keys())
         actions = form_names.intersection(actions_in_form)
         # If no action then just show the datasets
@@ -238,10 +238,11 @@ class CDRCOrgAdminController(GroupController):
             'approve': 'bulk_approve',
             'delete': 'bulk_update_delete',
             'reject': 'bulk_reject',
-            'pass': 'bulk_pass',
         }
 
-        data_dict = {'datasets': datasets, 'org_id': c.group_dict['id']}
+        data_dict = {'datasets': datasets,
+                     'org_id': c.group_dict['id'],
+                     'stage': 'format_review'}
 
         try:
             get_action(action_functions[action])(context, data_dict)
@@ -320,7 +321,10 @@ class CDRCOrgAdminController(GroupController):
             'delete': 'bulk_update_delete',
         }
 
-        data_dict = {'datasets': datasets, 'org_id': c.group_dict['id']}
+        data_dict = {'datasets': datasets,
+                     'org_id': c.group_dict['id'],
+                     'stage': 'disclosure_review'
+                     }
 
         try:
             get_action(action_functions[action])(context, data_dict)
