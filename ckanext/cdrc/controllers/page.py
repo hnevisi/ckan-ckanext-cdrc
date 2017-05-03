@@ -45,6 +45,7 @@ def get_extra_items(pkg):
 
 
 def make_page_items(resources):
+    resources = [r for r in resources if r['name'] != 'Logo']
     attachments = {r['name']: r for r in resources}
     for r in resources:
         link_attachment(r, attachments)
@@ -96,7 +97,6 @@ class CDRCPageController(BaseController):
             'pkg_id': pkg['name'],
             'pkg_tag': pkg_tag,
             'description': pkg['notes'].split('\r\n\r\n++\r\n\r\n')[0],
-            'image_url': CDRCPageController.logos.get(pkg_tag)
         })
 
     def index(self, pkg_tag='Tutorial'):
@@ -108,12 +108,12 @@ class CDRCPageController(BaseController):
             'title': p['title'],
             'description': p['notes'],
             'pkg_id': p['name'],
+            'image_url': ([r['url'] for r in p['resources'] if r['name'] == 'Logo'] + [None])[0]
         } for p in found['results']]
         return render("page/index.html", extra_vars={
             'pkg_list': pkg_list,
             'subtitle': pkg_tag,
             'pkg_tag': pkg_tag,
-            'image_url': CDRCPageController.logos.get(pkg_tag)
         })
 
     def page_show(self, pkg_id, page_id, pkg_tag='Tutorial'):
