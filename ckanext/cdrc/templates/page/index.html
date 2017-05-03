@@ -18,7 +18,7 @@
     <ul class="media-grid-list" data-module="media-grid">
       {% for p in pkg_list %}
       <li class="media-item" style="display: inline-block; min-height: 100px">
-        <center><img src="{{p.image_url|replace('https://', 'http://', 1)}}" alt=""/></center>
+        <center><img src="{{p.image_url|replace('https://', '//', 1)}}" alt=""/></center>
         <center><h3 class="media-heading">{{p.title}}</h3></center>
         <a class="media-view" href="{% url_for controller=page_controller, action='page_list', pkg_id=p.pkg_id, pkg_tag=pkg_tag %}"><span>{{p.title}}</span></a>
       </li>
