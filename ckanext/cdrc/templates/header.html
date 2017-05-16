@@ -126,7 +126,9 @@
                     ) }}
                   </ul>
                 </li>
-                <li><a href="https://data.cdrc.ac.uk/dataset?q=&sort=accesslevel+desc">All Datasets</a></li>
+                {{ h.build_nav_main(
+                  ('dataset', _('All Datasets')),
+                ) }}
                 <li><a href="https://maps.cdrc.ac.uk" target='_blank'>Maps</a></li>
                 {{ h.build_nav_main(
                   ('tutorial', _('Tutorials')),

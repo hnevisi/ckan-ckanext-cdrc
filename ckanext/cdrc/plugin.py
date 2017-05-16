@@ -140,6 +140,7 @@ class CdrcPlugin(plugins.SingletonPlugin):
             'group_list_authz': action.group_list_authz,
             'package_create': action.package_create,
             'package_update': action.package_update,
+            'package_search': action.package_search,
             'package_group_removeall': action.package_group_removeall,
             'bulk_reject': action.bulk_reject,
             'bulk_approve': action.bulk_approve,

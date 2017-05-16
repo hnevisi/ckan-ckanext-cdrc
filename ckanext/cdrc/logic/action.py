@@ -18,7 +18,7 @@ from mock import patch
 from ckan.logic import action as ckan_action
 from ckan.logic import side_effect_free
 from ckan.logic import check_access
-from ckan.logic.action.get import _unpick_search
+from ckan.logic.action.get import _unpick_search, package_search as ckan_package_search
 from ckan.logic.action.patch import group_patch as ckan_group_patch
 from ckan.logic import get_action
 from ckan.lib.uploader import get_storage_path
@@ -217,6 +217,14 @@ def refresh_site_statistics(context, data_dict):
     cache.get_cache_region('cdrc_data', 'long_term').put('ckan_stats', stats)
 
     return stats
+
+
+def package_search(context, data_dict):
+    """ A patched version for group_patch
+    """
+    if data_dict.get('sort') in (None, 'rank'):
+        data_dict['sort'] = 'accesslevel desc'
+    return ckan_package_search(context, data_dict)
 
 
 def group_patch(context, data_dict):
