@@ -170,7 +170,7 @@ class CdrcPlugin(plugins.SingletonPlugin):
         map.connect('/testing/assertfalse', controller='ckanext.cdrc.plugin:CDRCExtController', action='assertfalse')
         map.connect('blog', '/blog', controller='ckanext.cdrc.controllers.page:CDRCBlogController', action='blog_proxy')
         map.connect('tutorial', '/tutorial', controller='ckanext.cdrc.controllers.page:CDRCPageController', action='index', pkg_tag='tutorial')
-        map.connect('dataset', '/dataset?q=&sort=accesslevel+desc', controller='package', action='search')
+        map.connect('dataset', '/dataset', controller='package', action='search')
         map.connect('national', '/national', controller='ckanext.cdrc.controllers.singlegroup:SingleGroupController', action='read_national')
         map.connect('regional', '/regional', controller='ckanext.cdrc.controllers.singlegroup:SingleGroupController', action='read_regional')
         with SubMapper(map, controller='ckanext.cdrc.controllers.page:CDRCPageController') as m:
