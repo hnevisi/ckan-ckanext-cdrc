@@ -12,7 +12,7 @@ this.ckan.module('geojson-preview', function ($, _) {
         $('#map-title').html('Map Preview (Sample)');
 
       var map = L.map('map-container');
-      L.tileLayer('https://maps.cdrc.ac.uk/tiles/shine_urbanmask_dark/{z}/{x}/{y}.png', {maxZoom: 15}).addTo(map);
+      L.tileLayer('https://maps.cdrc.ac.uk/tiles/shine_urbanmask_dark/{z}/{x}/{y}.png', {maxZoom: 15, minZoom: 4}).addTo(map);
 
       var features;
       if (typeof geojson.features[0].properties.value !== "undefined"){
